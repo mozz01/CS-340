@@ -5,19 +5,19 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema cs340_hudeihem
+-- Schema cs340_StudentID
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema cs340_hudeihem
+-- Schema cs340_StudentID
 -- -----------------------------------------------------
--- CREATE SCHEMA IF NOT EXISTS `cs340_hudeihem` DEFAULT CHARACTER SET utf8 ;
-USE `cs340_hudeihem` ;
+-- CREATE SCHEMA IF NOT EXISTS `cs340_StudentID` DEFAULT CHARACTER SET utf8 ;
+USE `cs340_StudentID` ;
 
 -- -----------------------------------------------------
--- Table `cs340_hudeihem`.`Authors`
+-- Table `cs340_StudentID`.`Authors`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cs340_hudeihem`.`Authors` (
+CREATE TABLE IF NOT EXISTS `cs340_StudentID`.`Authors` (
   `authorID` INT NOT NULL AUTO_INCREMENT,
   `firstName` VARCHAR(255) NOT NULL,
   `lastName` VARCHAR(255) NOT NULL,
@@ -27,9 +27,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `cs340_hudeihem`.`Books`
+-- Table `cs340_StudentID`.`Books`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cs340_hudeihem`.`Books` (
+CREATE TABLE IF NOT EXISTS `cs340_StudentID`.`Books` (
   `bookID` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(255) NOT NULL,
   `yearOfPublication` DATE NOT NULL,
@@ -40,9 +40,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `cs340_hudeihem`.`Stores`
+-- Table `cs340_StudentID`.`Stores`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cs340_hudeihem`.`Stores` (
+CREATE TABLE IF NOT EXISTS `cs340_StudentID`.`Stores` (
   `storeID` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
   `phone` VARCHAR(255) NOT NULL,
@@ -54,9 +54,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `cs340_hudeihem`.`Customers`
+-- Table `cs340_StudentID`.`Customers`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cs340_hudeihem`.`Customers` (
+CREATE TABLE IF NOT EXISTS `cs340_StudentID`.`Customers` (
   `customerID` INT NOT NULL AUTO_INCREMENT,
   `firstName` VARCHAR(255) NOT NULL,
   `lastName` VARCHAR(255) NOT NULL,
@@ -69,9 +69,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `cs340_hudeihem`.`Invoices`
+-- Table `cs340_StudentID`.`Invoices`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cs340_hudeihem`.`Invoices` (
+CREATE TABLE IF NOT EXISTS `cs340_StudentID`.`Invoices` (
   `invoiceID` INT NOT NULL AUTO_INCREMENT,
   `date` DATE NOT NULL,
   `bookID` INT NOT NULL,
@@ -84,38 +84,38 @@ CREATE TABLE IF NOT EXISTS `cs340_hudeihem`.`Invoices` (
   INDEX `fk_Invoices_Customers1_idx` (`customerID` ASC) VISIBLE,
   CONSTRAINT `fk_Invoices_Books`
     FOREIGN KEY (`bookID`)
-    REFERENCES `cs340_hudeihem`.`Books` (`bookID`)
+    REFERENCES `cs340_StudentID`.`Books` (`bookID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Invoices_Stores1`
     FOREIGN KEY (`storeID`)
-    REFERENCES `cs340_hudeihem`.`Stores` (`storeID`)
+    REFERENCES `cs340_StudentID`.`Stores` (`storeID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Invoices_Customers1`
     FOREIGN KEY (`customerID`)
-    REFERENCES `cs340_hudeihem`.`Customers` (`customerID`)
+    REFERENCES `cs340_StudentID`.`Customers` (`customerID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `cs340_hudeihem`.`AuthorsBooks`
+-- Table `cs340_StudentID`.`AuthorsBooks`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cs340_hudeihem`.`AuthorsBooks` (
+CREATE TABLE IF NOT EXISTS `cs340_StudentID`.`AuthorsBooks` (
   `authorID` INT NOT NULL,
   `bookID` INT NOT NULL,
   PRIMARY KEY (`authorID`, `bookID`),
   INDEX `fk_AuthorsBooks_Books1_idx` (`bookID` ASC) VISIBLE,
   CONSTRAINT `fk_AuthorsBooks_Authors1`
     FOREIGN KEY (`authorID`)
-    REFERENCES `cs340_hudeihem`.`Authors` (`authorID`)
+    REFERENCES `cs340_StudentID`.`Authors` (`authorID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_AuthorsBooks_Books1`
     FOREIGN KEY (`bookID`)
-    REFERENCES `cs340_hudeihem`.`Books` (`bookID`)
+    REFERENCES `cs340_StudentID`.`Books` (`bookID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
