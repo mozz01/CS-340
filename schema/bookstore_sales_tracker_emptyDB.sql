@@ -15,18 +15,6 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 USE `cs340_StudentID` ;
 
 -- -----------------------------------------------------
--- Table `cs340_StudentID`.`Authors`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cs340_StudentID`.`Authors` (
-  `authorID` INT NOT NULL AUTO_INCREMENT,
-  `firstName` VARCHAR(255) NOT NULL,
-  `lastName` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`authorID`),
-  UNIQUE INDEX `authorID_UNIQUE` (`authorID` ASC) VISIBLE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `cs340_StudentID`.`Books`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cs340_StudentID`.`Books` (
@@ -34,22 +22,18 @@ CREATE TABLE IF NOT EXISTS `cs340_StudentID`.`Books` (
   `title` VARCHAR(255) NOT NULL,
   `yearOfPublication` DATE NOT NULL,
   `price` DECIMAL(12,2) NOT NULL,
-  PRIMARY KEY (`bookID`),
-  UNIQUE INDEX `bookID_UNIQUE` (`bookID` ASC) VISIBLE)
+  PRIMARY KEY (`bookID`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `cs340_StudentID`.`Stores`
+-- Table `cs340_StudentID`.`Authors`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cs340_StudentID`.`Stores` (
-  `storeID` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL,
-  `phone` VARCHAR(255) NOT NULL,
-  `address` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`storeID`),
-  UNIQUE INDEX `storeID_UNIQUE` (`storeID` ASC) VISIBLE,
-  UNIQUE INDEX `phone_UNIQUE` (`phone` ASC) VISIBLE)
+CREATE TABLE IF NOT EXISTS `cs340_StudentID`.`Authors` (
+  `authorID` INT NOT NULL AUTO_INCREMENT,
+  `firstName` VARCHAR(255) NOT NULL,
+  `lastName` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`authorID`))
 ENGINE = InnoDB;
 
 
@@ -60,11 +44,24 @@ CREATE TABLE IF NOT EXISTS `cs340_StudentID`.`Customers` (
   `customerID` INT NOT NULL AUTO_INCREMENT,
   `firstName` VARCHAR(255) NOT NULL,
   `lastName` VARCHAR(255) NOT NULL,
-  `email` VARCHAR(255) NOT NULL,
-  `phone` VARCHAR(255) NOT NULL,
+  `email` VARCHAR(100) NOT NULL,
+  `phone` VARCHAR(30) NOT NULL,
   PRIMARY KEY (`customerID`),
-  UNIQUE INDEX `customerID_UNIQUE` (`customerID` ASC) VISIBLE,
-  UNIQUE INDEX `phone_UNIQUE` (`phone` ASC) VISIBLE)
+  UNIQUE INDEX `Email_UNIQUE` (`email` ASC),
+  UNIQUE INDEX `Phone_UNIQUE` (`phone` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `cs340_StudentID`.`Stores`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cs340_StudentID`.`Stores` (
+  `storeID` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `phone` VARCHAR(30) NOT NULL,
+  `address` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`storeID`),
+  UNIQUE INDEX `phone_UNIQUE` (`phone` ASC))
 ENGINE = InnoDB;
 
 
@@ -77,22 +74,21 @@ CREATE TABLE IF NOT EXISTS `cs340_StudentID`.`Invoices` (
   `bookID` INT NOT NULL,
   `storeID` INT NOT NULL,
   `customerID` INT NOT NULL,
-  PRIMARY KEY (`invoiceID`, `bookID`, `storeID`, `customerID`),
-  UNIQUE INDEX `invoiceID_UNIQUE` (`invoiceID` ASC) VISIBLE,
-  INDEX `fk_Invoices_Books_idx` (`bookID` ASC) VISIBLE,
-  INDEX `fk_Invoices_Stores1_idx` (`storeID` ASC) VISIBLE,
-  INDEX `fk_Invoices_Customers1_idx` (`customerID` ASC) VISIBLE,
-  CONSTRAINT `fk_Invoices_Books`
+  PRIMARY KEY (`invoiceID`),
+  INDEX `bookID_idx` (`bookID` ASC),
+  INDEX `storeID_idx` (`storeID` ASC),
+  INDEX `customerID_idx` (`customerID` ASC),
+  CONSTRAINT `bookID`
     FOREIGN KEY (`bookID`)
     REFERENCES `cs340_StudentID`.`Books` (`bookID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Invoices_Stores1`
+  CONSTRAINT `storeID`
     FOREIGN KEY (`storeID`)
     REFERENCES `cs340_StudentID`.`Stores` (`storeID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Invoices_Customers1`
+  CONSTRAINT `customerID`
     FOREIGN KEY (`customerID`)
     REFERENCES `cs340_StudentID`.`Customers` (`customerID`)
     ON DELETE NO ACTION
@@ -104,18 +100,20 @@ ENGINE = InnoDB;
 -- Table `cs340_StudentID`.`AuthorsBooks`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cs340_StudentID`.`AuthorsBooks` (
-  `authorID` INT NOT NULL,
+  `authorBookID` INT NULL,
   `bookID` INT NOT NULL,
-  PRIMARY KEY (`authorID`, `bookID`),
-  INDEX `fk_AuthorsBooks_Books1_idx` (`bookID` ASC) VISIBLE,
-  CONSTRAINT `fk_AuthorsBooks_Authors1`
-    FOREIGN KEY (`authorID`)
-    REFERENCES `cs340_StudentID`.`Authors` (`authorID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_AuthorsBooks_Books1`
+  `authorID` INT NOT NULL,
+  PRIMARY KEY (`authorBookID`),
+  INDEX `fk_books_has_authors_authors1_idx` (`authorID` ASC),
+  INDEX `fk_books_has_authors_books1_idx` (`bookID` ASC),
+  CONSTRAINT `fk_books_has_authors_books1`
     FOREIGN KEY (`bookID`)
     REFERENCES `cs340_StudentID`.`Books` (`bookID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_books_has_authors_authors1`
+    FOREIGN KEY (`authorID`)
+    REFERENCES `cs340_StudentID`.`Authors` (`authorID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
