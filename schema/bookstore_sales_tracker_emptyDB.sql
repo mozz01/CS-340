@@ -20,7 +20,7 @@ USE `cs340_StudentID` ;
 CREATE TABLE IF NOT EXISTS `cs340_StudentID`.`Books` (
   `bookID` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(255) NOT NULL,
-  `yearOfPublication` DATE NOT NULL,
+  `yearOfPublication` YEAR NOT NULL,
   `price` DECIMAL(12,2) NOT NULL,
   PRIMARY KEY (`bookID`))
 ENGINE = InnoDB;
