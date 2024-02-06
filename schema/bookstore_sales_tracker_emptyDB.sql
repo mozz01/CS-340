@@ -100,7 +100,7 @@ ENGINE = InnoDB;
 -- Table `cs340_StudentID`.`AuthorsBooks`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cs340_StudentID`.`AuthorsBooks` (
-  `authorBookID` INT NULL,
+  `authorBookID` INT AUTO_INCREMENT NOT NULL,
   `bookID` INT NOT NULL,
   `authorID` INT NOT NULL,
   PRIMARY KEY (`authorBookID`),

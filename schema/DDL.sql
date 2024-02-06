@@ -12,4 +12,17 @@ INSERT INTO Customers(firstName, lastName, email, phone) VALUES ('Sergio', 'Hern
 -- Insert data in Authors table
 INSERT INTO Authors(firstName, lastName) VALUES ('Edgar', 'Patterson');
 INSERT INTO Authors(firstName, lastName) VALUES ('William', 'Fitzgerald');
-INSERT INTO Authors(firstName, lastName) VALUES ('Geroge', 'Wolf');
+INSERT INTO Authors(firstName, lastName) VALUES ('George', 'Wolf');
+INSERT INTO Authors(firstName, lastName) VALUES ('Mike', 'Lang');
+
+
+-- Insert data in Books table
+INSERT INTO Books(title, yearOfPublication, price) VALUES ('Linear Algebra', '2005', 80.00);
+INSERT INTO Books(title, yearOfPublication, price) VALUES ('Discrete Mathematics', '1992', 90.99);
+INSERT INTO Books(title, yearOfPublication, price) VALUES('Organic Chemistry', '2020', 120.00);
+
+-- Insert data in AuthorsBooks intersection table
+INSERT INTO AuthorsBooks(bookID, authorID) VALUES ((SELECT bookID FROM Books WHERE title = 'Linear Algebra'), (SELECT authorID FROM Authors WHERE firstName = 'Edgar' and lastName = 'Patterson'));
+INSERT INTO AuthorsBooks(bookID, authorID) VALUES ((SELECT bookID FROM Books WHERE title = 'Linear Algebra'), (SELECT authorID FROM Authors WHERE firstName = 'William' and lastName = 'Fitzgerald'));
+INSERT INTO AuthorsBooks(bookID, authorID) VALUES ((SELECT bookID FROM Books WHERE title = 'Discrete Mathematics'), (SELECT authorID FROM Authors WHERE firstName = 'William' and lastName = 'Fitzgerald'));
+INSERT INTO AuthorsBooks(bookID, authorID) VALUES ((SELECT bookID FROM Books WHERE title = 'Organic Chemistry'), (SELECT authorID FROM Authors WHERE firstName = 'George' and lastName = 'Wolf'));
