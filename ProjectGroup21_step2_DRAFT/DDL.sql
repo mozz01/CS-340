@@ -239,6 +239,82 @@ VALUES
   NULL
 );
 
+-- Insert data in Authors table
+INSERT INTO Invoices (date, bookID, storeID, customerID)
+VALUES
+( "2021-02-25",
+  (
+    SELECT bookID
+    FROM Books
+    WHERE title = "Linear Algebra"
+  ),
+  (
+    SELECT storeID
+    FROM Stores
+    WHERE name = "Metropolitan Stories"
+  ),
+  (
+    SELECT customerID
+    FROM Customers
+    WHERE firstName = 'Patricia'
+      AND lastName = 'Carlson'
+  )
+),
+( "2021-03-19",
+  (
+    SELECT bookID
+    FROM Books
+    WHERE title = "Discrete Mathematics"
+  ),
+  (
+    SELECT storeID
+    FROM Stores
+    WHERE name = "Metropolitan Stories"
+  ),
+  (
+    SELECT customerID
+    FROM Customers
+    WHERE firstName = 'Patricia'
+      AND lastName = 'Carlson'
+  )
+),
+( "2023-10-10",
+  (
+    SELECT bookID
+    FROM Books
+    WHERE title = "Discrete Mathematics"
+  ),
+  (
+    SELECT storeID
+    FROM Stores
+    WHERE name = "Literary Books"
+  ),
+  (
+    SELECT customerID
+    FROM Customers
+    WHERE firstName = 'Selena'
+      AND lastName = 'Lozada'
+  )
+),
+( "2022-02-05",
+  (
+    SELECT bookID
+    FROM Books
+    WHERE title = "Linear Algebra"
+  ),
+  (
+    SELECT storeID
+    FROM Stores
+    WHERE name = "Metropolitan Stories"
+  ),
+  (
+    SELECT customerID
+    FROM Customers
+    WHERE firstName = 'Sergio'
+      AND lastName = 'Hernandez'
+  )
+);
+
 
 -- ------------------------------------------------------------------------------------
 SET SQL_MODE=@OLD_SQL_MODE;
