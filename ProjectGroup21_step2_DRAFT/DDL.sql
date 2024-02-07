@@ -10,7 +10,8 @@ SET AUTOCOMMIT = 0;
 -- -----------------------------------------------------
 -- Table `Books`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Books` (
+DROP TABLE IF EXISTS `Books`;
+CREATE TABLE `Books` (
   `bookID` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(255) NOT NULL,
   `yearOfPublication` YEAR NOT NULL,
@@ -22,7 +23,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `Authors`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Authors` (
+DROP TABLE IF EXISTS `Authors`;
+CREATE TABLE `Authors` (
   `authorID` INT NOT NULL AUTO_INCREMENT,
   `firstName` VARCHAR(255) NOT NULL,
   `lastName` VARCHAR(255) NOT NULL,
@@ -33,7 +35,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `Customers`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Customers` (
+DROP TABLE IF EXISTS `Customers`;
+CREATE TABLE `Customers` (
   `customerID` INT NOT NULL AUTO_INCREMENT,
   `firstName` VARCHAR(255) NOT NULL,
   `lastName` VARCHAR(255) NOT NULL,
@@ -48,7 +51,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `Stores`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Stores` (
+DROP TABLE IF EXISTS `Stores`;
+CREATE TABLE `Stores` (
   `storeID` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
   `phone` VARCHAR(30) NOT NULL,
@@ -61,7 +65,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `Invoices`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Invoices` (
+DROP TABLE IF EXISTS `Invoices`;
+CREATE TABLE `Invoices` (
   `invoiceID` INT NOT NULL AUTO_INCREMENT,
   `date` DATE NOT NULL,
   `bookID` INT NOT NULL,
@@ -92,7 +97,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `AuthorsBooks`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `AuthorsBooks` (
+DROP TABLE IF EXISTS `AuthorsBooks`;
+CREATE TABLE `AuthorsBooks` (
   `authorBookID` INT AUTO_INCREMENT NOT NULL,
   `bookID` INT NOT NULL,
   `authorID` INT,
@@ -235,10 +241,8 @@ VALUES
 
 
 -- ------------------------------------------------------------------------------------
-
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
-
