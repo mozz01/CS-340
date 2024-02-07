@@ -102,19 +102,19 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `cs340_StudentID`.`AuthorsBooks` (
   `authorBookID` INT AUTO_INCREMENT NOT NULL,
   `bookID` INT NOT NULL,
-  `authorID` INT NOT NULL,
+  `authorID` INT,
   PRIMARY KEY (`authorBookID`),
   INDEX `fk_books_has_authors_authors1_idx` (`authorID` ASC),
   INDEX `fk_books_has_authors_books1_idx` (`bookID` ASC),
   CONSTRAINT `fk_books_has_authors_books1`
     FOREIGN KEY (`bookID`)
     REFERENCES `cs340_StudentID`.`Books` (`bookID`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_books_has_authors_authors1`
     FOREIGN KEY (`authorID`)
     REFERENCES `cs340_StudentID`.`Authors` (`authorID`)
-    ON DELETE NO ACTION
+    ON DELETE SET NULL
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
