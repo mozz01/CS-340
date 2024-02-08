@@ -89,7 +89,7 @@ CREATE TABLE `Invoices` (
   CONSTRAINT `customerID`
     FOREIGN KEY (`customerID`)
     REFERENCES `Customers` (`customerID`)
-    ON DELETE NO ACTION
+    ON DELETE SET NULL
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -239,7 +239,7 @@ VALUES
   NULL
 );
 
--- Insert data in Authors table
+-- Insert data in Invoices table
 INSERT INTO Invoices (date, bookID, storeID, customerID)
 VALUES
 ( "2021-02-25",
