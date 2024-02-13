@@ -71,7 +71,7 @@ CREATE TABLE `Invoices` (
   `date` DATE NOT NULL,
   `bookID` INT NOT NULL,
   `storeID` INT NOT NULL,
-  `customerID` INT NOT NULL,
+  `customerID` INT NULL,
   PRIMARY KEY (`invoiceID`),
   INDEX `bookID_idx` (`bookID` ASC),
   INDEX `storeID_idx` (`storeID` ASC),
