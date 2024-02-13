@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stores</title>
+  </head>
+  <body>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="books.html">Books</a>
+      <a href="authors.html">Authors</a>
+      <a href="customers.html">Customers</a>
+      <a href="stores.html">Stores</a>
+      <a href="invoices.html">Invoices</a>
+      <a href="authorsbooks.html">AuthorsBooks</a>
+    </nav>
+    <div>
+        <h2>Authors Table</h2>
+
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Address</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Sample Data -->
+            <tr>
+              <td>1</td>
+              <td>Metropolitan Stores</td>
+              <td>402-547-6787</td>
+              <td>1 Broad Court, Irmo, SC 29063</td>
+              <td>
+                <button onclick="alert('Add button clicked')">Edit</button>
+                <button onclick="alert('Delete button clicked')">Delete</button>
+              </td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Literary Books</td>
+              <td>542-888-2167</td>
+              <td>121 Maine Lane, Pataskala, OH 43062</td>
+              <td>
+                <button onclick="alert('Add button clicked')">Edit</button>
+                <button onclick="alert('Delete button clicked')">Delete</button>
+              </td>
+            </tr>
+            <!-- Add more rows as needed -->
+          </tbody>
+        </table>
+        <h2>Add a store</h2>
+
+        <form>
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required>
+      
+          <label for="phone">Phone:</label>
+          <input type="text" id="phone" name="phone" required>
+
+          <label for="address">Address:</label>
+          <input type="text" id="address" name="address" required>
+      
+          <button type="button" onclick="alert('Add store button clicked')">Add store</button>
+        </form>
+      
+    </div>
+    <footer>
+        <p>&copy; 2023 Saurav Shrestha, Mo Hudeihed</p>
+      </footer>
+  </body>
+</html>
