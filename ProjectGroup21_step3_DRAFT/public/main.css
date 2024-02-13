@@ -43,10 +43,6 @@ nav a:hover {
     color: black;
 }
 
-a:link {
-    color: var(--dark-blue);
-}
-
 a:hover {
     color: var(--emerald);
 }
