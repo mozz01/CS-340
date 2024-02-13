@@ -1,81 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Customers</title>
-  </head>
-  <body>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="books.html">Books</a>
-      <a href="authors.html">Authors</a>
-      <a href="customers.html">Customers</a>
-      <a href="stores.html">Stores</a>
-      <a href="invoices.html">Invoices</a>
-      <a href="authorsbooks.html">AuthorsBooks</a>
-    </nav>
-    <div>
-        <h2>Customers Table</h2>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Email</th>
-              <th>Phone</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Sample Data -->
-            <tr>
-              <td>1</td>
-              <td>Patricia</td>
-              <td>Carlson</td>
-              <td>pcarlson@gmail.com</td>
-              <td>667-222-4521</td>
-              <td>
-                <button onclick="alert('Add button clicked')">Edit</button>
-                <button onclick="alert('Delete button clicked')">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Selena</td>
-              <td>Lozada</td>
-              <td>slozada@gmail.com</td>
-              <td>701-548-1944</td>
-              <td>
-                <button onclick="alert('Add button clicked')">Edit</button>
-                <button onclick="alert('Delete button clicked')">Delete</button>
-              </td>
-            </tr>
-            <!-- Add more rows as needed -->
-          </tbody>
-        </table>
-        <h2>Add a customer</h2>
+        <title>Customers</title>
 
-        <form>
-          <label for="firstName">First Name:</label>
-          <input type="text" id="firstName" name="firstName" required>
-      
-          <label for="lastName">Last Name:</label>
-          <input type="text" id="lastName" name="lastName" required>
+        <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+        <script src="index.js"></script>
+    </head>
+    <body>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="books.html">Books</a>
+            <a href="authors.html">Authors</a>
+            <a href="customers.html">Customers</a>
+            <a href="stores.html">Stores</a>
+            <a href="invoices.html">Invoices</a>
+            <a href="authorsbooks.html">AuthorsBooks</a>
+        </nav>
 
-          <label for="email">Email:</label>
-          <input type="text" id="email" name="email" required>
+        <main>
+            <div>
+                <h2>Customers Table</h2>
 
-          <label for="phone">Phone:</label>
-          <input type="text" id="phone" name="phone" required>
-          
-          <button type="button" onclick="alert('Add customer button clicked')">Add customer</button>
-        </form>
-      
-    </div>
-    <footer>
-        <p>&copy; 2023 Saurav Shrestha, Mo Hudeihed</p>
-      </footer>
-  </body>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Edit/Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Sample Data -->
+                        <tr>
+                            <td>1</td>
+                            <td>Patricia</td>
+                            <td>Carlson</td>
+                            <td>pcarlson@gmail.com</td>
+                            <td>667-222-4521</td>
+                            <td>
+                                <button onclick="alert('Edit button clicked')">
+                                    Edit
+                                </button>
+                                <button
+                                    onclick="alert('Delete button clicked')"
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>Selena</td>
+                            <td>Lozada</td>
+                            <td>slozada@gmail.com</td>
+                            <td>701-548-1944</td>
+                            <td>
+                                <button onclick="alert('Edit button clicked')">
+                                    Edit
+                                </button>
+                                <button
+                                    onclick="alert('Delete button clicked')"
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>Michael</td>
+                            <td>Karlsson</td>
+                            <td>mkarlsson@gmail.com</td>
+                            <td>402-666-1234</td>
+                            <td>
+                                <button onclick="alert('Edit button clicked')">
+                                    Edit
+                                </button>
+                                <button
+                                    onclick="alert('Delete button clicked')"
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>4</td>
+                            <td>Sergio</td>
+                            <td>Hernandez</td>
+                            <td>shernandez@gmail.com</td>
+                            <td>801-951-3574</td>
+                            <td>
+                                <button onclick="alert('Edit button clicked')">
+                                    Edit
+                                </button>
+                                <button
+                                    onclick="alert('Delete button clicked')"
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                        <!-- Add more rows as needed -->
+                    </tbody>
+                </table>
+                <h2>Add a customer</h2>
+
+                <form>
+                    <label for="firstName">First Name:</label>
+                    <input
+                        type="text"
+                        id="firstName"
+                        name="firstName"
+                        required
+                    />
+
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" id="lastName" name="lastName" required />
+
+                    <label for="email">Email:</label>
+                    <input type="text" id="email" name="email" required />
+
+                    <label for="phone">Phone:</label>
+                    <input type="text" id="phone" name="phone" required />
+
+                    <button
+                        type="button"
+                        onclick="alert('Add customer button clicked')"
+                    >
+                        Add customer
+                    </button>
+                </form>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2023 Saurav Shrestha, Mo Hudeihed</p>
+        </footer>
+    </body>
 </html>

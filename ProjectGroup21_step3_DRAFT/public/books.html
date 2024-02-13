@@ -1,75 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bookstore</title>
-  </head>
-  <body>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="books.html">Books</a>
-      <a href="authors.html">Authors</a>
-      <a href="customers.html">Customers</a>
-      <a href="stores.html">Stores</a>
-      <a href="invoices.html">Invoices</a>
-      <a href="authorsbooks.html">AuthorsBooks</a>
-    </nav>
-    <div>
-        <h2>Books Table</h2>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Title</th>
-              <th>Publication Year</th>
-              <th>Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Sample Data -->
-            <tr>
-              <td>1</td>
-              <td>Linear Algebra</td>
-              <td>2005</td>
-              <td>80.00</td>
-              <td>
-                <button onclick="alert('Add button clicked')">Edit</button>
-                <button onclick="alert('Delete button clicked')">Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Discrete Mathematics</td>
-              <td>1992</td>
-              <td>90.99</td>
-              <td>
-                <button onclick="alert('Add button clicked')">Edit</button>
-                <button onclick="alert('Delete button clicked')">Delete</button>
-              </td>
-            </tr>
-            <!-- Add more rows as needed -->
-          </tbody>
-        </table>
-        <h2>Add a Book</h2>
+        <title>Bookstore</title>
 
-        <form>
-          <label for="title">Title:</label>
-          <input type="text" id="title" name="title" required>
-      
-          <label for="yearOfPublication">Year of Publication:</label>
-          <input type="date" id="yearOfPublication" name="yearOfPublication" required>
-      
-          <label for="price">Price:</label>
-          <input type="number" id="price" name="price" min="0" required>
-      
-          <button type="button" onclick="alert('Add book button clicked')">Add Book</button>
-        </form>
-      
-    </div>
-    <footer>
-        <p>&copy; 2023 Saurav Shrestha, Mo Hudeihed</p>
-      </footer>
-  </body>
+        <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+        <script src="index.js"></script>
+    </head>
+    <body>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="books.html">Books</a>
+            <a href="authors.html">Authors</a>
+            <a href="customers.html">Customers</a>
+            <a href="stores.html">Stores</a>
+            <a href="invoices.html">Invoices</a>
+            <a href="authorsbooks.html">AuthorsBooks</a>
+        </nav>
+
+        <main>
+            <div>
+                <h2>Books Table</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Publication Year</th>
+                            <th>Price</th>
+                            <th>Edit/Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Sample Data -->
+                        <tr>
+                            <td>1</td>
+                            <td>Linear Algebra</td>
+                            <td>2005</td>
+                            <td>80.00</td>
+                            <td>
+                                <button onclick="alert('Edit button clicked')">
+                                    Edit
+                                </button>
+                                <button
+                                    onclick="alert('Delete button clicked')"
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>Discrete Mathematics</td>
+                            <td>1992</td>
+                            <td>90.99</td>
+                            <td>
+                                <button onclick="alert('Edit button clicked')">
+                                    Edit
+                                </button>
+                                <button
+                                    onclick="alert('Delete button clicked')"
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>Organic Chemistry</td>
+                            <td>2020</td>
+                            <td>120.00</td>
+                            <td>
+                                <button onclick="alert('Edit button clicked')">
+                                    Edit
+                                </button>
+                                <button
+                                    onclick="alert('Delete button clicked')"
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>4</td>
+                            <td>Statistics</td>
+                            <td>2021</td>
+                            <td>115.00</td>
+                            <td>
+                                <button onclick="alert('Edit button clicked')">
+                                    Edit
+                                </button>
+                                <button
+                                    onclick="alert('Delete button clicked')"
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- Add more rows as needed -->
+                    </tbody>
+                </table>
+                <h2>Add a Book</h2>
+
+                <form>
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title" required />
+
+                    <label for="yearOfPublication">Year of Publication:</label>
+                    <input
+                        type="date"
+                        id="yearOfPublication"
+                        name="yearOfPublication"
+                        required
+                    />
+
+                    <label for="price">Price:</label>
+                    <input
+                        type="number"
+                        id="price"
+                        name="price"
+                        min="0"
+                        required
+                    />
+
+                    <button
+                        type="button"
+                        onclick="alert('Add book button clicked')"
+                    >
+                        Add Book
+                    </button>
+                </form>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2023 Saurav Shrestha, Mo Hudeihed</p>
+        </footer>
+    </body>
 </html>
