@@ -96,7 +96,7 @@ SELECT  invoiceID,
         customerID
 FROM Invoices;
 
--- Add (Create) a store
+-- Add (Create) an invoice
 INSERT INTO Invoices(date, bookID, storeID, customerID)
 VALUE (:date, :bookID, :storeID, :customerID);
 
