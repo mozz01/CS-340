@@ -85,3 +85,19 @@ INSERT INTO Stores(name, phone, address)
 VALUE (:name, :phone, :address);
 
 
+-- ---------------------------------------------
+-- Invoices
+-- ---------------------------------------------
+-- Populate the Invoices table on the Invoices page
+SELECT  invoiceID,
+        date,
+        bookID,
+        storeID,
+        customerID
+FROM Invoices;
+
+-- Add (Create) a store
+INSERT INTO Invoices(date, bookID, storeID, customerID)
+VALUE (:date, :bookID, :storeID, :customerID);
+
+
