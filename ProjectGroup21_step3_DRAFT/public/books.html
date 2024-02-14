@@ -98,113 +98,223 @@
                 <h2>Add a Book</h2>
 
                 <form>
-                    <label for="title">Title:</label>
-                    <input type="text" id="title" name="title" required />
+                    <table class="addTable">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <label for="title">Title:</label>
+                                </td>
+                                <td>
+                                    <input
+                                        autofocus
+                                        type="text"
+                                        id="title"
+                                        name="title"
+                                        required
+                                    />
+                                </td>
+                            </tr>
 
-                    <label for="author1">Author 1:</label>
-                    <select id="author1" name="author1" required>
-                        <option value="" disabled selected>Select an author</option>
-                        <option value="Edgar Patterson">Edgar Patterson</option>
-                        <option value="William Fitzgerald">William Fitzgerald</option>
-                        <option value="George Wolf">George Wolf</option>
-                        <option value="Mike Lang">Mike Lang</option>
-                        <option value="none">None</option>    
-    
-                    </select>
+                            <tr>
+                                <td>
+                                    <label for="author1">Author 1:</label>
+                                </td>
+                                <td>
+                                    <select
+                                        id="author1"
+                                        name="author1"
+                                        required
+                                    >
+                                        <option value="" disabled selected>
+                                            Select an author
+                                        </option>
+                                        <option value="Edgar Patterson">
+                                            Edgar Patterson
+                                        </option>
+                                        <option value="William Fitzgerald">
+                                            William Fitzgerald
+                                        </option>
+                                        <option value="George Wolf">
+                                            George Wolf
+                                        </option>
+                                        <option value="Mike Lang">
+                                            Mike Lang
+                                        </option>
+                                        <!-- <option value="none">None</option> -->
+                                    </select>
+                                </td>
+                            </tr>
 
-                    <label for="author2">Author 2:</label>
-                    <select id="author2" name="author2" required>
-                        <option value="" disabled selected>Select an author</option>
-                        <option value="Edgar Patterson">Edgar Patterson</option>
-                        <option value="William Fitzgerald">William Fitzgerald</option>
-                        <option value="George Wolf">George Wolf</option>
-                        <option value="Mike Lang">Mike Lang</option>
-                        <option value="none">None</option>    
-    
-                    </select>
+                            <tr>
+                                <td>
+                                    <label for="author2">Author 2:</label>
+                                </td>
+                                <td>
+                                    <select
+                                        id="author2"
+                                        name="author2"
+                                        required
+                                    >
+                                        <option value="" disabled selected>
+                                            Select an author
+                                        </option>
+                                        <option value="Edgar Patterson">
+                                            Edgar Patterson
+                                        </option>
+                                        <option value="William Fitzgerald">
+                                            William Fitzgerald
+                                        </option>
+                                        <option value="George Wolf">
+                                            George Wolf
+                                        </option>
+                                        <option value="Mike Lang">
+                                            Mike Lang
+                                        </option>
+                                        <option value="none">None</option>
+                                    </select>
+                                </td>
+                            </tr>
 
-                    <label for="yearOfPublication" min="1900" max="" required>Year of Publication:</label>
-                    <input
-                        type="number"
-                        id="yearOfPublication"
-                        name="yearOfPublication"
-                        required
-                    />
+                            <tr>
+                                <td>
+                                    <label
+                                        for="yearOfPublication"
+                                        min="1900"
+                                        max=""
+                                        required
+                                        >Year of Publication:</label
+                                    >
+                                </td>
+                                <td>
+                                    <input
+                                        type="number"
+                                        id="yearOfPublication"
+                                        name="yearOfPublication"
+                                        required
+                                    />
+                                </td>
+                            </tr>
 
-                    <label for="price">Price:</label>
-                    <input
-                        type="number"
-                        id="price"
-                        name="price"
-                        min="0"
-                        required
-                    />
-
+                            <tr>
+                                <td>
+                                    <label for="price">Price:</label>
+                                </td>
+                                <td>
+                                    <input
+                                        type="number"
+                                        id="price"
+                                        name="price"
+                                        min="0"
+                                        required
+                                    />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                     <button
-                        type="button"
-                        onclick="alert('Add book button clicked')"
-                    >
-                        Add Book
-                    </button>
+                    class="addButton"
+                    type="button"
+                    onclick="alert('Add book button clicked')"
+                >
+                    Add Book
+                </button>
                 </form>
+
                 <h2>Update a book</h2>
                 <form>
-                    <label for="book">Title:</label>
-                    <select id="booklist" name="booklist" required>
-                        <option value="" disabled selected>Select a book</option>
-                        <option value="Linear Algebra">Linear Algebra</option>
-                        <option value="Discrete Mathematics">Discrete Mathematics</option>
-                        <option value="Organic Chemistry">Organic Chemistry</option>
-                        <option value="Statistics">Statistics</option>    
-                    </select>
-
-                    
-                    <label for="author1">Author 1:</label>
-                    <select id="author1" name="author1" required>
-                        <option value="" disabled selected>Select an author</option>
-                        <option value="Edgar Patterson">Edgar Patterson</option>
-                        <option value="William Fitzgerald">William Fitzgerald</option>
-                        <option value="George Wolf">George Wolf</option>
-                        <option value="Mike Lang">Mike Lang</option>
-                        <option value="none">None</option>    
-    
-                    </select>
-
-                    <label for="author2">Author 2:</label>
-                    <select id="author2" name="author2" required>
-                        <option value="" disabled selected>Select an author</option>
-                        <option value="Edgar Patterson">Edgar Patterson</option>
-                        <option value="William Fitzgerald">William Fitzgerald</option>
-                        <option value="George Wolf">George Wolf</option>
-                        <option value="Mike Lang">Mike Lang</option>
-                        <option value="none">None</option>    
-    
-                    </select>
-
-                    <label for="yearOfPublication" min="1900" max="" required>Year of Publication:</label>
-                    <input
-                        type="number"
-                        id="yearOfPublication"
-                        name="yearOfPublication"
-                        required
-                    />
-
-                    <label for="price">Price:</label>
-                    <input
-                        type="number"
-                        id="price"
-                        name="price"
-                        min="0"
-                        required
-                    />
-
-                    <button
-                        type="button"
-                        onclick="alert('Update book button clicked')"
-                    >
+                    <table class="addTable">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <label for="book">Title:</label>
+                                </td>
+                                <td>
+                                    <select id="booklist" name="booklist" required>
+                                        <option value="" disabled selected>
+                                            Select a book
+                                        </option>
+                                        <option value="Linear Algebra">
+                                            Linear Algebra
+                                        </option>
+                                        <option value="Discrete Mathematics">
+                                            Discrete Mathematics
+                                        </option>
+                                        <option value="Organic Chemistry">
+                                            Organic Chemistry
+                                        </option>
+                                        <option value="Statistics">Statistics</option>
+                                    </select>
+                                </td>
+                            </tr>
+                
+                            <tr>
+                                <td>
+                                    <label for="author1">Author 1:</label>
+                                </td>
+                                <td>
+                                    <select id="author1" name="author1" required>
+                                        <option value="" disabled selected>
+                                            Select an author
+                                        </option>
+                                        <option value="Edgar Patterson">
+                                            Edgar Patterson
+                                        </option>
+                                        <option value="William Fitzgerald">
+                                            William Fitzgerald
+                                        </option>
+                                        <option value="George Wolf">George Wolf</option>
+                                        <option value="Mike Lang">Mike Lang</option>
+                                        <!-- <option value="none">None</option> -->
+                                    </select>
+                                </td>
+                            </tr>
+                
+                            <tr>
+                                <td>
+                                    <label for="author2">Author 2:</label>
+                                </td>
+                                <td>
+                                    <select id="author2" name="author2" required>
+                                        <option value="" disabled selected>
+                                            Select an author
+                                        </option>
+                                        <option value="Edgar Patterson">
+                                            Edgar Patterson
+                                        </option>
+                                        <option value="William Fitzgerald">
+                                            William Fitzgerald
+                                        </option>
+                                        <option value="George Wolf">George Wolf</option>
+                                        <option value="Mike Lang">Mike Lang</option>
+                                        <option value="none">None</option>
+                                    </select>
+                                </td>
+                            </tr>
+                
+                            <tr>
+                                <td>
+                                    <label for="yearOfPublication" min="1900" max="" required>Year of Publication:</label>
+                                </td>
+                                <td>
+                                    <input type="number" id="yearOfPublication" name="yearOfPublication" required />
+                                </td>
+                            </tr>
+                
+                            <tr>
+                                <td>
+                                    <label for="price">Price:</label>
+                                </td>
+                                <td>
+                                    <input type="number" id="price" name="price" min="0" required />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                
+                    <button class="updateButton" type="button" onclick="alert('Update book button clicked')">
                         Update
                     </button>
-                </form>
+                </form>                
             </div>
         </main>
         <footer>

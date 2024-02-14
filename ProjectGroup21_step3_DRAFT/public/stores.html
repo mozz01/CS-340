@@ -84,16 +84,54 @@
                 <h2>Add a store</h2>
 
                 <form>
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required />
+                    <table class="addTable">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <label for="name">Name:</label>
+                                </td>
 
-                    <label for="phone">Phone:</label>
-                    <input type="text" id="phone" name="phone" required />
+                                <td>
+                                    <input
+                                        autofocus
+                                        type="text"
+                                        id="name"
+                                        name="name"
+                                        required
+                                    />
+                                </td>
+                            </tr>
 
-                    <label for="address">Address:</label>
-                    <input type="text" id="address" name="address" required />
-
+                            <tr>
+                                <td>
+                                    <label for="phone">Phone:</label>
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        id="phone"
+                                        name="phone"
+                                        required
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="address">Address:</label>
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        id="address"
+                                        name="address"
+                                        required
+                                    />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                     <button
+                        class="addButton"
                         type="button"
                         onclick="alert('Add store button clicked')"
                     >

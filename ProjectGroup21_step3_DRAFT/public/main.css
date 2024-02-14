@@ -46,6 +46,7 @@ nav a:hover {
 
 a:hover {
     color: var(--emerald);
+    cursor: pointer;
 }
 
 input {
@@ -60,18 +61,48 @@ button{
     font-size: 15px;
 }
 
+.formEntry{
+    margin:5px;
+}
+
+.addButton{
+    margin: 10px;
+}
+
+.updateButton{
+    margin: 10px;
+}
+
+input, select {
+    width: 200px;
+    padding: 5px 10px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
 button:hover{
     background-color: var(--highlight);
     color: var(--dark);
+    cursor: pointer;
 }
 
 table {
     border-collapse: collapse;
 }
 
+.addTable tr th, .addTable tr td{
+    padding: 4px 10px 4px 0px;
+    border: none;
+}
+
+.updateTable tr th, .updateTable tr td{
+    border: none;
+}
+
+
 tr th, tr td{
     padding: 12px 20px;
-    border: 2px solid var(--highlight);
+    border: 3px solid var(--highlight);
 }
 
 footer {

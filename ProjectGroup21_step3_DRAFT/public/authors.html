@@ -93,18 +93,39 @@
                 <h2>Add an author</h2>
 
                 <form>
-                    <label for="firstName">First Name:</label>
-                    <input
-                        type="text"
-                        id="firstName"
-                        name="firstName"
-                        required
-                    />
-
-                    <label for="lastName">Last Name:</label>
-                    <input type="text" id="lastName" name="lastName" required />
-
+                    <table class="addTable">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <label for="firstName">First Name:</label>
+                                </td>
+                                <td>
+                                    <input
+                                        autofocus
+                                        type="text"
+                                        id="firstName"
+                                        name="firstName"
+                                        required
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="lastName">Last Name:</label>
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        id="lastName"
+                                        name="lastName"
+                                        required
+                                    />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                     <button
+                        class="addButton"
                         type="button"
                         onclick="alert('Add author button clicked')"
                     >
@@ -113,7 +134,7 @@
                 </form>
             </div>
         </main>
-        
+
         <footer>
             <p>&copy; 2023 Saurav Shrestha, Mo Hudeihed</p>
         </footer>

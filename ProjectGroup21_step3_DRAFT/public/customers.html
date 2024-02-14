@@ -114,24 +114,65 @@
                 <h2>Add a customer</h2>
 
                 <form>
-                    <label for="firstName">First Name:</label>
-                    <input
-                        type="text"
-                        id="firstName"
-                        name="firstName"
-                        required
-                    />
-
-                    <label for="lastName">Last Name:</label>
-                    <input type="text" id="lastName" name="lastName" required />
-
-                    <label for="email">Email:</label>
-                    <input type="text" id="email" name="email" required />
-
-                    <label for="phone">Phone:</label>
-                    <input type="text" id="phone" name="phone" required />
-
+                    <table class="addTable">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <label for="firstName">First Name:</label>
+                                </td>
+                                <td>
+                                    <input
+                                        autofocus
+                                        type="text"
+                                        id="firstName"
+                                        name="firstName"
+                                        required
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="lastName">Last Name:</label>
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        id="lastName"
+                                        name="lastName"
+                                        required
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="email">Email:</label>
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        id="email"
+                                        name="email"
+                                        required
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="phone">Phone:</label>
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        id="phone"
+                                        name="phone"
+                                        required
+                                    />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                     <button
+                        class="addButton"
                         type="button"
                         onclick="alert('Add customer button clicked')"
                     >

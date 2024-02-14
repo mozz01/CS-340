@@ -21,92 +21,148 @@
         </nav>
 
         <main>
-            <div>
-                <h2>Invoices Placeholder</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Invoice ID</th>
-                            <th>Date</th>
-                            <th>Book</th>
-                            <th>Store</th>
-                            <th>Customer</th>
-                        </tr>
-                    </thead>
+            <h2>Invoices Placeholder</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Invoice ID</th>
+                        <th>Date</th>
+                        <th>Book</th>
+                        <th>Store</th>
+                        <th>Customer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>2021-02-25</td>
+                        <td>Linear Algebra</td>
+                        <td>Metropolitan Stories</td>
+                        <td>Patricia Carlson</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>2021-03-19</td>
+                        <td>Discrete Mathematics</td>
+                        <td>Metropolitan Stories</td>
+                        <td>Patricia Carlson</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>2023-10-10</td>
+                        <td>Discrete Mathematics</td>
+                        <td>Literary Books</td>
+                        <td>Selena Lozada</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>2022-02-05</td>
+                        <td>Linear Algebra</td>
+                        <td>Metropolitan Stories</td>
+                        <td>Sergio Hernandez</td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                </tbody>
+            </table>
+
+            <h2>Add Invoice</h2>
+
+            <form>
+                <table class="addTable">
                     <tbody>
                         <tr>
-                            <td>1</td>
-                            <td>2021-02-25</td>
-                            <td>Linear Algebra</td>
-                            <td>Metropolitan Stories</td>
-                            <td>Patricia Carlson</td>
+                            <td>
+                                <label for="date">Date:</label>
+                            </td>
+                            <td>
+                                <input
+                                    autofocus
+                                    type="date"
+                                    id="date"
+                                    name="date"
+                                    required
+                                />
+                            </td>
                         </tr>
                         <tr>
-                            <td>2</td>
-                            <td>2021-03-19</td>
-                            <td>Discrete Mathematics</td>
-                            <td>Metropolitan Stories</td>
-                            <td>Patricia Carlson</td>
+                            <td>
+                                <label for="book">Title:</label>
+                            </td>
+                            <td>
+                                <select id="booklist" name="booklist" required>
+                                    <option value="" disabled selected>
+                                        Select a book
+                                    </option>
+                                    <option value="Linear Algebra">
+                                        Linear Algebra
+                                    </option>
+                                    <option value="Discrete Mathematics">
+                                        Discrete Mathematics
+                                    </option>
+                                    <option value="Organic Chemistry">
+                                        Organic Chemistry
+                                    </option>
+                                    <option value="Statistics">
+                                        Statistics
+                                    </option>
+                                </select>
+                            </td>
                         </tr>
                         <tr>
-                            <td>3</td>
-                            <td>2023-10-10</td>
-                            <td>Discrete Mathematics</td>
-                            <td>Literary Books</td>
-                            <td>Selena Lozada</td>
+                            <td>
+                                <label for="store">Store:</label>
+                            </td>
+                            <td>
+                                <select id="store" name="store" required>
+                                    <option value="" disabled selected>
+                                        Select a store
+                                    </option>
+                                    <option value="Metropolitan Stories">
+                                        Metropolitan Stories
+                                    </option>
+                                    <option value="Literary Books">
+                                        Literary Books
+                                    </option>
+                                    <option value="Bookshelf Boutique">
+                                        Bookshelf Boutique
+                                    </option>
+                                </select>
+                            </td>
                         </tr>
                         <tr>
-                            <td>4</td>
-                            <td>2022-02-05</td>
-                            <td>Linear Algebra</td>
-                            <td>Metropolitan Stories</td>
-                            <td>Sergio Hernandez</td>
+                            <td>
+                                <label for="customer">Customer:</label>
+                            </td>
+                            <td>
+                                <select id="customer" name="customer" required>
+                                    <option value="" disabled selected>
+                                        Select a customer/option>
+                                    </option>
+                                    <option value="Patricia Carlson">
+                                        Patricia Carlson
+                                    </option>
+                                    <option value="Selena Lozada">
+                                        Selena Lozada
+                                    </option>
+                                    <option value="Michael Karlsson">
+                                        Michael Karlsson
+                                    </option>
+                                    <option value="Sergio Hernandez">
+                                        Sergio Hernandez
+                                    </option>
+                                </select>
+                            </td>
                         </tr>
-                        <!-- Add more rows as needed -->
                     </tbody>
                 </table>
-
-                <h2>Add Invoice</h2>
-
-                <form>
-                    <label for="date">Date:</label>
-                    <input type="date" id="date" name="date" required />
-
-                    <label for="book">Title:</label>
-                    <select id="booklist" name="booklist" required>
-                        <option value="" disabled selected>Select a book</option>
-                        <option value="Linear Algebra">Linear Algebra</option>
-                        <option value="Discrete Mathematics">Discrete Mathematics</option>
-                        <option value="Organic Chemistry">Organic Chemistry</option>
-                        <option value="Statistics">Statistics</option>    
-                    </select>
-
-
-                    <label for="store">Store:</label>
-                    <select id="store" name="store" required>
-                        <option value="" disabled selected>Select a store</option>
-                        <option value="Metropolitan Stories">Metropolitan Stories</option>
-                        <option value="Literary Books">Literary Books</option>
-                        <option value="Bookshelf Boutique">Bookshelf Boutique</option>
-                    </select>
-
-                    <label for="customer">Customer:</label>
-                    <select id="customer" name="customer" required>
-                        <option value="" disabled selected>Select a customer/option>
-                        <option value="Patricia Carlson">Patricia Carlson</option>
-                        <option value="Selena Lozada">Selena Lozada</option>
-                        <option value="Michael Karlsson">Michael Karlsson</option>
-                        <option value="Sergio Hernandez">Sergio Hernandez</option>
-
-                    </select>
-
-                    <button
-                        type="button"
-                        onclick="alert('Add book button clicked')"
-                    >
-                        Add Invoice
-                    </button>
-            </div>
+                <button
+                    class="addButton"
+                    type="button"
+                    onclick="alert('Add book button clicked')"
+                >
+                    Add Invoice
+                </button>
+            </form>
         </main>
 
         <footer>
