@@ -9,8 +9,8 @@ SELECT  bookID,
 FROM Books;
 
 -- Add (Create) a book
-INSERT INTO Books(bookID, title, yearOfPublication, price)
-VALUE (:bookID, :title, :yearOfPublication, :price);
+INSERT INTO Books(title, yearOfPublication, price)
+VALUE (:title, :yearOfPublication, :price);
 
 -- Update a book
 UPDATE Books
@@ -36,8 +36,8 @@ SELECT  authorID,
 FROM Authors;
 
 -- Add (Create) an author
-INSERT INTO Authors(authorID, firstName, lastName)
-VALUE (:authorID, :firstName, :lastName);
+INSERT INTO Authors(firstName, lastName)
+VALUE (:firstName, :lastName);
 
 -- Delete an author
 DELETE FROM Authors
@@ -62,8 +62,8 @@ SELECT  customerID,
 FROM Customers;
 
 -- Add (Create) a customer
-INSERT INTO Customers(customerID, firstName, lastName, email, phone)
-VALUE (:customerID, :firstName, :lastName, :email, :phone);
+INSERT INTO Customers(firstName, lastName, email, phone)
+VALUE (:firstName, :lastName, :email, :phone);
 
 -- Delete a customer
 DELETE FROM Customers
@@ -81,7 +81,7 @@ SELECT  storeID,
 FROM Stores;
 
 -- Add (Create) a store
-INSERT INTO Stores(storeID, name, phone, address)
-VALUE (:storeID, :name, :phone, :address);
+INSERT INTO Stores(name, phone, address)
+VALUE (:name, :phone, :address);
 
 
