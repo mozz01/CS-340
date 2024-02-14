@@ -42,9 +42,6 @@
                             <td>2005</td>
                             <td>80.00</td>
                             <td>
-                                <button onclick="alert('Edit button clicked')">
-                                    Edit
-                                </button>
                                 <button
                                     onclick="alert('Delete button clicked')"
                                 >
@@ -59,9 +56,6 @@
                             <td>1992</td>
                             <td>90.99</td>
                             <td>
-                                <button onclick="alert('Edit button clicked')">
-                                    Edit
-                                </button>
                                 <button
                                     onclick="alert('Delete button clicked')"
                                 >
@@ -76,9 +70,6 @@
                             <td>2020</td>
                             <td>120.00</td>
                             <td>
-                                <button onclick="alert('Edit button clicked')">
-                                    Edit
-                                </button>
                                 <button
                                     onclick="alert('Delete button clicked')"
                                 >
@@ -93,9 +84,6 @@
                             <td>2021</td>
                             <td>115.00</td>
                             <td>
-                                <button onclick="alert('Edit button clicked')">
-                                    Edit
-                                </button>
                                 <button
                                     onclick="alert('Delete button clicked')"
                                 >
@@ -112,6 +100,26 @@
                 <form>
                     <label for="title">Title:</label>
                     <input type="text" id="title" name="title" required />
+
+                    <label for="author1">Author 1:</label>
+                    <select id="author1" name="author1" required>
+                        <option value="Edgar Patterson">Edgar Patterson</option>
+                        <option value="William Fitzgerald">William Fitzgerald</option>
+                        <option value="George Wolf">George Wolf</option>
+                        <option value="Mike Lang">Mike Lang</option>
+                        <option value="none">None</option>    
+    
+                    </select>
+
+                    <label for="author2">Author 2:</label>
+                    <select id="author2" name="author2" required>
+                        <option value="Edgar Patterson">Edgar Patterson</option>
+                        <option value="William Fitzgerald">William Fitzgerald</option>
+                        <option value="George Wolf">George Wolf</option>
+                        <option value="Mike Lang">Mike Lang</option>
+                        <option value="none">None</option>    
+    
+                    </select>
 
                     <label for="yearOfPublication">Year of Publication:</label>
                     <input
@@ -136,6 +144,62 @@
                     >
                         Add Book
                     </button>
+                </form>
+                <h2>Update a book</h2>
+                <form>
+                    <label for="book">Title:</label>
+                    <select id="booklist" name="booklist" required>
+                        <option value="Linear Algebra">Edgar Patterson</option>
+                        <option value="Discrete Mathematics">William Fitzgerald</option>
+                        <option value="Organic Chemistry">George Wolf</option>
+                        <option value="Statistics">Mike Lang</option>    
+                    </select>
+
+                    
+                    <label for="author1">Author 1:</label>
+                    <select id="author1" name="author1" required>
+                        <option value="Edgar Patterson">Edgar Patterson</option>
+                        <option value="William Fitzgerald">William Fitzgerald</option>
+                        <option value="George Wolf">George Wolf</option>
+                        <option value="Mike Lang">Mike Lang</option>
+                        <option value="none">None</option>    
+    
+                    </select>
+
+                    <label for="author2">Author 2:</label>
+                    <select id="author2" name="author2" required>
+                        <option value="Edgar Patterson">Edgar Patterson</option>
+                        <option value="William Fitzgerald">William Fitzgerald</option>
+                        <option value="George Wolf">George Wolf</option>
+                        <option value="Mike Lang">Mike Lang</option>
+                        <option value="none">None</option>    
+    
+                    </select>
+
+                    <label for="yearOfPublication">Year of Publication:</label>
+                    <input
+                        type="date"
+                        id="yearOfPublication"
+                        name="yearOfPublication"
+                        required
+                    />
+
+                    <label for="price">Price:</label>
+                    <input
+                        type="number"
+                        id="price"
+                        name="price"
+                        min="0"
+                        required
+                    />
+
+                    <button
+                        type="button"
+                        onclick="alert('Update book button clicked')"
+                    >
+                        Update
+                    </button>
+
                 </form>
             </div>
         </main>
