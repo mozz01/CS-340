@@ -89,15 +89,52 @@ VALUE (:name, :phone, :address);
 -- Invoices
 -- ---------------------------------------------
 -- Populate the Invoices table on the Invoices page
-SELECT  invoiceID,
-        date,
-        bookID,
-        storeID,
-        customerID
-FROM Invoices;
+SELECT  Invoices.invoiceID,
+        Invoices.date,
+        Books.title,
+        Stores.name,
+        CONCAT(Customers.firstName,' ',Customers.lastName) AS "customer name"
+FROM Customers
+JOIN Invoices
+ON Customers.customerID = Invoices.customerID
+JOIN Books
+ON Books.bookID = Invoices.bookID
+JOIN Stores
+ON Stores.storeID = Invoices.storeID;
 
 -- Add (Create) an invoice
 INSERT INTO Invoices(date, bookID, storeID, customerID)
-VALUE (:date, :bookID, :storeID, :customerID);
+VALUE (
+        :date, 
+        (
+            SELECT bookID
+            FROM Books
+            WHERE title = :bookTitle
+        ),
+        (
+            SELECT storeID
+            FROM Stores
+            WHERE name = :storeName
+        ),
+        (
+            SELECT customerID
+            FROM Customers
+            WHERE   firstName = :customerFirst
+                AND lastName = :customerLast
+        )
+    );
 
 
+
+-- ---------------------------------------------
+-- AuthorsBooks
+-- ---------------------------------------------
+-- Populate the AuthorsBooks table on the AuthorsBooks page
+SELECT  AuthorsBooks.authorBookID,
+        Books.title,
+        CONCAT(Authors.firstName,' ',Authors.lastName) AS "authors name"
+FROM Authors
+JOIN AuthorsBooks
+ON Authors.authorID = AuthorsBooks.authorID
+JOIN Books
+ON AuthorsBooks.bookID = Books.bookID;
