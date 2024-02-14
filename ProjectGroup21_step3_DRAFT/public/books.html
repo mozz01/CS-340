@@ -31,7 +31,7 @@
                             <th>Title</th>
                             <th>Publication Year</th>
                             <th>Price</th>
-                            <th>Edit/Delete</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -103,6 +103,7 @@
 
                     <label for="author1">Author 1:</label>
                     <select id="author1" name="author1" required>
+                        <option value="" disabled selected>Select an author</option>
                         <option value="Edgar Patterson">Edgar Patterson</option>
                         <option value="William Fitzgerald">William Fitzgerald</option>
                         <option value="George Wolf">George Wolf</option>
@@ -113,6 +114,7 @@
 
                     <label for="author2">Author 2:</label>
                     <select id="author2" name="author2" required>
+                        <option value="" disabled selected>Select an author</option>
                         <option value="Edgar Patterson">Edgar Patterson</option>
                         <option value="William Fitzgerald">William Fitzgerald</option>
                         <option value="George Wolf">George Wolf</option>
@@ -121,9 +123,9 @@
     
                     </select>
 
-                    <label for="yearOfPublication">Year of Publication:</label>
+                    <label for="yearOfPublication" min="1900" max="" required>Year of Publication:</label>
                     <input
-                        type="date"
+                        type="number"
                         id="yearOfPublication"
                         name="yearOfPublication"
                         required
@@ -149,15 +151,17 @@
                 <form>
                     <label for="book">Title:</label>
                     <select id="booklist" name="booklist" required>
-                        <option value="Linear Algebra">Edgar Patterson</option>
-                        <option value="Discrete Mathematics">William Fitzgerald</option>
-                        <option value="Organic Chemistry">George Wolf</option>
-                        <option value="Statistics">Mike Lang</option>    
+                        <option value="" disabled selected>Select a book</option>
+                        <option value="Linear Algebra">Linear Algebra</option>
+                        <option value="Discrete Mathematics">Discrete Mathematics</option>
+                        <option value="Organic Chemistry">Organic Chemistry</option>
+                        <option value="Statistics">Statistics</option>    
                     </select>
 
                     
                     <label for="author1">Author 1:</label>
                     <select id="author1" name="author1" required>
+                        <option value="" disabled selected>Select an author</option>
                         <option value="Edgar Patterson">Edgar Patterson</option>
                         <option value="William Fitzgerald">William Fitzgerald</option>
                         <option value="George Wolf">George Wolf</option>
@@ -168,6 +172,7 @@
 
                     <label for="author2">Author 2:</label>
                     <select id="author2" name="author2" required>
+                        <option value="" disabled selected>Select an author</option>
                         <option value="Edgar Patterson">Edgar Patterson</option>
                         <option value="William Fitzgerald">William Fitzgerald</option>
                         <option value="George Wolf">George Wolf</option>
@@ -176,9 +181,9 @@
     
                     </select>
 
-                    <label for="yearOfPublication">Year of Publication:</label>
+                    <label for="yearOfPublication" min="1900" max="" required>Year of Publication:</label>
                     <input
-                        type="date"
+                        type="number"
                         id="yearOfPublication"
                         name="yearOfPublication"
                         required
@@ -199,7 +204,6 @@
                     >
                         Update
                     </button>
-
                 </form>
             </div>
         </main>
