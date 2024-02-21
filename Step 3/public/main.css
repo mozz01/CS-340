@@ -77,7 +77,7 @@ button{
 
 input, select {
     width: 200px;
-    padding: 5px 10px;
+    padding: 5px;
     font-size: 15px;
     box-sizing: border-box;
 }
@@ -114,11 +114,12 @@ table {
 }
 
 .addTable tr th, .addTable tr td{
-    padding: 4px 10px 4px 0px;
+    padding: 4px 10px;
     border: none;
 }
 
 .updateTable tr th, .updateTable tr td{
+    padding: 4px 10px;
     border: none;
 }
 
@@ -134,4 +135,9 @@ footer {
     padding: 10px;
     margin: 10px 0px;
     border-top: 5px solid var(--highlight);
+}
+
+
+.errorColumn{
+    color: red;
 }

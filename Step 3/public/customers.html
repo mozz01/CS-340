@@ -1,178 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <title>Customers</title>
+		<title>Customers</title>
 
-        <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-        <script src="index.js"></script>
-    </head>
-    <body>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="books.html">Books</a>
-            <a href="authors.html">Authors</a>
-            <a href="customers.html">Customers</a>
-            <a href="stores.html">Stores</a>
-            <a href="invoices.html">Invoices</a>
-            <a href="authorsbooks.html">AuthorsBooks</a>
-        </nav>
+		<link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+		<script src="index.js"></script>
+	</head>
+	<body>
+		<nav>
+			<a href="index.html">Home</a>
+			<a href="books.html">Books</a>
+			<a href="authors.html">Authors</a>
+			<a href="customers.html">Customers</a>
+			<a href="stores.html">Stores</a>
+			<a href="invoices.html">Invoices</a>
+			<a href="authorsbooks.html">AuthorsBooks</a>
+		</nav>
 
-        <main>
-            <div>
-                <h2>Customers Table</h2>
-                <p>Browse customer information.</p>
+		<main>
+			<div>
+				<h2>Customers Table</h2>
+				<p>Browse customer information.</p>
 
-                <table class="displayTable">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Sample Data -->
-                        <tr>
-                            <td>1</td>
-                            <td>Patricia</td>
-                            <td>Carlson</td>
-                            <td>pcarlson@gmail.com</td>
-                            <td>667-222-4521</td>
-                            <td>
-                                <button
-                                    onclick="alert('Delete button clicked')"
-                                >
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
+				<table class="displayTable">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>First Name</th>
+							<th>Last Name</th>
+							<th>Email</th>
+							<th>Phone</th>
+							<th>Delete</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- Sample Data -->
+						<tr>
+							<td>1</td>
+							<td>Patricia</td>
+							<td>Carlson</td>
+							<td>pcarlson@gmail.com</td>
+							<td>667-222-4521</td>
+							<td>
+								<button onclick="alert('Delete button clicked')">
+									Delete
+								</button>
+							</td>
+						</tr>
 
-                        <tr>
-                            <td>2</td>
-                            <td>Selena</td>
-                            <td>Lozada</td>
-                            <td>slozada@gmail.com</td>
-                            <td>701-548-1944</td>
-                            <td>
-                                <button
-                                    onclick="alert('Delete button clicked')"
-                                >
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
+						<tr>
+							<td>2</td>
+							<td>Selena</td>
+							<td>Lozada</td>
+							<td>slozada@gmail.com</td>
+							<td>701-548-1944</td>
+							<td>
+								<button onclick="alert('Delete button clicked')">
+									Delete
+								</button>
+							</td>
+						</tr>
 
-                        <tr>
-                            <td>3</td>
-                            <td>Michael</td>
-                            <td>Karlsson</td>
-                            <td>mkarlsson@gmail.com</td>
-                            <td>402-666-1234</td>
-                            <td>
-                                <button
-                                    onclick="alert('Delete button clicked')"
-                                >
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
+						<tr>
+							<td>3</td>
+							<td>Michael</td>
+							<td>Karlsson</td>
+							<td>mkarlsson@gmail.com</td>
+							<td>402-666-1234</td>
+							<td>
+								<button onclick="alert('Delete button clicked')">
+									Delete
+								</button>
+							</td>
+						</tr>
 
-                        <tr>
-                            <td>4</td>
-                            <td>Sergio</td>
-                            <td>Hernandez</td>
-                            <td>shernandez@gmail.com</td>
-                            <td>801-951-3574</td>
-                            <td>
-                                <button
-                                    onclick="alert('Delete button clicked')"
-                                >
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                        <!-- Add more rows as needed -->
-                    </tbody>
-                </table>
-                <h2>Add a customer</h2>
+						<tr>
+							<td>4</td>
+							<td>Sergio</td>
+							<td>Hernandez</td>
+							<td>shernandez@gmail.com</td>
+							<td>801-951-3574</td>
+							<td>
+								<button onclick="alert('Delete button clicked')">
+									Delete
+								</button>
+							</td>
+						</tr>
+						<!-- Add more rows as needed -->
+					</tbody>
+				</table>
+				<h2>Add a customer</h2>
 
-                <form>
-                    <table class="addTable">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <label for="firstName">First Name:</label>
-                                </td>
-                                <td>
-                                    <input
-                                        autofocus
-                                        type="text"
-                                        id="firstName"
-                                        name="firstName"
-                                        required
-                                    />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="lastName">Last Name:</label>
-                                </td>
-                                <td>
-                                    <input
-                                        type="text"
-                                        id="lastName"
-                                        name="lastName"
-                                        required
-                                    />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="email">Email:</label>
-                                </td>
-                                <td>
-                                    <input
-                                        type="text"
-                                        id="email"
-                                        name="email"
-                                        required
-                                    />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="phone">Phone:</label>
-                                </td>
-                                <td>
-                                    <input
-                                        type="text"
-                                        id="phone"
-                                        name="phone"
-                                        required
-                                    />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <button
-                        class="addButton"
-                        type="button"
-                        onclick="alert('Add customer button clicked')"
-                    >
-                        Add customer
-                    </button>
-                </form>
-            </div>
-        </main>
+				<form>
+					<table class="addTable">
+						<tbody>
+							<tr>
+								<td>
+									<label for="firstName">First Name:</label>
+								</td>
+								<td>
+									<input autofocus type="text" id="firstName" name="firstName" required />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="lastName">Last Name:</label>
+								</td>
+								<td>
+									<input type="text" id="lastName" name="lastName" required />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="email">Email:</label>
+								</td>
+								<td>
+									<input type="text" id="email" name="email" required />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="phone">Phone:</label>
+								</td>
+								<td>
+									<input type="text" id="phone" name="phone" required />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<button class="addButton" type="button" onclick="alert('Add customer button clicked')">
+						Add customer
+					</button>
+				</form>
+			</div>
+		</main>
 
-        <footer>
-            <p>&copy; 2023 Saurav Shrestha, Mo Hudeihed</p>
-        </footer>
-    </body>
+		<footer>
+			<p>&copy; 2023 Saurav Shrestha, Mo Hudeihed</p>
+		</footer>
+	</body>
 </html>

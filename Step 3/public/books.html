@@ -1,189 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Bookstore</title>
+		<link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+		<script defer src="books.js"></script>
+	</head>
 
-<head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Bookstore</title>
-	<link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-	<script defer src="books.js"></script>
-</head>
-
-<body>
-	<nav> <a href="index.html">Home</a> <a href="books.html">Books</a> <a href="authors.html">Authors</a> <a href="customers.html">Customers</a> <a href="stores.html">Stores</a> <a href="invoices.html">Invoices</a> <a href="authorsbooks.html">AuthorsBooks</a> </nav>
-	<main>
-		<div>
-			<h2>Books Table</h2>
-			<p>Browse list of books in the stores.</p>
-			<table class="displayTable">
-				<thead>
-					<tr>
-						<th>ID</th>
-						<th>Title</th>
-						<th>Publication Year</th>
-						<th>Price</th>
-						<th>Delete</th>
-					</tr>
-				</thead>
-				<tbody>
-					<!-- Sample Data -->
-					<tr>
-						<td>1</td>
-						<td>Linear Algebra</td>
-						<td>2005</td>
-						<td>80.00</td>
-						<td>
-							<button onclick="alert('Delete button clicked')"> Delete </button>
-						</td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td>Discrete Mathematics</td>
-						<td>1992</td>
-						<td>90.99</td>
-						<td>
-							<button onclick="alert('Delete button clicked')"> Delete </button>
-						</td>
-					</tr>
-					<tr>
-						<td>3</td>
-						<td>Organic Chemistry</td>
-						<td>2020</td>
-						<td>120.00</td>
-						<td>
-							<button onclick="alert('Delete button clicked')"> Delete </button>
-						</td>
-					</tr>
-					<tr>
-						<td>4</td>
-						<td>Statistics</td>
-						<td>2021</td>
-						<td>115.00</td>
-						<td>
-							<button onclick="alert('Delete button clicked')"> Delete </button>
-						</td>
-					</tr>
-					<!-- Add more rows as needed -->
-				</tbody>
-			</table>
-			<h2>Add a Book</h2>
-			<form>
-				<table class="addTable">
+	<body>
+		<nav>
+			<a href="index.html">Home</a> <a href="books.html">Books</a> <a href="authors.html">Authors</a> <a href="customers.html">Customers</a> <a href="stores.html">Stores</a> <a href="invoices.html">Invoices</a>
+			<a href="authorsbooks.html">AuthorsBooks</a>
+		</nav>
+		<main>
+			<div>
+				<h2>Books Table</h2>
+				<p>Browse list of books in the stores.</p>
+				<table class="displayTable">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Title</th>
+							<th>Publication Year</th>
+							<th>Price</th>
+							<th>Delete</th>
+						</tr>
+					</thead>
 					<tbody>
+						<!-- Sample Data -->
 						<tr>
+							<td>1</td>
+							<td>Linear Algebra</td>
+							<td>2005</td>
+							<td>80.00</td>
 							<td>
-								<label for="title">Title:</label>
+								<button onclick="alert('Delete button clicked')">Delete</button>
 							</td>
-							<td>
-								<input autofocus type="text" id="title" name="title" required /> </td>
 						</tr>
 						<tr>
+							<td>2</td>
+							<td>Discrete Mathematics</td>
+							<td>1992</td>
+							<td>90.99</td>
 							<td>
-								<label for="author1">Author 1:</label>
+								<button onclick="alert('Delete button clicked')">Delete</button>
 							</td>
-							<td>
-								<select id="selectAuthor1" name="author1" required>
-									<option value="NULL" selected> None </option>
-									<option value="Edgar Patterson"> Edgar Patterson </option>
-									<option value="William Fitzgerald"> William Fitzgerald </option>
-									<option value="George Wolf"> George Wolf </option>
-									<option value="Mike Lang"> Mike Lang </option>
-									<!-- <option value="none">None</option> -->
-								</select>
-							</td>
-						</tr>
-                        <tr id="addAuthors">
-
-                            </tr>
-						<tr>
-							<td>
-								<label for="yearOfPublication" min="1900" max="" required>Year of Publication:</label>
-							</td>
-							<td>
-								<input type="number" id="yearOfPublication" name="yearOfPublication" required /> </td>
 						</tr>
 						<tr>
+							<td>3</td>
+							<td>Organic Chemistry</td>
+							<td>2020</td>
+							<td>120.00</td>
 							<td>
-								<label for="price">Price:</label>
+								<button onclick="alert('Delete button clicked')">Delete</button>
 							</td>
-							<td>
-								<input type="number" id="price" name="price" min="0" required /> </td>
 						</tr>
+						<tr>
+							<td>4</td>
+							<td>Statistics</td>
+							<td>2021</td>
+							<td>115.00</td>
+							<td>
+								<button onclick="alert('Delete button clicked')">Delete</button>
+							</td>
+						</tr>
+						<!-- Add more rows as needed -->
 					</tbody>
 				</table>
-				<button class="addButton" type="button" onclick="alert('Add book button clicked')"> Add Book </button>
-			</form>
-			<h2>Update a book</h2>
-			<form>
-				<table class="addTable">
-					<tbody>
-						<tr>
-							<td>
-								<label for="book">Title:</label>
-							</td>
-							<td>
-								<select id="booklist" name="booklist" required>
-									<option value="" disabled selected> Select a book </option>
-									<option value="Linear Algebra"> Linear Algebra </option>
-									<option value="Discrete Mathematics"> Discrete Mathematics </option>
-									<option value="Organic Chemistry"> Organic Chemistry </option>
-									<option value="Statistics">Statistics</option>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<label for="author1">Author 1:</label>
-							</td>
-							<td>
-								<select id="author1" name="author1" required>
-									<option value="" disabled selected> Select an author </option>
-									<option value="Edgar Patterson"> Edgar Patterson </option>
-									<option value="William Fitzgerald"> William Fitzgerald </option>
-									<option value="George Wolf">George Wolf</option>
-									<option value="Mike Lang">Mike Lang</option>
-									<!-- <option value="none">None</option> -->
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<label for="author2">Author 2:</label>
-							</td>
-							<td>
-								<select id="author2" name="author2" required>
-									<option selected="selected" value="none"> None </option>
-									<option value="" disabled selected> Select an author </option>
-									<option value="Edgar Patterson"> Edgar Patterson </option>
-									<option value="William Fitzgerald"> William Fitzgerald </option>
-									<option value="George Wolf">George Wolf</option>
-									<option value="Mike Lang">Mike Lang</option>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<label for="yearOfPublication" min="1900" max="" required>Year of Publication:</label>
-							</td>
-							<td>
-								<input type="number" id="yearOfPublication" name="yearOfPublication" required /> </td>
-						</tr>
-						<tr>
-							<td>
-								<label for="price">Price:</label>
-							</td>
-							<td>
-								<input type="number" id="price" name="price" min="0" required /> </td>
-						</tr>
-					</tbody>
-				</table>
-				<button class="updateButton" type="button" onclick="alert('Update book button clicked')"> Update </button>
-			</form>
-		</div>
-	</main>
-	<footer>
-		<p>&copy; 2023 Saurav Shrestha, Mo Hudeihed</p>
-	</footer>
-</body>
 
+
+				<h2>Add a Book</h2>
+				<form>
+					<table class="addTable">
+						<tbody>
+							<tr>
+								<td>
+									<label for="title">Title:</label>
+								</td>
+								<td>
+									<input autofocus type="text" id="addTitle" name="title" required maxlength="255" />
+								</td>
+								<td class="errorColumn">
+									<div id="addTitleError"></div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="author1">Author 1:</label>
+								</td>
+								<td>
+									<select id="selectAuthor1" name="author1" required>
+										<option value="NULL" selected> None </option>
+										<option value="Edgar Patterson"> Edgar Patterson </option>
+										<option value="William Fitzgerald"> William Fitzgerald </option>
+										<option value="George Wolf"> George Wolf </option>
+										<option value="Mike Lang"> Mike Lang </option>
+									</select>
+								</td>
+							</tr>
+							<tr id="addAuthors"></tr>
+							<tr>
+								<td>
+									<label for="yearOfPublication" min="1900" max="" required>Year of Publication:</label>
+								</td>
+								<td>
+									<input type="number" id="addYearOfPublication" name="yearOfPublication" required />
+								</td>
+                                <td class="errorColumn">
+									<div id="addYearOfPublicationError"></div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="price">Price:</label>
+								</td>
+								<td>
+									<input type="number" id="addPrice" name="price" required min="0" max="1000000000000" />
+								</td>
+								<td class="errorColumn">
+									<div id="addPriceError"></div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<button class="addButton" type="button" onclick="alert('Add book button clicked')">Add Book</button>
+				</form>
+
+
+				<h2>Update a book</h2>
+				<form>
+					<table class="updateTable">
+						<tbody>
+							<tr>
+								<td>
+									<label for="title">Title:</label>
+								</td>
+								<td>
+									<input autofocus type="text" id="updateTitle" name="title" required maxlength="255" />
+								</td>
+								<td class="errorColumn">
+									<div id="updateTitleError"></div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="author1">Author 1:</label>
+								</td>
+								<td>
+									<select id="author1" name="author1" required>
+										<option value="NULL" disabled selected> None </option>
+										<option value="Edgar Patterson"> Edgar Patterson </option>
+										<option value="William Fitzgerald"> William Fitzgerald </option>
+										<option value="George Wolf">George Wolf</option>
+										<option value="Mike Lang">Mike Lang</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="author2">Author 2:</label>
+								</td>
+								<td>
+									<select id="author2" name="author2" required>
+										<option selected="selected" value="NULL"> None </option>
+										<option value="Edgar Patterson"> Edgar Patterson </option>
+										<option value="William Fitzgerald"> William Fitzgerald </option>
+										<option value="George Wolf">George Wolf</option>
+										<option value="Mike Lang">Mike Lang</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="yearOfPublication" min="1900" max="" required>Year of Publication:</label>
+								</td>
+								<td>
+									<input type="number" id="updateYearOfPublication" name="yearOfPublication" required min="0"/>
+								</td>
+                                <td class="errorColumn">
+									<div id="updateYearOfPublicationError"></div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="price">Price:</label>
+								</td>
+								<td>
+									<input type="number" id="updatePrice" name="price" min="0" max="1000000000000" required />
+								</td>
+								<td class="errorColumn">
+									<div id="updatePriceError"></div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<button class="updateButton" type="button" onclick="alert('Update book button clicked')">Update</button>
+				</form>
+			</div>
+		</main>
+		<footer>
+			<p>&copy; 2023 Saurav Shrestha, Mo Hudeihed</p>
+		</footer>
+	</body>
 </html>
