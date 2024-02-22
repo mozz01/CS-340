@@ -78,6 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
     addPhone.addEventListener('input', function() {
         const enteredText = this.value;
 
+        // Pattern validates phone number length
         if ((enteredText.length <= 0) || !(addPhonePattern.test(enteredText))) {
             addPhoneInputError = true;
             addPhoneError.textContent = `Phone number is invalid.`;

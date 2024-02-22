@@ -87,7 +87,10 @@
 								</td>
 
 								<td>
-									<input autofocus type="text" id="name" name="name" required />
+									<input autofocus type="text" id="addName" maxlength="255" name="name" required />
+								</td>
+								<td class="errorColumn">
+									<div id="addNameError"></div>
 								</td>
 							</tr>
 
@@ -96,7 +99,10 @@
 									<label for="phone">Phone:</label>
 								</td>
 								<td>
-									<input type="text" id="phone" name="phone" required />
+									<input type="text" id="addPhone" maxlength="255" name="phone" required />
+								</td>
+								<td class="errorColumn">
+									<div id="addPhoneError"></div>
 								</td>
 							</tr>
 							<tr>
@@ -104,12 +110,15 @@
 									<label for="address">Address:</label>
 								</td>
 								<td>
-									<input type="text" id="address" name="address" required />
+									<input type="text" id="addAddress" maxlength="255" name="address" required />
+								</td>
+								<td class="errorColumn">
+									<div id="addAddressError"></div>
 								</td>
 							</tr>
 						</tbody>
 					</table>
-					<button class="addButton" type="button" onclick="alert('Add store button clicked')">
+					<button disabled style="background-color: gray; color: white; cursor: not-allowed;" class="addButton" type="button" onclick="alert('Add store button clicked')">
 						Add store
 					</button>
 				</form>
