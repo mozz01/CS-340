@@ -89,7 +89,7 @@ CREATE TABLE `Invoices` (
   CONSTRAINT `customerID`
     FOREIGN KEY (`customerID`)
     REFERENCES `Customers` (`customerID`)
-    ON DELETE SET NULL
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
