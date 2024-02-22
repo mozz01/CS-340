@@ -26,16 +26,16 @@ const addTitleError = document.getElementById("addTitleError");
 
 const addOneAuthor = `
 <td>
-<label for="author2">Author 2:</label>
+    <label for="author2">Author 2:</label>
 </td>
 <td>
-<select id="author2" name="author2" required>
-    <option selected="selected" value="none"> None </option>
-    <option value="Edgar Patterson"> Edgar Patterson </option>
-    <option value="William Fitzgerald"> William Fitzgerald </option>
-    <option value="George Wolf"> George Wolf </option>
-    <option value="Mike Lang"> Mike Lang </option>
-</select>
+    <select id="author2" name="author2">
+        <option value="NULL" selected> None </option>
+        <option value="1"> Edgar Patterson </option>
+        <option value="2"> William Fitzgerald </option>
+        <option value="3"> George Wolf </option>
+        <option value="4"> Mike Lang </option>
+    </select>
 </td>
 `;
 const addAuthor2 = document.getElementById("addAuthor2");
@@ -53,7 +53,9 @@ const updateTitle = document.getElementById("updateTitle");
 const updateTitleError = document.getElementById("updateTitleError");
 
 const updateAuthor1 = document.getElementById("updateAuthor1");
+const updateAuthor2 = document.getElementById("updateAuthor2");
 const updateAuthor1Error = document.getElementById("updateAuthor1Error");
+const updateAuthor2Error = document.getElementById("updateAuthor2Error");
 
 const updatePrice = document.getElementById("updatePrice");
 const updatePriceError = document.getElementById("updatePriceError");
@@ -86,6 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     addAuthor1.addEventListener("change", function () {
         const selectedValue = this.value;
+        const index = this.selectedIndex;
 
         if (selectedValue === "NULL") {
             addAuthor1Error.textContent = "* Required";
@@ -95,6 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
         else {
             addAuthor1Error.textContent = "";
             addAuthor2.innerHTML = addOneAuthor;
+            addAuthor2.childNodes[3].childNodes[1].options[index].disabled = true
             addAuthor1InputError = false;
         }
 
@@ -173,14 +177,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
     updateAuthor1.addEventListener("change", function () {
         const selectedValue = this.value;
+        const index = this.selectedIndex;
 
-        if (selectedValue === "NULL") {
+        if ((selectedValue === "NULL" && updateAuthor2.value === "NULL") || (selectedValue === "NULL" && updateAuthor2.value != "NULL")) {
             updateAuthor1Error.textContent = "* Required";
             updateAuthor1InputError = true;
+            // reset all options they're selectable
+            for (let i = 1; i < updateAuthor2.options.length; i++) {
+                updateAuthor2.options[i].disabled = false;
+            }
         } 
+        else if (selectedValue === updateAuthor2.value) {
+            updateAuthor2.value = "NULL";
+            this.value = "NULL";
+            updateAuthor1Error.textContent = "Author 1 cannot equal Author 2.";
+            updateAuthor1InputError = true;
+        }
         else {
             updateAuthor1Error.textContent = "";
             updateAuthor1InputError = false;
+            updateAuthor2.options[index].disabled = true
         }
 
         changeButtonStyle(updateButton, updateTitleInputError, updateAuthor1InputError, updatePriceInputError, updateYearOfPublicationInputError);
@@ -196,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const value = parseFloat(value_HTML);
         const min = parseFloat(min_HTML);
         const max = parseFloat(max_HTML);
-        console.log(value)
+
         if (value < min || value > max || value_HTML.length == 0 || value_HTML === "-0") {
             updatePriceInputError = true;
             updatePriceError.textContent = `Price must be in the valid range from ${formatter.format(min)} to ${formatter.format(max)} (inclusive).`;
@@ -245,7 +261,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function changeButtonStyle(button, titleHasError, author1HasError, priceHasError, yearHasError) {
     // -------------------- Debug --------------------
-    // console.log(titleHasError, author1HasError, priceHasError, yearHasError)
+    console.log(titleHasError, author1HasError, priceHasError, yearHasError)
     // -----------------------------------------------
 
     if (titleHasError || author1HasError || priceHasError || yearHasError) 
