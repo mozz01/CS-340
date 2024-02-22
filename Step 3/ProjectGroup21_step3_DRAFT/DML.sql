@@ -30,20 +30,20 @@ UPDATE Books
 SET yearOfPublication = :yearOfPublication,
     price = :price
     title = :title
-WHERE title = :title;
+WHERE bookdID = :bookID;
 
 UPDATE AuthorsBooks
 SET AuthorID = (SELECT AuthorID FROM Authors WHERE AuthorName = :author1)
-WHERE bookID = (SELECT bookID FROM Books WHERE title = :title);
+WHERE bookID = :bookID;
 
 IF :author2 IS NOT NULL THEN
     UPDATE AuthorsBooks
     SET AuthorID = (SELECT AuthorID FROM Authors WHERE AuthorName = :author2)
-    WHERE bookID = (SELECT bookID FROM Books WHERE title = :title);
+    WHERE bookID = :bookID;
 ELSE
 -- If :author2 is null, remove the corresponding row from AuthorsBooks
     DELETE FROM AuthorsBooks
-    WHERE bookID = (SELECT bookID FROM Books WHERE title = :title) AND AuthorID != (SELECT AuthorID FROM Authors WHERE AuthorName = :author1);
+    WHERE bookID = :bookID AND AuthorID != (SELECT AuthorID FROM Authors WHERE AuthorName = :author1);
 END IF;
 
 
