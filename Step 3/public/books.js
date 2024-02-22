@@ -179,13 +179,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedValue = this.value;
         const index = this.selectedIndex;
 
+        // reset all options they're selectable
+        for (let i = 1; i < updateAuthor2.options.length; i++) {
+            updateAuthor2.options[i].disabled = false;
+        }
+
         if ((selectedValue === "NULL" && updateAuthor2.value === "NULL") || (selectedValue === "NULL" && updateAuthor2.value != "NULL")) {
             updateAuthor1Error.textContent = "* Required";
             updateAuthor1InputError = true;
-            // reset all options they're selectable
-            for (let i = 1; i < updateAuthor2.options.length; i++) {
-                updateAuthor2.options[i].disabled = false;
-            }
         } 
         else if (selectedValue === updateAuthor2.value) {
             updateAuthor2.value = "NULL";
