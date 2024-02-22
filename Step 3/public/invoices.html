@@ -76,7 +76,10 @@
 								<label for="date">Date:</label>
 							</td>
 							<td>
-								<input autofocus type="date" id="date" name="date" required />
+								<input autofocus type="date" id="addDate" name="date" required />
+							</td>
+							<td class="errorColumn">
+								<div id="addDateError"></div>
 							</td>
 						</tr>
 						<tr>
@@ -84,9 +87,9 @@
 								<label for="book">Title:</label>
 							</td>
 							<td>
-								<select id="booklist" name="booklist" required>
-									<option value="" disabled selected>
-										Select a book
+								<select id="addBook" name="booklist" required>
+									<option value="NULL" selected>
+										None
 									</option>
 									<option value="Linear Algebra">
 										Linear Algebra
@@ -102,15 +105,18 @@
 									</option>
 								</select>
 							</td>
+							<td class="errorColumn">
+								<div id="addBookError"></div>
+							</td>
 						</tr>
 						<tr>
 							<td>
 								<label for="store">Store:</label>
 							</td>
 							<td>
-								<select id="store" name="store" required>
-									<option value="" disabled selected>
-										Select a store
+								<select id="addStore" name="store" required>
+									<option value="NULL" selected>
+										None
 									</option>
 									<option value="Metropolitan Stories">
 										Metropolitan Stories
@@ -123,15 +129,18 @@
 									</option>
 								</select>
 							</td>
+							<td class="errorColumn">
+								<div id="addStoreError"></div>
+							</td>
 						</tr>
 						<tr>
 							<td>
 								<label for="customer">Customer:</label>
 							</td>
 							<td>
-								<select id="customer" name="customer" required>
-									<option value="" disabled selected>
-										Select a customer
+								<select id="addCustomer" name="customer" required>
+									<option value="NULL" selected>
+										None
 									</option>
 									<option value="Patricia Carlson">
 										Patricia Carlson
@@ -147,10 +156,13 @@
 									</option>
 								</select>
 							</td>
+							<td class="errorColumn">
+								<div id="addCustomerError"></div>
+							</td>
 						</tr>
 					</tbody>
 				</table>
-				<button class="addButton" type="button" onclick="alert('Add book button clicked')">
+				<button disabled style="background-color: gray; color: white; cursor: not-allowed;" class="addButton" type="button" onclick="alert('Add book button clicked')">
 					Add Invoice
 				</button>
 			</form>
