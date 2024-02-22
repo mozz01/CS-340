@@ -24,6 +24,7 @@
 							<th>Title</th>
 							<th>Publication Year</th>
 							<th>Price</th>
+							<th>Update</th>
 							<th>Delete</th>
 						</tr>
 					</thead>
@@ -35,6 +36,9 @@
 							<td>2005</td>
 							<td>80.00</td>
 							<td>
+								<button onclick="updateBook(1, 'Linear Algebra', 2005, 80.00)">Update</button>
+							</td>
+							<td>
 								<button onclick="alert('Delete button clicked')">Delete</button>
 							</td>
 						</tr>
@@ -43,6 +47,9 @@
 							<td>Discrete Mathematics</td>
 							<td>1992</td>
 							<td>90.99</td>
+							<td>
+								<button onclick="updateBook(2,'Discrete Mathematics' ,1992 ,90.99 )">Update</button>
+							</td>
 							<td>
 								<button onclick="alert('Delete button clicked')">Delete</button>
 							</td>
@@ -53,6 +60,9 @@
 							<td>2020</td>
 							<td>120.00</td>
 							<td>
+								<button onclick="updateBook(3, 'Organic Chemistry', 2020, 120.00)">Update</button>
+							</td>
+							<td>
 								<button onclick="alert('Delete button clicked')">Delete</button>
 							</td>
 						</tr>
@@ -61,6 +71,9 @@
 							<td>Statistics</td>
 							<td>2021</td>
 							<td>115.00</td>
+							<td>
+								<button onclick="updateBook(4, 'Statistics', 2021, 115.00)">Update</button>
+							</td>
 							<td>
 								<button onclick="alert('Delete button clicked')">Delete</button>
 							</td>
@@ -90,22 +103,25 @@
 									<label for="author1">Author 1:</label>
 								</td>
 								<td>
-									<select id="selectAuthor1" name="author1" required>
+									<select id="addAuthor1" name="author1" required>
 										<option value="NULL" selected> None </option>
-										<option value="Edgar Patterson"> Edgar Patterson </option>
-										<option value="William Fitzgerald"> William Fitzgerald </option>
-										<option value="George Wolf"> George Wolf </option>
-										<option value="Mike Lang"> Mike Lang </option>
+										<option value="1"> Edgar Patterson </option>
+										<option value="2"> William Fitzgerald </option>
+										<option value="3"> George Wolf </option>
+										<option value="4"> Mike Lang </option>
 									</select>
 								</td>
+								<td class="errorColumn">
+									<div id="addAuthor1Error"></div>
+								</td>
 							</tr>
-							<tr id="addAuthors"></tr>
+							<tr id="addAuthor2"></tr>
 							<tr>
 								<td>
 									<label for="yearOfPublication" min="1900" max="" required>Year of Publication:</label>
 								</td>
 								<td>
-									<input type="number" id="addYearOfPublication" name="yearOfPublication" required />
+									<input type="number" value="0" min="0" max="3000" id="addYearOfPublication" name="yearOfPublication" required />
 								</td>
                                 <td class="errorColumn">
 									<div id="addYearOfPublicationError"></div>
@@ -116,7 +132,7 @@
 									<label for="price">Price:</label>
 								</td>
 								<td>
-									<input type="number" id="addPrice" name="price" required min="0" max="1000000000000" />
+									<input value="0" type="number" id="addPrice" name="price" required min="0" max="1000000000000" />
 								</td>
 								<td class="errorColumn">
 									<div id="addPriceError"></div>
@@ -124,7 +140,7 @@
 							</tr>
 						</tbody>
 					</table>
-					<button class="addButton" type="button" onclick="alert('Add book button clicked')">Add Book</button>
+					<button disabled style="background-color: gray; color: white; cursor: not-allowed;" class="addButton" type="button" onclick="alert('Add book button clicked')">Add Book</button>
 				</form>
 
 
@@ -148,13 +164,16 @@
 									<label for="author1">Author 1:</label>
 								</td>
 								<td>
-									<select id="author1" name="author1" required>
-										<option value="NULL" disabled selected> None </option>
-										<option value="Edgar Patterson"> Edgar Patterson </option>
-										<option value="William Fitzgerald"> William Fitzgerald </option>
-										<option value="George Wolf">George Wolf</option>
-										<option value="Mike Lang">Mike Lang</option>
+									<select id="updateAuthor1" name="author1" required>
+										<option value="NULL" selected> None </option>
+										<option value="1"> Edgar Patterson </option>
+										<option value="2"> William Fitzgerald </option>
+										<option value="3">George Wolf</option>
+										<option value="4">Mike Lang</option>
 									</select>
+								</td>
+								<td class="errorColumn">
+									<div id="updateAuthor1Error"></div>
 								</td>
 							</tr>
 							<tr>
@@ -162,7 +181,7 @@
 									<label for="author2">Author 2:</label>
 								</td>
 								<td>
-									<select id="author2" name="author2" required>
+									<select id="updateAuthor2" name="author2" required>
 										<option selected="selected" value="NULL"> None </option>
 										<option value="Edgar Patterson"> Edgar Patterson </option>
 										<option value="William Fitzgerald"> William Fitzgerald </option>
@@ -176,7 +195,7 @@
 									<label for="yearOfPublication" min="1900" max="" required>Year of Publication:</label>
 								</td>
 								<td>
-									<input type="number" id="updateYearOfPublication" name="yearOfPublication" required min="0"/>
+									<input type="number" value="0" min="0" max="3000" id="updateYearOfPublication" name="yearOfPublication" required min="0"/>
 								</td>
                                 <td class="errorColumn">
 									<div id="updateYearOfPublicationError"></div>
@@ -187,7 +206,7 @@
 									<label for="price">Price:</label>
 								</td>
 								<td>
-									<input type="number" id="updatePrice" name="price" min="0" max="1000000000000" required />
+									<input type="number" value="0" id="updatePrice" name="price" min="0" max="1000000000000" required/>
 								</td>
 								<td class="errorColumn">
 									<div id="updatePriceError"></div>
@@ -195,7 +214,7 @@
 							</tr>
 						</tbody>
 					</table>
-					<button class="updateButton" type="button" onclick="alert('Update book button clicked')">Update</button>
+					<button disabled style="background-color: gray; color: white; cursor: not-allowed;" class="updateButton" type="button" onclick="alert('Update book button clicked')">Update</button>
 				</form>
 			</div>
 		</main>
