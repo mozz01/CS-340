@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `cs340_StudentID`.`Invoices` (
   CONSTRAINT `customerID`
     FOREIGN KEY (`customerID`)
     REFERENCES `cs340_StudentID`.`Customers` (`customerID`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
