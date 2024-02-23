@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedValue = this.value;
         const index = this.selectedIndex;
 
-        // reset all options they're selectable
+        // reset all options so they're selectable
         for (let i = 1; i < updateAuthor2.options.length; i++) {
             updateAuthor2.options[i].disabled = false;
         }

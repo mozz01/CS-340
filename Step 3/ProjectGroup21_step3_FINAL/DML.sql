@@ -1,3 +1,4 @@
+-- Group #21 - Mo Hudeihed & Saurav Shrestha
 -- ---------------------------------------------
 -- Books
 -- ---------------------------------------------
@@ -8,16 +9,44 @@ SELECT  bookID,
         price
 FROM Books;
 
--- Add (Create) a book
+-- Add (Create) a book. This will also add the FKs to AuthorBooks table in the M:M relationship.
 INSERT INTO Books(title, yearOfPublication, price)
-VALUE (:title, :yearOfPublication, :price);
+VALUES (:title, :yearOfPublication, :price);
 
--- Update a book
+Insert INTO AuthorsBooks(bookID, AuthorID)
+VALUES ((SELECT bookID FROM BOOKS WHERE title = :title), :author1)
+
+IF :author2 IS NOT NULL THEN
+    Insert INTO AuthorsBooks(bookID, AuthorID)
+    VALUES ((SELECT bookID FROM BOOKS WHERE title = :title), :author2)
+END IF;
+
+-- Query to retrieve a book information so it can be used to populate the form with data for that particular book.
+SELECT yearOfPublication, price, title
+FROM Books
+WHERE title = :title;
+
+-- Update a book. This will also update AuthorsBooks table in the M:M relationship.
 UPDATE Books
-SET title = :title,
-    yearOfPublication = :yearOfPublication,
+SET yearOfPublication = :yearOfPublication,
     price = :price
-WHERE bookID = (:bookID);
+    title = :title
+WHERE bookdID = :bookID;
+
+UPDATE AuthorsBooks
+SET AuthorID = (SELECT AuthorID FROM Authors WHERE AuthorName = :author1)
+WHERE bookID = :bookID;
+
+IF :author2 IS NOT NULL THEN
+    UPDATE AuthorsBooks
+    SET AuthorID = (SELECT AuthorID FROM Authors WHERE AuthorName = :author2)
+    WHERE bookID = :bookID;
+ELSE
+-- If :author2 is null, remove the corresponding row from AuthorsBooks
+    DELETE FROM AuthorsBooks
+    WHERE bookID = :bookID AND AuthorID != (SELECT AuthorID FROM Authors WHERE AuthorName = :author1);
+END IF;
+
 
 -- Populate the Books dropdown menu
 SELECT  bookID,
@@ -37,7 +66,7 @@ FROM Authors;
 
 -- Add (Create) an author
 INSERT INTO Authors(firstName, lastName)
-VALUE (:firstName, :lastName);
+VALUES (:firstName, :lastName);
 
 -- Delete an author
 DELETE FROM Authors
@@ -63,7 +92,7 @@ FROM Customers;
 
 -- Add (Create) a customer
 INSERT INTO Customers(firstName, lastName, email, phone)
-VALUE (:firstName, :lastName, :email, :phone);
+VALUES (:firstName, :lastName, :email, :phone);
 
 -- Delete a customer
 DELETE FROM Customers
@@ -82,7 +111,7 @@ FROM Stores;
 
 -- Add (Create) a store
 INSERT INTO Stores(name, phone, address)
-VALUE (:name, :phone, :address);
+VALUES (:name, :phone, :address);
 
 
 -- ---------------------------------------------
@@ -104,7 +133,7 @@ ON Stores.storeID = Invoices.storeID;
 
 -- Add (Create) an invoice
 INSERT INTO Invoices(date, bookID, storeID, customerID)
-VALUE (
+VALUES (
         :date, 
         (
             SELECT bookID
