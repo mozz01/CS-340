@@ -1,0 +1,35 @@
+{{!-- Create a table --}}
+
+<h2>Authors Table</h2>
+<p>Browse authors</p>
+<table class="displayTable">
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{#each data}}
+        <tr>
+            <td>{{this.authorID}}</td>
+            <td>{{this.firstName}}</td>
+            <td>{{this.lastName}}</td>
+            <td>
+                <button>Delete</button>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
