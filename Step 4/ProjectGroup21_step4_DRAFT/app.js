@@ -25,7 +25,7 @@ app.get('/', function(req, res)
             res.render('index');                  
     });
 
-// Add book to the table
+// Display books table
     app.get('/books', function(req, res)
 {  
     let query1 = "SELECT * FROM Books;";               // Define our query
@@ -42,7 +42,7 @@ app.get('/', function(req, res)
     });                                             
 });    
 
-// display authors table
+// Display authors table
 app.get('/authors', function(req, res)
 {  
     let query1 = "SELECT * FROM Authors;";               // Define our query
@@ -51,7 +51,16 @@ app.get('/authors', function(req, res)
     })                                                      
 });
 
+// Display authorsbooks table (currently it only displays the authorBooksID, book title, but the author name is not populating for some reason)
+app.get('/authorsbooks', function(req, res)
+{
+    let query1 = "SELECT  AuthorsBooks.authorBookID, Books.title, CONCAT(Authors.firstName,' ',Authors.lastName) AS 'authorsname' FROM Authors JOIN AuthorsBooks ON Authors.authorID = AuthorsBooks.authorID JOIN Books ON AuthorsBooks.bookID = Books.bookID;"
+    db.pool.query(query1, function(error, rows, fields){
+        res.render('authorsbooks', {data: rows})
+    })
+});
 
+// Add book to the books table and add bookID + authorID to authorsbooks table
 app.post('/add-book-form', function(req, res){
 
     let data = req.body;
