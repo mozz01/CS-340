@@ -60,10 +60,10 @@
                     <label for="author1">Author 1:</label>
                 </td>
                 <td>
-        <select name="author1" id="addAuthor1">
+        <select name="author1test" id="addAuthor1">
             <option value="">Select an Author</option>
             {{#each authors}}
-            <option value="{{this.authorId}}">{{this.firstName}} {{this.lastName}}</option>
+            <option value="{{this.authorID}}">{{this.firstName}} {{this.lastName}}</option>
             {{/each}}
         </select>
                 </td>
@@ -74,7 +74,7 @@
             <tr id="addAuthor2"></tr>
             <tr>
                 <td>
-                    <label for="yearOfPublication" min="1900" max="" required>Year of Publication:</label>
+                    <label for="yearOfPublication" required>Year of Publication:</label>
                 </td>
                 <td>
                     <input type="number" value="0" min="1901" max="2155" id="addYearOfPublication" name="yearOfPublication" required />
@@ -88,7 +88,7 @@
                     <label for="price">Price:</label>
                 </td>
                 <td>
-                    <input value="0" type="number" id="addPrice" name="price" required min="0" max="1000000000000" />
+                    <input value="0" type="number" id="addPrice" name="price" required min="0" max="1000000000" />
                 </td>
                 <td class="errorColumn">
                     <div id="addPriceError"></div>

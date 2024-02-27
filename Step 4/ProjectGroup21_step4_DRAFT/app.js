@@ -7,7 +7,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
 
-PORT        = 9166;                 // Set a port number at the top so it's easy to change in the future
+PORT        = 9177;                 // Set a port number at the top so it's easy to change in the future
 
 const { engine } = require('express-handlebars');
 var exphbs = require('express-handlebars');     // Import express-handlebars
@@ -48,31 +48,24 @@ app.get('/authors', function(req, res)
     db.pool.query(query1, function(error, rows, fields){    
         res.render('authors', {data: rows});                  
     })                                                      
-});                                        
+});
+
 
 app.post('/add-book-form', function(req, res){
 
     let data = req.body;
 
-    query1 = `INSERT INTO Books (title, yearOfPublication, price) VALUES ('${data['title']}', ${data['yearOfPublication']}, ${data['price']})`;
+    query1 = `INSERT INTO Books (title, yearOfPublication, price) VALUES ('${data['title']}', '${data['yearOfPublication']}', '${data['price']}')`;
+    query2 = `INSERT INTO AuthorsBooks (bookID, authorID) VALUES ((SELECT bookID FROM Books WHERE title = '${data['title']}'), '${data['author1test']}')`;
+    
     db.pool.query(query1, function(error, rows, fields){
 
-        // Check to see if there was an error
-        if (error) {
-
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-            console.log(error)
-            res.sendStatus(400);
-        }
-
-        // If there was no error, we redirect back to our root route, which automatically runs the SELECT * FROM Books and
-        // presents it on the screen
-        else
-        {
-            res.redirect('/books');
-        }
+        db.pool.query(query2, (error, rows, fields) => {
+            res.redirect('/books')
+        })
     })
-})
+});
+
 /*
 /*
     LISTENER
