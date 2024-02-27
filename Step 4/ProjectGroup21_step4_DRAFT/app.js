@@ -25,7 +25,8 @@ app.get('/', function(req, res)
             res.render('index');                  
     });
 
-app.get('/books', function(req, res)
+// Add book to the table
+    app.get('/books', function(req, res)
 {  
     let query1 = "SELECT * FROM Books;";               // Define our query
     let query2 = "SELECT * FROM Authors;";
@@ -41,7 +42,7 @@ app.get('/books', function(req, res)
     });                                             
 });    
 
-// add Book to the table
+// display authors table
 app.get('/authors', function(req, res)
 {  
     let query1 = "SELECT * FROM Authors;";               // Define our query
