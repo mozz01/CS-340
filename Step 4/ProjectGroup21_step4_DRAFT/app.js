@@ -54,7 +54,7 @@ app.get('/authors', function(req, res)
 // Display authorsbooks table (currently it only displays the authorBooksID, book title, but the author name is not populating for some reason)
 app.get('/authorsbooks', function(req, res)
 {
-    let query1 = "SELECT  AuthorsBooks.authorBookID, Books.title, CONCAT(Authors.firstName,' ',Authors.lastName) AS 'authorsname' FROM Authors JOIN AuthorsBooks ON Authors.authorID = AuthorsBooks.authorID JOIN Books ON AuthorsBooks.bookID = Books.bookID;"
+    let query1 = "SELECT  AuthorsBooks.authorBookID, Books.title, CONCAT(Authors.firstName,' ',Authors.lastName) AS authorsname FROM Authors JOIN AuthorsBooks ON Authors.authorID = AuthorsBooks.authorID JOIN Books ON AuthorsBooks.bookID = Books.bookID;"
     db.pool.query(query1, function(error, rows, fields){
         res.render('authorsbooks', {data: rows})
     })
