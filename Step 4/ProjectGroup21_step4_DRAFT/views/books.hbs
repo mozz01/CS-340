@@ -1,8 +1,9 @@
-<!-- index.hbs -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
 {{!-- Create a table --}}
 <h2>Books Table</h2>
 <p>Browse list of books in the stores.</p>
-<table class="displayTable">
+<table class="displayTable" id="book-table">
 
     {{!-- Header section --}}
     <thead>
@@ -24,21 +25,22 @@
 
         {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
         {{#each data}}
-        <tr>
+        <tr data-value={{this.bookID}}>
             <td>{{this.bookID}}</td>
             <td>{{this.title}}</td>
             <td>{{this.yearOfPublication}}</td>
             <td>{{this.price}}</td>
             <td>
-                <button>Update</button>
+                <button onclick="updateBook({{this.bookID}})">Update</button>
             </td>
             <td>
-                <button>Delete</button>
+                <button onclick="deleteBook({{this.bookID}})">Delete</button>
             </td>
         </tr>
         {{/each}}
     </tbody>
 </table>
+<script src="./js/delete_book.js"></script>
 
 <h2>Add a Book</h2>
 <form id="add-book-form" method="POST" action="/add-book-form">
