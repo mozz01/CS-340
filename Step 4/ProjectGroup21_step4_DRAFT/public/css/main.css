@@ -67,13 +67,11 @@ button{
     margin:5px;
 }
 
-.addButton{
+.addButton, .updateButton{
     margin: 10px;
-}
-
-.updateButton{
-    margin: 10px;
-
+    width: auto;
+    outline: none;
+    border: none;
 }
 
 input, select {
@@ -91,10 +89,6 @@ button:hover{
 
 table {
     border-collapse: collapse;
-}
-
-.displayTable{
-    /* border: var(--border-width) solid var(--highlight); */
 }
 
 .displayTable th{

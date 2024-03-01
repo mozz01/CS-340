@@ -1,14 +1,10 @@
-{{!-- Create a table --}}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script defer src="/js/authors.js"></script>
 
 <h2>Authors Table</h2>
 <p>Browse authors</p>
 <table class="displayTable">
-
-    {{!-- Header section --}}
     <thead>
-
-        {{!-- For just the first row, we print each key of the row object as a header cell so we
-        know what each column means when the page renders --}}
         <tr>
             <th>ID</th>
             <th>First Name</th>
@@ -17,19 +13,49 @@
         </tr>
     </thead>
 
-    {{!-- Body section --}}
     <tbody>
-
-        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
         {{#each data}}
         <tr>
             <td>{{this.authorID}}</td>
             <td>{{this.firstName}}</td>
             <td>{{this.lastName}}</td>
             <td>
-                <button>Delete</button>
+                <button onclick="deleteAuthor({{this.authorID}})">Delete</button>
             </td>
         </tr>
         {{/each}}
     </tbody>
 </table>
+
+<h2>Add an author</h2>
+<form id="add-author-form" method="POST" action="/add-author">
+    <table class="addTable">
+        <tbody>
+            <tr>
+                <td>
+                    <label for="firstName">First Name:</label>
+                </td>
+                <td>
+                    <input autofocus type="text" id="addFirstName" name="firstName" maxlength="255" required />
+                </td>
+                <td class="errorColumn">
+                    <div id="addFirstNameError"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="lastName">Last Name:</label>
+                </td>
+                <td>
+                    <input type="text" id="addLastName" name="lastName" maxlength="255" required />
+                </td>
+                <td class="errorColumn">
+                    <div id="addLastNameError"></div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button disabled style="background-color: gray; color: white; cursor: not-allowed;" class="addButton" type="button" onclick="addAuthor()">
+        Add author
+    </button>
+</form>

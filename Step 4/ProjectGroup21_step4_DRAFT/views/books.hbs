@@ -1,15 +1,11 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script defer src="/js/books.js"></script>
 
-{{!-- Create a table --}}
 <h2>Books Table</h2>
 <p>Browse list of books in the stores.</p>
 <table class="displayTable" id="book-table">
 
-    {{!-- Header section --}}
     <thead>
-
-        {{!-- For just the first row, we print each key of the row object as a header cell so we
-        know what each column means when the page renders --}}
         <tr>
             <th>ID</th>
             <th>Title</th>
@@ -20,10 +16,7 @@
         </tr>
     </thead>
 
-    {{!-- Body section --}}
     <tbody>
-
-        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
         {{#each data}}
         <tr data-value={{this.bookID}}>
             <td>{{this.bookID}}</td>
@@ -31,7 +24,7 @@
             <td>{{this.yearOfPublication}}</td>
             <td>{{this.price}}</td>
             <td>
-                <button onclick="updateBook({{this.bookID}})">Update</button>
+                <button onclick="populateUpdateBook({{this.bookID}})">Update</button>
             </td>
             <td>
                 <button onclick="deleteBook({{this.bookID}})">Delete</button>
@@ -40,7 +33,6 @@
         {{/each}}
     </tbody>
 </table>
-<script src="./js/delete_book.js"></script>
 
 <h2>Add a Book</h2>
 <form id="add-book-form" method="POST" action="/add-book-form">
@@ -63,7 +55,7 @@
                 </td>
                 <td>
         <select name="author1test" id="addAuthor1">
-            <option value="">Select an Author</option>
+            <option value="NULL">None</option>
             {{#each authors}}
             <option value="{{this.authorID}}">{{this.firstName}} {{this.lastName}}</option>
             {{/each}}
@@ -90,7 +82,7 @@
                     <label for="price">Price:</label>
                 </td>
                 <td>
-                    <input value="0" type="number" id="addPrice" name="price" required min="0" max="1000000000" />
+                    <input value="0" type="number" id="addPrice" name="price" required min="0" max="1000000000000" />
                 </td>
                 <td class="errorColumn">
                     <div id="addPriceError"></div>
@@ -98,12 +90,12 @@
             </tr>
         </tbody>
     </table>
-    <input type ="submit" style="background-color: gray; color: white;" class="addButton" value="Add Book">
+    <input disabled type="submit" style="background-color: gray; color: white; cursor: not-allowed;" class="addButton" value="Add Book">
 </form>
 
 
 <h2>Update a book</h2>
-<form>
+<form id="update-book-form" method="PUT" action="/update-book">
     <table class="updateTable">
         <tbody>
             <tr>
@@ -123,9 +115,9 @@
                 </td>
                 <td>
                     <select id="updateAuthor1" name="author1" required>
-                        <option value="NULL" selected> None </option>
+                        <option value="NULL" selected="selected"> None </option>
                         {{#each authors}}
-                        <option value="{{this.authorId}}">{{this.firstName}} {{this.lastName}}</option>
+                        <option value="{{this.authorID}}">{{this.firstName}} {{this.lastName}}</option>
                         {{/each}}
                     </select>
                 </td>
@@ -141,7 +133,7 @@
                     <select id="updateAuthor2" name="author2" required>
                         <option selected="selected" value="NULL"> None </option>
                         {{#each authors}}
-                        <option value="{{this.authorId}}">{{this.firstName}} {{this.lastName}}</option>
+                        <option value="{{this.authorID}}">{{this.firstName}} {{this.lastName}}</option>
                         {{/each}}
                     </select>
                 </td>
@@ -151,10 +143,10 @@
             </tr>
             <tr>
                 <td>
-                    <label for="yearOfPublication" min="1900" max="" required>Year of Publication:</label>
-                </td>
+				    <label for="yearOfPublication" min="1900" max="" required>Year of Publication:</label>
+				</td>
                 <td>
-                    <input type="number" value="0" min="0" max="3000" id="updateYearOfPublication" name="yearOfPublication" required min="0"/>
+                   <input type="number" value="0" min="1901" max="2155" id="updateYearOfPublication" name="yearOfPublication" required />
                 </td>
                 <td class="errorColumn">
                     <div id="updateYearOfPublicationError"></div>
@@ -173,5 +165,5 @@
             </tr>
         </tbody>
     </table>
-    <button disabled style="background-color: gray; color: white; cursor: not-allowed;" class="updateButton" type="button" onclick="alert('Update book button clicked')">Update</button>
+    <button disabled style="background-color: gray; color: white; cursor: not-allowed;" class="updateButton" type="button" onclick="updateBook()">Update</button>
 </form>
