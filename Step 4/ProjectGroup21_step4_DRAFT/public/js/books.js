@@ -25,22 +25,8 @@ let currBookIDToUpdate;
 const addTitle = document.getElementById("addTitle");
 const addTitleError = document.getElementById("addTitleError");
 
-
-const addOneAuthor = `
-<td>
-    <label for="author2">Author 2:</label>
-</td>
-<td>
-    <select id="author2" name="author2">
-        <option value="NULL" selected> None </option>
-        <option value="1"> Edgar Patterson </option>
-        <option value="2"> William Fitzgerald </option>
-        <option value="3"> George Wolf </option>
-        <option value="4"> Mike Lang </option>
-    </select>
-</td>
-`;
-const addAuthor2 = document.getElementById("addAuthor2");
+let currAuthor2Value = "NULL";
+const addAuthor2TableRow = document.getElementById("addAuthor2");
 const addAuthor1 = document.getElementById("addAuthor1");
 const addAuthor1Error = document.getElementById("addAuthor1Error");
 
@@ -88,20 +74,57 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
 
-    addAuthor1.addEventListener("change", function () {
+    addAuthor1.addEventListener("change", async function () {
         const selectedValue = this.value;
-        const index = this.selectedIndex;
+        const data = {
+            author1ID: selectedValue
+        };
+        let dataResults;
+
+        await $.ajax({
+            url: '/get-author2',
+            type: 'GET',
+            data: data,
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+                dataResults = result;
+            }
+        });
+
+        const addAuthor2Menu = `
+            <td>
+                <label for="author2">Author 2:</label>
+            </td>
+            <td>
+                <select id="author2" name="author2">
+                    <option value="NULL" selected> None </option>
+                </select>
+            </td>
+            `;
 
         if (selectedValue === "NULL") {
             addAuthor1Error.textContent = "* Required";
-            addAuthor2.innerHTML = "";
+            addAuthor2TableRow.innerHTML = "";
             addAuthor1InputError = true;
         }
         else {
             addAuthor1Error.textContent = "";
-            addAuthor2.innerHTML = addOneAuthor;
-            addAuthor2.childNodes[3].childNodes[1].options[index].disabled = true
+            addAuthor2TableRow.innerHTML = addAuthor2Menu;
             addAuthor1InputError = false;
+            
+            const addAuthor2 = document.getElementById("author2");
+
+            dataResults.forEach(function(author2) {
+                let currOption = document.createElement('option');
+                currOption.value = author2.authorID;
+                currOption.innerText = `${author2.firstName} ${author2.lastName}`;
+                addAuthor2.appendChild(currOption);
+            })
+            addAuthor2.value = "NULL";
+
+            addAuthor2.addEventListener("change", () => {
+                currAuthor2Value = addAuthor2.value;
+            });
         }
 
         changeButtonStyle(addButton, addTitleInputError, addAuthor1InputError, addPriceInputError, addYearOfPublicationInputError);
@@ -388,6 +411,30 @@ function deleteRow(bookID) {
     }
 }
 
+async function addBook(){
+    const addBookEndpoint = '/add-book';
+    const data = {
+        title: addTitle.value,
+        author1ID: addAuthor1.value,
+        author2ID: currAuthor2Value,
+        YOP: addYearOfPublication.value,
+        price: addPrice.value
+    };
+
+    await $.ajax({
+        url: addBookEndpoint,
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
+        success: () => {
+            reloadBooksTable();
+        },
+        error: function(xhr, status, error) {
+            console.error('Error adding to Books table:', error);
+        }
+    });
+}
+
 
 function updateBook(){
     const updateBookEndpoint = '/update-book';
@@ -396,7 +443,7 @@ function updateBook(){
     const newAuthor2ID = updateAuthor2.value;
     const newYOP = updateYearOfPublication.value;
     const newPrice = updatePrice.value;
-    
+
     const data = {
         bookID: currBookIDToUpdate,
         title: newTitle,
@@ -413,42 +460,42 @@ function updateBook(){
         data: JSON.stringify(data),
         contentType: "application/json; charset=utf-8",
         success: () => {
-            console.log(`Updated book with ID of ${currBookIDToUpdate}.`);
+            reloadBooksTable();
         },
         error: () => {
-            console.log(`Couldn't update book with ID of ${currBookIDToUpdate}.`);
+            console.error('Error updating Books table:', error);
         }
     });
 }
 
-// function reloadData(){
-//     const updateBookEndpoint = '/update-book';
-//     const newTitle = updateTitle.value;
-//     const newAuthor1ID = updateAuthor1.value;
-//     const newAuthor2ID = updateAuthor2.value;
-//     const newYOP = updateYearOfPublication.value;
-//     const newPrice = updatePrice.value;
-    
-//     const data = {
-//         bookID: currBookIDToUpdate,
-//         title: newTitle,
-//         author1: newAuthor1ID,
-//         author2: newAuthor2ID,
-//         yearOfPublication: newYOP,
-//         price: newPrice
-//     };
 
+function reloadBooksTable() {
+    $.ajax({
+        url: '/reload-books',
+        type: 'GET',
+        contentType: "application/json; charset=utf-8",
+        success: function(data) {
+            $('.displayTable tbody').empty();
 
-//     $.ajax({
-//         url: updateBookEndpoint,
-//         type: 'POST',
-//         data: JSON.stringify(data),
-//         contentType: "application/json; charset=utf-8",
-//         success: () => {
-//             console.log(`Updated book with ID of ${currBookIDToUpdate}.`);
-//         },
-//         error: () => {
-//             console.log(`Couldn't update book with ID of ${currBookIDToUpdate}.`);
-//         }
-//     });
-// }
+            data.forEach(function(book) {
+                $('.displayTable tbody').append(`
+                    <tr data-value=${book.bookID}>
+                        <td>${book.bookID}</td>
+                        <td>${book.title}</td>
+                        <td>${book.yearOfPublication}</td>
+                        <td>${book.price}</td>
+                        <td>
+                            <button onclick="populateUpdateBook(${book.bookID})">Update</button>
+                        </td>
+                        <td>
+                            <button onclick="deleteBook(${book.bookID})">Delete</button>
+                        </td>
+                    </tr>
+                `);
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error reloading Books table:', error);
+        }
+    });
+}
