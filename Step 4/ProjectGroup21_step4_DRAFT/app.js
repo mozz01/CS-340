@@ -47,34 +47,85 @@ app.get('/books', function (req, res) {
 
 
 // Add book to the books table and add bookID + authorID to authorsbooks table
-app.post('/add-book-form', function (req, res) {
-
+app.post('/add-book', (req, res) => {
     const data = req.body;
+    const title = data.title;
+    const author1ID = data.author1ID;
+    const author2ID = data.author2ID;
+    const yearOfPublication = data.YOP;
+    const price = data.price;
+    let isAuthor2NULL = (author2ID === 'NULL');
+    
+    console.log("data:", data, "isAuthor2NULL:", isAuthor2NULL)
 
-    query1 = `
-        INSERT INTO Books (title, yearOfPublication, price) 
+    const addQuery1 = `
+        INSERT INTO Books(title, yearOfPublication, price)
+        VALUES (?, ?, ?);
+        `;
+    const addQuery2 = `
+        INSERT INTO AuthorsBooks(bookID, AuthorID)
         VALUES (
-                    '${data['title']}', 
-                    '${data['yearOfPublication']}', 
-                    '${data['price']}'
-                )`;
-    query2 = `
-            INSERT INTO AuthorsBooks (bookID, authorID) 
-            VALUES (
-                        (
-                            SELECT bookID 
-                            FROM Books 
-                            WHERE title = '${data['title']}'
-                        ), 
-                        '${data['author1test']}'
-                    )`;
+                    (
+                        SELECT bookID 
+                        FROM Books 
+                        WHERE title = ?
+                    ), 
+                    ?
+                );
+        `;
 
-    db.pool.query(query1, function (error, rows, fields) {
+    let addQuery3 = ";";
 
-        db.pool.query(query2, (error, rows, fields) => {
-            res.redirect('/books')
-        })
+    if (!isAuthor2NULL) {
+        addQuery3 = `
+        Insert INTO AuthorsBooks(bookID, AuthorID)
+        VALUES (
+                    (
+                        SELECT bookID 
+                        FROM Books 
+                        WHERE title = ?
+                    ), 
+                    ?
+                );
+        `;
+    }
+
+    db.pool.query(addQuery1, [[title], [yearOfPublication], [price]], function (error, rows, fields) {
+        if (error) {
+            console.log(`Failed to add to Books table: ${data}.`);
+            console.log(error);
+            res.sendStatus(400);
+        }
+        else {
+            console.log(`Added Books table: ${data}.`);
+        }
     })
+
+    db.pool.query(addQuery2, [[title], [author1ID]], function (error, rows, fields) {
+        if (error) {
+            console.log(`Failed to add to AuthorsBooks table: AuthorID1 = ${author1ID}, book = ${title}.`);
+            console.log(error);
+            res.sendStatus(400);
+        }
+        else {
+            console.log(`Added AuthorsBooks table: AuthorID1 = ${author1ID}, book = ${title}.`);
+        }
+    })
+
+    if (!isAuthor2NULL) {
+        db.pool.query(addQuery3, [[title], [author1ID]], function (error, rows, fields) {
+            if (error) {
+                console.log(`Failed to add to AuthorsBooks table: AuthorID2 = ${author2ID}, book = ${title}.`);
+                console.log(error);
+                res.sendStatus(400);
+            }
+            else {
+                console.log(`Added AuthorsBooks table: AuthorID2 = ${author2ID}, book = ${title}.`);
+            }
+        })
+    }
+
+    res.sendStatus(200);
 });
 
 
@@ -153,7 +204,7 @@ app.get('/populate-update-book', (req, res) => {
             }
         }
     });
-})
+});
 
 
 app.post('/update-book', (req, res) => {
@@ -243,8 +294,25 @@ app.post('/update-book', (req, res) => {
             console.log(`Deleted/updateed AuthorsBooks table: AuthorID2 = ${newAuthor2ID}, bookID = ${bookID}.`);
         }
     })
+    res.sendStatus(200);
 });
 
+
+app.get('/reload-books', (req, res) => {
+    const query1 = "SELECT * FROM Books;";
+
+    db.pool.query(query1, function (error, rows, fields) {
+        if (error) {
+            console.log(`Failed to reload Books Table.`);
+            console.log(error);
+            res.sendStatus(400);
+        }
+        else {
+            console.log(`Reloaded Books table successfully.`);
+            res.send(rows);
+        }
+    })
+});
 
 // ---------------------------------------------
 // Authors
@@ -255,6 +323,28 @@ app.get('/authors', function (req, res) {
 
     db.pool.query(query1, function (error, rows, fields) {
         res.render('authors', { data: rows });
+    })
+});
+
+app.get('/get-author2', function (req, res) {
+    const data = req.query;
+    const query = `
+                SELECT * 
+                FROM Authors
+                WHERE authorID != ?;
+                `;
+    const author1ID = parseInt(data.author1ID);
+
+    db.pool.query(query, [author1ID], function (error, rows, fields) {
+        if (error) {
+            console.log(`Failed to retrieve author2 list from Authors Table.`);
+            console.log(error);
+            res.sendStatus(400);
+        }
+        else {
+            console.log(`Retrieved author2 list from Authors table successfully.`);
+            res.send(rows);
+        }
     })
 });
 
@@ -318,6 +408,7 @@ app.delete('/authors/:authorID', (req, res) => {
         }
     })
 });
+
 
 // ---------------------------------------------
 // Customers
