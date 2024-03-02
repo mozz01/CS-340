@@ -14,11 +14,11 @@ INSERT INTO Books(title, yearOfPublication, price)
 VALUES (:title, :yearOfPublication, :price);
 
 Insert INTO AuthorsBooks(bookID, AuthorID)
-VALUES ((SELECT bookID FROM BOOKS WHERE title = :title), :author1)
+VALUES ((SELECT bookID FROM Books WHERE title = :title), :author1)
 
 IF :author2 IS NOT NULL THEN
     Insert INTO AuthorsBooks(bookID, AuthorID)
-    VALUES ((SELECT bookID FROM BOOKS WHERE title = :title), :author2)
+    VALUES ((SELECT bookID FROM Books WHERE title = :title), :author2)
 END IF;
 
 -- Query to retrieve a book information so it can be used to populate the form with data for that particular book.
