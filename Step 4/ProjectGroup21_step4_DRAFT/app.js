@@ -590,7 +590,20 @@ app.get('/invoices', function (req, res) {
 
 
 app.get('/reload-invoices', function (req, res) {
-    const query1 = "SELECT * FROM Invoices;";
+    const query1 = `
+    SELECT  invoiceID,
+            date,
+            Books.title,
+            Stores.name,
+            CONCAT(Customers.firstName,' ',Customers.lastName) AS "customerName"
+    FROM Invoices
+    JOIN Books
+        ON Invoices.bookID = Books.bookID
+    JOIN Stores
+        ON Invoices.storeID = Stores.storeID
+    JOIN Customers
+        ON Invoices.customerID = Customers.customerID;
+`;
 
     db.pool.query(query1, function (error, rows, fields) {
         if (error) {
@@ -600,6 +613,12 @@ app.get('/reload-invoices', function (req, res) {
         }
         else {
             console.log(`Reloaded Invoices table successfully.`);
+            const convertedRows = rows.map(row => ({
+                ...row,
+                invoiceID: row.invoiceID.toString('utf-8'),  // Adjust 'utf-8' based on the actual encoding
+                date: row.date.toString('utf-8'),  // Adjust 'utf-8' based on the actual encoding
+            }));
+            res.send(convertedRows);
             res.send(rows);
         }
     })
