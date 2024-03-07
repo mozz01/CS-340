@@ -1,5 +1,6 @@
 const BUTTON_BG_COLOR = "#001524";
 const BUTTON_COLOR = "#E4DFDA";
+const BUTTON_HIGHLIGHT_COLOR = "#FF7D00";
 let addFirstNameInputError = true;
 let addLastNameInputError = true;
 
@@ -71,9 +72,19 @@ function changeButtonStyle(button, firstNameHasError, lastNameHasError) {
     else 
     {
         button.disabled = false;
+        button.style.cursor = "pointer";
         button.style.backgroundColor = BUTTON_BG_COLOR;
         button.style.color = BUTTON_COLOR;
-        button.style.cursor = "pointer";
+        button.style.transition = "background-color 0.3s ease";
+
+        button.addEventListener("mouseenter", function() {
+            button.style.backgroundColor = BUTTON_HIGHLIGHT_COLOR;
+            button.style.color = BUTTON_BG_COLOR;
+        });
+        button.addEventListener("mouseleave", function() {
+            button.style.backgroundColor = BUTTON_BG_COLOR;
+            button.style.color = BUTTON_COLOR;
+        });
     }
 }
 
