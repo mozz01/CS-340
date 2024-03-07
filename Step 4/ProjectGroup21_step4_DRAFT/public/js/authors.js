@@ -152,6 +152,8 @@ function reloadAuthorsTable() {
                     </tr>
                 `);
             });
+            $("#add-author-form")[0].reset()
+
         },
         error: function(xhr, status, error) {
             console.error('Error reloading Authors table:', error);

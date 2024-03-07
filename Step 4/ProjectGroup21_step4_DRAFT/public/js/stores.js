@@ -175,6 +175,8 @@ function reloadStoresTable() {
                     </tr>
                 `);
             });
+            $("#add-store-form")[0].reset()
+
         },
         error: function(xhr, status, error) {
             console.error('Error reloading Stores table:', error);
