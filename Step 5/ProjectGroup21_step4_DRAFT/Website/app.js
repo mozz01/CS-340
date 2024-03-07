@@ -113,7 +113,7 @@ app.post('/add-book', (req, res) => {
     })
 
     if (!isAuthor2NULL) {
-        db.pool.query(addQuery3, [[title], [author1ID]], function (error, rows, fields) {
+        db.pool.query(addQuery3, [[title], [author2ID]], function (error, rows, fields) {
             if (error) {
                 console.log(`Failed to add to AuthorsBooks table: AuthorID2 = ${author2ID}, book = ${title}.`);
                 console.log(error);
