@@ -1,0 +1,133 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script defer src="/js/invoices.js"></script>
+
+<h2>Invoices Table</h2>
+<p>Record of transactions made by the customers.</p>
+<table class="displayTable">
+    <thead>
+        <tr>
+            <th>Invoice ID</th>
+            <th>Date</th>
+            <th>Book</th>
+            <th>Store</th>
+            <th>Customer</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{#each data}}
+        <tr>
+            <td>{{this.invoiceID}}</td>
+            <td>{{this.date}}</td>
+            <td>{{this.title}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.customerName}}</td>
+            <td>
+                <button onclick="deleteInvoice({{this.invoiceID}})">Delete</button>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+
+<h2>Add Invoice</h2>
+<form id="add-invoice-form">
+    <table class="addTable">
+        <tbody>
+            <tr>
+                <td>
+                    <label for="date">Date:</label>
+                </td>
+                <td>
+                    <input autofocus type="date" id="addDate" name="date" required />
+                </td>
+                <td class="errorColumn">
+                    <div id="addDateError"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="book">Title:</label>
+                </td>
+                <td>
+                    <select id="addBook" name="booklist" required>
+                        <option value="NULL" selected>
+                            None
+                        </option>
+                        <option value="Linear Algebra">
+                            Linear Algebra
+                        </option>
+                        <option value="Discrete Mathematics">
+                            Discrete Mathematics
+                        </option>
+                        <option value="Organic Chemistry">
+                            Organic Chemistry
+                        </option>
+                        <option value="Statistics">
+                            Statistics
+                        </option>
+                    </select>
+                </td>
+                <td class="errorColumn">
+                    <div id="addBookError"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="store">Store:</label>
+                </td>
+                <td>
+                    <select id="addStore" name="store" required>
+                        <option value="NULL" selected>
+                            None
+                        </option>
+                        <option value="Metropolitan Stories">
+                            Metropolitan Stories
+                        </option>
+                        <option value="Literary Books">
+                            Literary Books
+                        </option>
+                        <option value="Bookshelf Boutique">
+                            Bookshelf Boutique
+                        </option>
+                    </select>
+                </td>
+                <td class="errorColumn">
+                    <div id="addStoreError"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="customer">Customer:</label>
+                </td>
+                <td>
+                    <select id="addCustomer" name="customer" required>
+                        <option value="NULL" selected>
+                            None
+                        </option>
+                        <option value="Patricia Carlson">
+                            Patricia Carlson
+                        </option>
+                        <option value="Selena Lozada">
+                            Selena Lozada
+                        </option>
+                        <option value="Michael Karlsson">
+                            Michael Karlsson
+                        </option>
+                        <option value="Sergio Hernandez">
+                            Sergio Hernandez
+                        </option>
+                    </select>
+                </td>
+                <td class="errorColumn">
+                    <div id="addCustomerError"></div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button disabled style="background-color: gray; color: white; cursor: not-allowed;" class="addButton" type="button" onclick="addInvoice()">
+        Add Invoice
+    </button>
+</form>

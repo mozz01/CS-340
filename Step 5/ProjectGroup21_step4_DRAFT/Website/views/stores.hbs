@@ -1,0 +1,78 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script defer src="/js/stores.js"></script>
+
+<h2>Stores Table</h2>
+<p>Browse stores associated with the book chain.</p>
+
+<table class="displayTable">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{#each data}}
+        <tr>
+            <td>{{this.storeID}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.phone}}</td>
+            <td>{{this.address}}</td>
+            <td>
+                <button onclick="deleteStore({{this.storeID}})">Delete</button>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+
+<h2>Add a store</h2>
+<form id="add-store-form">
+    <table class="addTable">
+        <tbody>
+            <tr>
+                <td>
+                    <label for="name">Name:</label>
+                </td>
+
+                <td>
+                    <input autofocus type="text" id="addName" maxlength="255" name="name" required />
+                </td>
+                <td class="errorColumn">
+                    <div id="addNameError"></div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label for="phone">Phone:</label>
+                </td>
+                <td>
+                    <input type="text" id="addPhone" maxlength="255" name="phone" required />
+                </td>
+                <td class="errorColumn">
+                    <div id="addPhoneError"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="address">Address:</label>
+                </td>
+                <td>
+                    <input type="text" id="addAddress" maxlength="255" name="address" required />
+                </td>
+                <td class="errorColumn">
+                    <div id="addAddressError"></div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button disabled style="background-color: gray; color: white; cursor: not-allowed;" class="addButton" type="button" onclick="addStore()">
+        Add store
+    </button>
+</form>

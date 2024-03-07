@@ -1,0 +1,138 @@
+:root{
+    /*
+    #284B63
+    #153243
+    */
+    --main: #78290F; 
+    --second: rgb(18, 213, 11);
+    --dark: #001524;
+    --light: #E4DFDA;
+    --highlight: #FF7D00;
+    --table-borders: #d6ccc2;
+
+    --border-width: 1px;
+    background-color: #001524;
+    font-family: Arial, Helvetica, sans-serif;
+} 
+
+body{
+    background-color: var(--light);
+    margin: 0px;
+}
+
+main{
+    padding: 10px;
+}
+
+nav{
+    background-color: var(--dark);
+    margin: 0px;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    flex-flow: row wrap;
+    border-bottom: 5px solid var(--highlight);
+}
+
+nav a {
+    color: var(--light);
+    text-decoration: none;
+    margin: 0px;
+    padding: 15px 4%;
+}
+
+nav a:hover {
+    background-color: var(--highlight);
+    color: black;
+}
+
+a:hover {
+    color: var(--emerald);
+    cursor: pointer;
+}
+
+input {
+    padding: 5px 8px;
+}
+
+button{
+    background-color: var(--dark);
+    color: var(--light);
+    border: none;
+    padding: 5px 10px;
+    font-size: 15px;
+}
+
+.formEntry{
+    margin:5px;
+}
+
+.addButton, .updateButton{
+    margin: 10px;
+    width: auto;
+    outline: none;
+    border: none;
+}
+
+input, select {
+    width: 200px;
+    padding: 5px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+button:hover{
+    background-color: var(--highlight);
+    color: var(--dark);
+    cursor: pointer;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+.displayTable th{
+    background-color: var(--dark);
+    color: var(--light);
+    border: var(--border-width) solid var(--dark);
+    border-bottom: var(--border-width) solid var(--table-borders);
+}
+
+.displayTable td{
+    background-color: #edede9;
+    border: var(--border-width) solid var(--table-borders);
+}
+
+.displayTable tr:hover,
+.displayTable td:hover{
+    background-color: #f7ede2;
+}
+
+.addTable tr th, .addTable tr td{
+    padding: 4px 10px;
+    border: none;
+}
+
+.updateTable tr th, .updateTable tr td{
+    padding: 4px 10px;
+    border: none;
+}
+
+
+tr th, tr td{
+    padding: 12px 20px;
+    border: 0px solid var(--highlight);
+}
+
+footer {
+    background-color: var(--dark);
+    color: var(--light);
+    padding: 10px;
+    margin: 10px 0px;
+    border-top: 5px solid var(--highlight);
+}
+
+
+.errorColumn{
+    color: red;
+}
