@@ -35,8 +35,16 @@ app.get('/books', function (req, res) {
     const query2 = "SELECT * FROM Authors;";
 
     db.pool.query(query1, function (error, rows, fields) {
-
         const books = rows;
+
+        rows.forEach(function(book) {
+            book.price = book.price.toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        });
 
         db.pool.query(query2, (error, rows, fields) => { // Used to populate select list of authors in books.hbs file
             const authors = rows;
@@ -55,7 +63,7 @@ app.post('/add-book', (req, res) => {
     const yearOfPublication = data.YOP;
     const price = data.price;
     let isAuthor2NULL = (author2ID === 'NULL');
-    
+
     console.log("data:", data, "isAuthor2NULL:", isAuthor2NULL)
 
     const addQuery1 = `
@@ -97,30 +105,30 @@ app.post('/add-book', (req, res) => {
             res.sendStatus(400);
         }
         else {
-            console.log(`Added Books table: ${data}.`);
+            console.log(`Added to Books table: ${data}.`);
         }
     })
 
     db.pool.query(addQuery2, [[title], [author1ID]], function (error, rows, fields) {
         if (error) {
-            console.log(`Failed to add to AuthorsBooks table: AuthorID1 = ${author1ID}, book = ${title}.`);
+            console.log(`Failed to add to AuthorsBooks table: AuthorID1 = ${author1ID}, book = "${title}".`);
             console.log(error);
             res.sendStatus(400);
         }
         else {
-            console.log(`Added AuthorsBooks table: AuthorID1 = ${author1ID}, book = ${title}.`);
+            console.log(`Added AuthorsBooks table: AuthorID1 = ${author1ID}, book = "${title}".`);
         }
     })
 
     if (!isAuthor2NULL) {
         db.pool.query(addQuery3, [[title], [author2ID]], function (error, rows, fields) {
             if (error) {
-                console.log(`Failed to add to AuthorsBooks table: AuthorID2 = ${author2ID}, book = ${title}.`);
+                console.log(`Failed to add to AuthorsBooks table: AuthorID2 = ${author2ID}, book = "${title}".`);
                 console.log(error);
                 res.sendStatus(400);
             }
             else {
-                console.log(`Added AuthorsBooks table: AuthorID2 = ${author2ID}, book = ${title}.`);
+                console.log(`Added AuthorsBooks table: AuthorID2 = ${author2ID}, book = "${title}".`);
             }
         })
     }
@@ -137,11 +145,13 @@ app.delete('/delete-book-ajax/', function (req, res, next) {
     db.pool.query(delete_book, [bookID], function (error, rows, fields) {
         if (error) {
             // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(`Could not delete from Books table: bookID = ${bookID}.`);
             console.log(error);
             res.sendStatus(400);
         }
 
         else {
+            console.log(`Deleted from Books table: bookID = ${bookID}.`);
             res.sendStatus(204);
         }
     })
@@ -297,7 +307,7 @@ app.post('/update-book', (req, res) => {
     res.sendStatus(200);
 });
 
-
+// Used to retrieve books too
 app.get('/reload-books', (req, res) => {
     const query1 = "SELECT * FROM Books;";
 
@@ -313,6 +323,7 @@ app.get('/reload-books', (req, res) => {
         }
     })
 });
+
 
 // ---------------------------------------------
 // Authors
@@ -583,7 +594,11 @@ app.get('/invoices', function (req, res) {
     `;
 
     db.pool.query(query1, function (error, rows, fields) {
-        console.log(rows)
+        rows.forEach(row => {
+            currDate = row.date;
+            row.date = `${(currDate.getMonth() + 1).toString().padStart(2, '0')}-${currDate.getDate().toString().padStart(2, '0')}-${currDate.getFullYear()}`;
+        });
+        
         res.render('invoices', { data: rows });
     })
 });
@@ -616,7 +631,7 @@ app.get('/reload-invoices', function (req, res) {
             const convertedRows = rows.map(row => ({
                 ...row,
                 invoiceID: row.invoiceID.toString('utf-8'),  // Adjust 'utf-8' based on the actual encoding
-                date: row.date.toString('utf-8'),  // Adjust 'utf-8' based on the actual encoding
+                date: row.date.toString('utf-8')             // Adjust 'utf-8' based on the actual encoding
             }));
             res.send(convertedRows);
         }
@@ -655,9 +670,6 @@ app.post('/add-invoice', (req, res) => {
                 )
             );
     `;
-
-    console.log(data)
-
 
     db.pool.query(addInvoiceQuery, [[date], [book], [store], [customerFirst], [customerLast]], (error, rows, fields) => {
         if (error) {

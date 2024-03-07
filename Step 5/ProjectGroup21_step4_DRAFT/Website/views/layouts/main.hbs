@@ -9,6 +9,13 @@
         <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
     </head>
     <body>
+
+
+        <header>
+            <a href="/">
+                BooksRus
+            </a>
+        </header>
         <nav>
             <a href="/">Home</a>
             <a href="books">Books</a>
@@ -25,7 +32,24 @@
             </div>
         </main>
         <footer>
-            <p>&copy; 2023 Saurav Shrestha, Mo Hudeihed</p>
+            <p>&copy; 2024<span class="highlight-me">Saurav Shrestha</span>,<span class="highlight-me">Mo Hudeihed</span></p>
         </footer>
+
+        <script>
+            const headerLink = document.querySelector("header a");
+            const highlightMe = document.querySelectorAll(".highlight-me");
+
+            headerLink.addEventListener("mouseover", function() {
+                highlightMe.forEach(function(element){
+                    element.classList.add("highlighted");
+                });
+            });
+
+            headerLink.addEventListener("mouseout", function() {
+                highlightMe.forEach(function(element){
+                    element.classList.remove("highlighted");
+                });
+            });
+        </script>
     </body>
 </html>

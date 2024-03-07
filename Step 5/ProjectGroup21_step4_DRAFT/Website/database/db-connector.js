@@ -9,8 +9,7 @@ const pool = mysql.createPool({
     host            : 'classmysql.engr.oregonstate.edu',
     user            : process.env.DB_USER,
     password        : process.env.DB_PASS,
-    database        : process.env.DB,
-    typeCast        : false
+    database        : process.env.DB
 })
 
 

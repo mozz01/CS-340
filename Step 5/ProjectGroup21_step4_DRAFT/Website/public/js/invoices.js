@@ -1,5 +1,6 @@
 const BUTTON_BG_COLOR = "#001524";
 const BUTTON_COLOR = "#E4DFDA";
+const BUTTON_HIGHLIGHT_COLOR = "#FF7D00";
 const addDatePattern = /^\d{4}-\d{2}-\d{2}$/;
 
 let addDateInputError = true;
@@ -89,6 +90,10 @@ document.addEventListener('DOMContentLoaded', function() {
     checkDefault(addBook, addBookError, "NULL");
     checkDefault(addStore, addStoreError, "NULL");
     checkDefault(addCustomer, addCustomerError, "NULL");
+
+    getTitles();
+    getStores();
+    getCustomers();
 });
 
 function changeButtonStyle(button, dateHasError, bookHasError, storeHasError, customerHasError) {
@@ -106,9 +111,19 @@ function changeButtonStyle(button, dateHasError, bookHasError, storeHasError, cu
     else 
     {
         button.disabled = false;
+        button.style.cursor = "pointer";
         button.style.backgroundColor = BUTTON_BG_COLOR;
         button.style.color = BUTTON_COLOR;
-        button.style.cursor = "pointer";
+        button.style.transition = "background-color 0.3s ease";
+
+        button.addEventListener("mouseenter", function() {
+            button.style.backgroundColor = BUTTON_HIGHLIGHT_COLOR;
+            button.style.color = BUTTON_BG_COLOR;
+        });
+        button.addEventListener("mouseleave", function() {
+            button.style.backgroundColor = BUTTON_BG_COLOR;
+            button.style.color = BUTTON_COLOR;
+        });
     }
 }
 
@@ -197,3 +212,65 @@ function reloadInvoicesTable() {
         }
     });
 }
+
+
+function getTitles(){
+    $.ajax({
+        url: '/reload-books',
+        type: 'GET',
+        contentType: "application/json; charset=utf-8",
+        success: function(books) {
+            books.forEach(function(book) {
+                $('#addBook').append(`
+                    <option value="${book.bookID}">
+                        ${book.title}
+                    </option>
+                `);
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error retrieving titles:', error);
+        }
+    });
+};
+
+
+function getStores(){
+    $.ajax({
+        url: '/reload-stores',
+        type: 'GET',
+        contentType: "application/json; charset=utf-8",
+        success: function(stores) {
+            stores.forEach(function(store) {
+                $('#addStore').append(`
+                    <option value="${store.storeID}">
+                        ${store.name}
+                    </option>
+                `);
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error retrieving titles:', error);
+        }
+    });
+};
+
+function getCustomers(){
+    $.ajax({
+        url: '/reload-customers',
+        type: 'GET',
+        contentType: "application/json; charset=utf-8",
+        success: function(customers) {
+            customers.forEach(function(customer) {
+                $('#addCustomer').append(`
+                    <option value="${customer.customerID}">
+                        ${customer.firstName} ${customer.lastName}
+                    </option>
+                `);
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error retrieving titles:', error);
+        }
+    });
+};
