@@ -493,7 +493,7 @@ function reloadBooksTable() {
                     </tr>
                 `);
             });
-            $("#add-book-form")[0].reset()
+            $("#add-book-form")[0].reset();
         },
         error: function(xhr, status, error) {
             console.error('Error reloading Books table:', error);

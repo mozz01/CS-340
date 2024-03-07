@@ -152,7 +152,7 @@ function reloadAuthorsTable() {
                     </tr>
                 `);
             });
-            $("#add-author-form")[0].reset()
+            $("#add-author-form")[0].reset();
 
         },
         error: function(xhr, status, error) {

@@ -190,7 +190,7 @@ function reloadInvoicesTable() {
                     </tr>
                 `);
             });
-            $("#add-invoice-form")[0].reset()
+            $("#add-invoice-form")[0].reset();
         },
         error: function(xhr, status, error) {
             console.error('Error reloading Invoices table:', error);

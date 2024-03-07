@@ -175,7 +175,7 @@ function reloadStoresTable() {
                     </tr>
                 `);
             });
-            $("#add-store-form")[0].reset()
+            $("#add-store-form")[0].reset();
 
         },
         error: function(xhr, status, error) {
