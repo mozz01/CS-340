@@ -619,7 +619,6 @@ app.get('/reload-invoices', function (req, res) {
                 date: row.date.toString('utf-8'),  // Adjust 'utf-8' based on the actual encoding
             }));
             res.send(convertedRows);
-            res.send(rows);
         }
     })
 });
