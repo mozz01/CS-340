@@ -146,9 +146,9 @@ function checkDefault(inputObj, inputObjError, defaultVal){
 async function addInvoice(){
     const data = {
         date: addDate.value,
-        book: addBook.value,
-        store: addStore.value,
-        customer: addCustomer.value
+        bookID: addBook.value,
+        storeID: addStore.value,
+        customerID: addCustomer.value
     }
 
     await $.ajax({
