@@ -628,12 +628,13 @@ app.get('/reload-invoices', function (req, res) {
         }
         else {
             console.log(`Reloaded Invoices table successfully.`);
-            const convertedRows = rows.map(row => ({
-                ...row,
-                invoiceID: row.invoiceID.toString('utf-8'),  // Adjust 'utf-8' based on the actual encoding
-                date: row.date.toString('utf-8')             // Adjust 'utf-8' based on the actual encoding
-            }));
-            res.send(convertedRows);
+            
+            rows.forEach(row => {
+                currDate = row.date;
+                row.date = `${(currDate.getMonth() + 1).toString().padStart(2, '0')}-${currDate.getDate().toString().padStart(2, '0')}-${currDate.getFullYear()}`;
+            });
+            
+            res.send(rows);
         }
     })
 });
