@@ -225,7 +225,8 @@ app.post('/update-book', (req, res) => {
     const newAuthor2ID = data.author2;
     const newYOP = data.yearOfPublication;
     const newPrice = data.price;
-    let isAuthor2NULL = false;
+    let isAuthor2NULL = (newAuthor2ID === 'NULL');
+
 
     const updateQuery1 = `
         UPDATE Books
@@ -235,26 +236,35 @@ app.post('/update-book', (req, res) => {
         WHERE bookID = ?;
         `;
     const updateQuery2 = `
-        UPDATE AuthorsBooks
-        SET AuthorID = ?
-        WHERE bookID =  ?;
-        `;
+        DELETE FROM AuthorsBooks
+        WHERE bookID = ?; 
+    `;
 
-    let updateQuery3 = "";
+    const updateQuery3 = `
+    INSERT INTO AuthorsBooks(bookID, AuthorID)
+    VALUES (
+                (
+                    SELECT bookID 
+                    FROM Books 
+                    WHERE title = ?
+                ), 
+                ?
+            );
+    `;
+    
+    let updateQuery4 = ";";
 
-    if (newAuthor2ID === 'NULL') {
-        isAuthor2NULL = true;
-        updateQuery3 = `
-            DELETE FROM AuthorsBooks
-            WHERE bookID = ${bookID} 
-            AND AuthorID != ${newAuthor1ID};
-        `;
-    }
-    else {
-        updateQuery3 = `
-            UPDATE AuthorsBooks
-            SET AuthorID = ${newAuthor2ID}
-            WHERE bookID = ${bookID};
+    if (!isAuthor2NULL) {
+        updateQuery4 = `
+        Insert INTO AuthorsBooks(bookID, AuthorID)
+        VALUES (
+                    (
+                        SELECT bookID 
+                        FROM Books 
+                        WHERE title = ?
+                    ), 
+                    ?
+                );
         `;
     }
 
@@ -270,42 +280,44 @@ app.post('/update-book', (req, res) => {
         }
     })
 
-    db.pool.query(updateQuery2, [[newAuthor1ID], [bookID]], function (error, rows, fields) {
+    db.pool.query(updateQuery2, [bookID], function (error, rows, fields) {
         if (error) {
-            console.log(`Failed to update AuthorsBooks table: AuthorID1 = ${newAuthor1ID}, bookID = ${bookID}.`);
+            console.log(`Failed to delete authors from AuthorsBooks table:bookID = ${bookID}.`);
             console.log(error);
             res.sendStatus(400);
         }
         else {
-            console.log(`Updated AuthorsBooks table: AuthorID1 = ${newAuthor1ID}, bookID = ${bookID}.`);
+            console.log(`Sucessfully deleted authors from AuthorsBooks table, bookID = ${bookID}.`);
+        }
+    })
+
+    db.pool.query(updateQuery3, [[newTitle], [newAuthor1ID]], function (error, rows, fields) {
+        if (error) {
+            console.log(`Failed to add to AuthorsBooks table: AuthorID1 = ${newAuthor1ID}, book = "${newTitle}".`);
+            console.log(error);
+            res.sendStatus(400);
+        }
+        else {
+            console.log(`Added AuthorsBooks table: AuthorID1 = ${newAuthor1ID}, book = "${newTitle}".`);
         }
     })
 
     if (!isAuthor2NULL) {
-        db.pool.query(updateQuery2, [[newAuthor2ID], [bookID]], function (error, rows, fields) {
+        db.pool.query(updateQuery3, [[newTitle], [newAuthor2ID]], function (error, rows, fields) {
             if (error) {
-                console.log(`Failed to update AuthorsBooks table: AuthorID2 = ${newAuthor2ID}, bookID = ${bookID}.`);
+                console.log(`Failed to add to AuthorsBooks table: AuthorID2 = ${newAuthor2ID}, book = "${newTitle}".`);
                 console.log(error);
                 res.sendStatus(400);
             }
             else {
-                console.log(`Updated AuthorsBooks table: AuthorID2 = ${newAuthor2ID}, bookID = ${bookID}.`);
+                console.log(`Added AuthorsBooks table: AuthorID2 = ${newAuthor2ID}, book = "${newTitle}".`);
             }
         })
     }
 
-    db.pool.query(updateQuery3, function (error, rows, fields) {
-        if (error) {
-            console.log(`Failed to delete/update AuthorsBooks table: AuthorID2 = ${newAuthor2ID}, bookID = ${bookID}.`);
-            console.log(error);
-            res.sendStatus(400);
-        }
-        else {
-            console.log(`Deleted/updateed AuthorsBooks table: AuthorID2 = ${newAuthor2ID}, bookID = ${bookID}.`);
-        }
-    })
     res.sendStatus(200);
 });
+
 
 // Used to retrieve books too
 app.get('/reload-books', (req, res) => {
@@ -637,7 +649,8 @@ app.get('/reload-invoices', function (req, res) {
             res.send(rows);
         }
     })
-});
+    });
+
 
 
 app.post('/add-invoice', (req, res) => {
