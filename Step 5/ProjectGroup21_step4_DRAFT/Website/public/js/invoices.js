@@ -196,9 +196,9 @@ function reloadInvoicesTable() {
                     <tr>
                         <td>${invoice.invoiceID}</td>
                         <td>${invoice.date}</td>
+                        <td>${invoice.title}</td>
                         <td>${invoice.name}</td>
-                        <td>${invoice.phone}</td>
-                        <td>${invoice.address}</td>
+                        <td>${invoice.customerName}</td>
                         <td>
                             <button onclick="deleteInvoice(${invoice.invoiceID})">Delete</button>
                         </td>
