@@ -642,36 +642,21 @@ app.get('/reload-invoices', function (req, res) {
 app.post('/add-invoice', (req, res) => {
     const data = req.body;
     const date = data.date;
-    const book = data.book;
-    const store = data.store;
-    const customer = data.customer.split(" ");
-    const customerFirst = customer[0];
-    const customerLast = customer[1];
+    const bookID = data.bookID;
+    const storeID = data.storeID;
+    const customerID = data.customerID;
 
     const addInvoiceQuery = `
         INSERT INTO Invoices(date, bookID, storeID, customerID)
         VALUES (
                 ?, 
-                (
-                    SELECT bookID
-                    FROM Books
-                    WHERE title = ?
-                ),
-                (
-                    SELECT storeID
-                    FROM Stores
-                    WHERE name = ?
-                ),
-                (
-                    SELECT customerID
-                    FROM Customers
-                    WHERE   firstName = ?
-                        AND lastName = ?
-                )
+                ?,
+                ?,
+                ?
             );
     `;
 
-    db.pool.query(addInvoiceQuery, [[date], [book], [store], [customerFirst], [customerLast]], (error, rows, fields) => {
+    db.pool.query(addInvoiceQuery, [[date], [bookID], [storeID], [customerID]], (error, rows, fields) => {
         if (error) {
             console.log(`Failed to insert into Invoices table: ${data}.`);
             console.log(error);
