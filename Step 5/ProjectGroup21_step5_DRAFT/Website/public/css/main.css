@@ -149,8 +149,7 @@ table {
     transition: background-color 0.3s ease;
 }
 
-.displayTable tr:hover,
-.displayTable td:hover {
+.displayTable tbody tr:hover td {
     background-color: #f7ede2;
 }
 
