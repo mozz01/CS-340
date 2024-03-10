@@ -167,6 +167,7 @@ async function addCustomer(){
             reloadCustomersTable();
         },
         error: function(xhr, status, error) {
+            $('#addFirstNameError').text("Customer with same email or phone number already exists in the database!");
             console.error('Error adding to Customers table:', error);
         }
     });

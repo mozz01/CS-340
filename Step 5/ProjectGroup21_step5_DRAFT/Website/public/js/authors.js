@@ -120,6 +120,7 @@ async function addAuthor(){
             reloadAuthorsTable();
         },
         error: function(xhr, status, error) {
+            $('#addFirstNameError').text("Author already exists in the database!");
             console.error('Error adding to Authors table:', error);
         }
     });

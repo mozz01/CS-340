@@ -463,6 +463,7 @@ async function addBook() {
             reloadBooksTable();
         },
         error: function (xhr, status, error) {
+            $('#addTitleError').text("Book already exists in the database!");
             console.error('Error adding to Books table:', error);
         }
     });
@@ -495,6 +496,7 @@ function updateBook() {
             reloadBooksTable();
         },
         error: () => {
+            $('#updateTitleError').text("Book already exists in the database!");
             console.error('Error updating Books table:', error);
         }
     });

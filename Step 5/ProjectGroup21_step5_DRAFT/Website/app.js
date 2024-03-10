@@ -82,6 +82,10 @@ app.post('/add-book', (req, res) => {
                 );
         `;
 
+    const checkQuery = `
+        SELECT * FROM Books
+        WHERE title = ?;`
+
     let addQuery3 = ";";
 
     if (!isAuthor2NULL) {
@@ -98,42 +102,51 @@ app.post('/add-book', (req, res) => {
         `;
     }
 
-    db.pool.query(addQuery1, [[title], [yearOfPublication], [price]], function (error, rows, fields) {
-        if (error) {
-            console.log(`Failed to add to Books table: ${data}.`);
-            console.log(error);
-            res.sendStatus(400);
-        }
-        else {
-            console.log(`Added to Books table: ${data}.`);
-        }
-    })
+    db.pool.query(checkQuery, [[title]], function(error, rows, fields){
+        console.log(rows);
+        if (!rows || rows.length === 0){
+            console.log(`Book does not exist in the table already`);
+        
+            db.pool.query(addQuery1, [[title], [yearOfPublication], [price]], function (error, rows, fields) {
+                if (error) {
+                    console.log(`Failed to add to Books table: ${data}.`);
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                else {
+                    console.log(`Added to Books table: ${data}.`);
+                }
+            })
 
-    db.pool.query(addQuery2, [[title], [author1ID]], function (error, rows, fields) {
-        if (error) {
-            console.log(`Failed to add to AuthorsBooks table: AuthorID1 = ${author1ID}, book = "${title}".`);
-            console.log(error);
-            res.sendStatus(400);
-        }
-        else {
-            console.log(`Added AuthorsBooks table: AuthorID1 = ${author1ID}, book = "${title}".`);
-        }
-    })
+            db.pool.query(addQuery2, [[title], [author1ID]], function (error, rows, fields) {
+                if (error) {
+                    console.log(`Failed to add to AuthorsBooks table: AuthorID1 = ${author1ID}, book = "${title}".`);
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                else {
+                    console.log(`Added AuthorsBooks table: AuthorID1 = ${author1ID}, book = "${title}".`);
+                }
+            })
 
-    if (!isAuthor2NULL) {
-        db.pool.query(addQuery3, [[title], [author2ID]], function (error, rows, fields) {
-            if (error) {
-                console.log(`Failed to add to AuthorsBooks table: AuthorID2 = ${author2ID}, book = "${title}".`);
-                console.log(error);
-                res.sendStatus(400);
+            if (!isAuthor2NULL) {
+                db.pool.query(addQuery3, [[title], [author2ID]], function (error, rows, fields) {
+                    if (error) {
+                        console.log(`Failed to add to AuthorsBooks table: AuthorID2 = ${author2ID}, book = "${title}".`);
+                        console.log(error);
+                        res.sendStatus(400);
+                    }
+                    else {
+                        console.log(`Added AuthorsBooks table: AuthorID2 = ${author2ID}, book = "${title}".`);
+                    }
+                })
             }
-            else {
-                console.log(`Added AuthorsBooks table: AuthorID2 = ${author2ID}, book = "${title}".`);
-            }
-        })
-    }
-
-    res.sendStatus(200);
+            res.sendStatus(200);
+            
+        } else {
+            return res.status(409).send('Book already exists in the database.');
+        }
+    });
 });
 
 
@@ -228,6 +241,10 @@ app.post('/update-book', (req, res) => {
     let isAuthor2NULL = (newAuthor2ID === 'NULL');
 
 
+    const updateCheckQuery = `
+    SELECT * FROM Books
+    WHERE title = ? and bookID != ?;`
+
     const updateQuery1 = `
         UPDATE Books
         SET yearOfPublication = ?,
@@ -268,54 +285,60 @@ app.post('/update-book', (req, res) => {
         `;
     }
 
+    db.pool.query(updateCheckQuery, [[newTitle], [bookID]], function(error, rows, fields){
+        if (!rows || rows.length === 0){
+            console.log(`Book does not exist in the table already`);
 
-    db.pool.query(updateQuery1, [[newYOP], [newPrice], [newTitle], [bookID]], function (error, rows, fields) {
-        if (error) {
-            console.log(`Failed to update Books table: bookID = ${bookID}.`);
-            console.log(error);
-            res.sendStatus(400);
-        }
-        else {
-            console.log(`Updated Books table: bookID = ${bookID}.`);
-        }
-    })
+            db.pool.query(updateQuery1, [[newYOP], [newPrice], [newTitle], [bookID]], function (error, rows, fields) {
+                if (error) {
+                    console.log(`Failed to update Books table: bookID = ${bookID}.`);
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                else {
+                    console.log(`Updated Books table: bookID = ${bookID}.`);
+                }
+            })
 
-    db.pool.query(updateQuery2, [bookID], function (error, rows, fields) {
-        if (error) {
-            console.log(`Failed to delete authors from AuthorsBooks table:bookID = ${bookID}.`);
-            console.log(error);
-            res.sendStatus(400);
-        }
-        else {
-            console.log(`Sucessfully deleted authors from AuthorsBooks table, bookID = ${bookID}.`);
-        }
-    })
+            db.pool.query(updateQuery2, [bookID], function (error, rows, fields) {
+                if (error) {
+                    console.log(`Failed to delete authors from AuthorsBooks table:bookID = ${bookID}.`);
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                else {
+                    console.log(`Sucessfully deleted authors from AuthorsBooks table, bookID = ${bookID}.`);
+                }
+            })
 
-    db.pool.query(updateQuery3, [[newTitle], [newAuthor1ID]], function (error, rows, fields) {
-        if (error) {
-            console.log(`Failed to add to AuthorsBooks table: AuthorID1 = ${newAuthor1ID}, book = "${newTitle}".`);
-            console.log(error);
-            res.sendStatus(400);
-        }
-        else {
-            console.log(`Added AuthorsBooks table: AuthorID1 = ${newAuthor1ID}, book = "${newTitle}".`);
-        }
-    })
+            db.pool.query(updateQuery3, [[newTitle], [newAuthor1ID]], function (error, rows, fields) {
+                if (error) {
+                    console.log(`Failed to add to AuthorsBooks table: AuthorID1 = ${newAuthor1ID}, book = "${newTitle}".`);
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                else {
+                    console.log(`Added AuthorsBooks table: AuthorID1 = ${newAuthor1ID}, book = "${newTitle}".`);
+                }
+            })
 
-    if (!isAuthor2NULL) {
-        db.pool.query(updateQuery3, [[newTitle], [newAuthor2ID]], function (error, rows, fields) {
-            if (error) {
-                console.log(`Failed to add to AuthorsBooks table: AuthorID2 = ${newAuthor2ID}, book = "${newTitle}".`);
-                console.log(error);
-                res.sendStatus(400);
+            if (!isAuthor2NULL) {
+                db.pool.query(updateQuery3, [[newTitle], [newAuthor2ID]], function (error, rows, fields) {
+                    if (error) {
+                        console.log(`Failed to add to AuthorsBooks table: AuthorID2 = ${newAuthor2ID}, book = "${newTitle}".`);
+                        console.log(error);
+                        res.sendStatus(400);
+                    }
+                    else {
+                        console.log(`Added AuthorsBooks table: AuthorID2 = ${newAuthor2ID}, book = "${newTitle}".`);
+                    }
+                })
             }
-            else {
-                console.log(`Added AuthorsBooks table: AuthorID2 = ${newAuthor2ID}, book = "${newTitle}".`);
-            }
-        })
-    }
-
-    res.sendStatus(200);
+            res.sendStatus(200);
+        } else {
+            return res.status(409).send('Book already exists in the database.');
+        }
+    });
 });
 
 
@@ -398,18 +421,30 @@ app.post('/add-author', (req, res) => {
         VALUES (?, ?);
     `;
 
-    db.pool.query(addAuthorQuery, [[firstName], [lastName]], (error, rows, fields) => {
-        if (error) {
-            console.log(`Failed to insert into Authors table: firstName = ${firstName}, lastName = ${lastName}.`);
-            console.log(error);
-            res.sendStatus(400);
-        }
-        else {
-            console.log(`Inserted into Authors table: firstName = ${firstName}, lastName = ${lastName}.`);
-            res.sendStatus(200);
-        }
-    })
+    const checkAuthorQuery = `
+        SELECT * FROM Authors
+        WHERE firstName = ? AND lastName = ?;
+    `;
+    
+    db.pool.query(checkAuthorQuery, [[firstName], [lastName]], (error, rows, fields)=>{
+        if (!rows || rows.length === 0){
+            db.pool.query(addAuthorQuery, [[firstName], [lastName]], (error, rows, fields)=>{
+                if (error) {
+                    console.log(`Failed to insert into Authors table: firstName = ${firstName}, lastName = ${lastName}.`);
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                else {
+                    console.log(`Inserted into Authors table: firstName = ${firstName}, lastName = ${lastName}.`);
+                    res.sendStatus(200);
+                }
+            });
+        } else {
+            return res.status(409).send('Author already exists in the database.');
+            }
+    });
 });
+
 
 
 app.delete('/authors/:authorID', (req, res) => {
@@ -475,19 +510,29 @@ app.post('/add-customer', (req, res) => {
         VALUES (?, ?, ?, ?);
     `;
 
-    db.pool.query(addCustomerQuery, [[firstName], [lastName], [email], [phone]], (error, rows, fields) => {
-        if (error) {
-            console.log(`Failed to insert into Customers table: ${data}.`);
-            console.log(error);
-            res.sendStatus(400);
-        }
-        else {
-            console.log(`Inserted into Customers table: ${data}.`);
-            res.sendStatus(200);
-        }
-    })
-});
+    const checkCustomerQuery = `
+        SELECT * FROM Customers
+        WHERE email = ? OR phone = ?
+    `;
 
+    db.pool.query(checkCustomerQuery, [[email], [phone]], (error, rows, fields)=>{
+        if (!rows || rows.length === 0){
+            db.pool.query(addCustomerQuery, [[firstName], [lastName], [email], [phone]], (error, rows, fields) => {
+                if (error) {
+                    console.log(`Failed to insert into Customers table: ${data}.`);
+                    console.log(error);
+                    res.sendStatus(400);
+                }       
+                else {
+                    console.log(`Inserted into Customers table: ${data}.`);
+                    res.sendStatus(200);
+                }
+            });
+        } else {
+            return res.status(409).send('Customer already exists in the database.');
+        }
+    });
+});
 
 app.delete('/customers/:customerID', (req, res) => {
     const customerID = req.params.customerID;
@@ -551,17 +596,28 @@ app.post('/add-store', (req, res) => {
         VALUES (?, ?, ?);
     `;
 
-    db.pool.query(addStoreQuery, [[name], [phone], [address]], (error, rows, fields) => {
-        if (error) {
-            console.log(`Failed to insert into Stores table: ${data}.`);
-            console.log(error);
-            res.sendStatus(400);
+    const checkStoreQuery = `
+        SELECT * FROM Stores
+        WHERE name = ? OR phone = ? OR address = ?;
+        `;
+    
+    db.pool.query(checkStoreQuery, [[name], [phone], [address]], (error, rows, fields)=> {
+        if (!rows || rows.length === 0){
+            db.pool.query(addStoreQuery, [[name], [phone], [address]], (error, rows, fields) => {
+                if (error) {
+                    console.log(`Failed to insert into Stores table: ${data}.`);
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                else {
+                    console.log(`Inserted into Stores table: ${data}.`);
+                    res.sendStatus(200);
+                }
+            });
+        } else {
+            return res.status(409).send('Store already exists in the database.');
         }
-        else {
-            console.log(`Inserted into Stores table: ${data}.`);
-            res.sendStatus(200);
-        }
-    })
+    });
 });
 
 

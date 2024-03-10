@@ -142,6 +142,7 @@ async function addStore(){
             reloadStoresTable();
         },
         error: function(xhr, status, error) {
+            $('#addNameError').text("Store with the same name, phone or address already exists in the database!");
             console.error('Error adding to Stores table:', error);
         }
     });
