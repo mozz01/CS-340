@@ -6,7 +6,7 @@ const BUTTON_BG_COLOR = "#001524";
 const BUTTON_COLOR = "#E4DFDA";
 const BUTTON_HIGHLIGHT_COLOR = "#FF7D00";
 const addEmailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const addPhonePattern = /^\+?\d{1,3}[\s-]?\d{3,14}$/;
+const addPhonePattern = /^\d{3}-\d{3}-\d{4}$/;
 
 let addFirstNameInputError = true;
 let addLastNameInputError = true;
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Pattern validates phone number length
         if ((enteredText.length <= 0) || !(addPhonePattern.test(enteredText))) {
             addPhoneInputError = true;
-            addPhoneError.textContent = `Phone number is invalid.`;
+            addPhoneError.textContent = `Format: 000-000-0000`;
         }
         else {
             addPhoneInputError = false;
