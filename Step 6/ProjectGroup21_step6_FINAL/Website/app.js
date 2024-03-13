@@ -31,7 +31,11 @@ app.get('/', function (req, res) {
 // ---------------------------------------------
 // Display books table
 app.get('/books', function (req, res) {
-    const query1 = "SELECT * FROM Books;";
+    const query1 = `
+            SELECT * 
+            FROM Books
+            ORDER BY bookID ASC;
+            `;
     const query2 = "SELECT * FROM Authors;";
 
     db.pool.query(query1, function (error, rows, fields) {
@@ -344,7 +348,11 @@ app.post('/update-book', (req, res) => {
 
 // Used to retrieve books too
 app.get('/reload-books', (req, res) => {
-    const query1 = "SELECT * FROM Books;";
+    const query1 = `
+            SELECT * 
+            FROM Books
+            ORDER BY bookID ASC;
+            `;
 
     db.pool.query(query1, function (error, rows, fields) {
         if (error) {
@@ -365,7 +373,11 @@ app.get('/reload-books', (req, res) => {
 // ---------------------------------------------
 // Display authors table
 app.get('/authors', function (req, res) {
-    const query1 = "SELECT * FROM Authors;";
+    const query1 = `
+            SELECT * 
+            FROM Authors 
+            ORDER BY authorID ASC;
+    `;
 
     db.pool.query(query1, function (error, rows, fields) {
         res.render('authors', { data: rows });
@@ -397,7 +409,11 @@ app.get('/get-author2', function (req, res) {
 
 
 app.get('/reload-authors', function (req, res) {
-    const query1 = "SELECT * FROM Authors;";
+    const query1 = `
+            SELECT * 
+            FROM Authors 
+            ORDER BY authorID ASC;
+    `;
 
     db.pool.query(query1, function (error, rows, fields) {
         if (error) {
@@ -474,8 +490,11 @@ app.delete('/authors/:authorID', (req, res) => {
 // ---------------------------------------------
 // Display customers table
 app.get('/customers', function (req, res) {
-
-    const query1 = "SELECT * FROM Customers;";
+    const query1 = `
+            SELECT * 
+            FROM Customers 
+            ORDER BY customerID ASC;
+    `;
 
     db.pool.query(query1, function (error, rows, fields) {
         res.render('customers', { data: rows });
@@ -484,7 +503,11 @@ app.get('/customers', function (req, res) {
 
 
 app.get('/reload-customers', function (req, res) {
-    const query1 = "SELECT * FROM Customers;";
+    const query1 = `
+            SELECT * 
+            FROM Customers 
+            ORDER BY customerID ASC;
+    `;
 
     db.pool.query(query1, function (error, rows, fields) {
         if (error) {
@@ -561,8 +584,11 @@ app.delete('/customers/:customerID', (req, res) => {
 // Stores
 // ---------------------------------------------
 app.get('/stores', function (req, res) {
-
-    const query1 = "SELECT * FROM Stores;";
+    const query1 = `
+                SELECT * 
+                FROM Stores
+                ORDER BY storeID ASC;
+    `;
 
     db.pool.query(query1, function (error, rows, fields) {
         res.render('stores', { data: rows });
@@ -571,7 +597,11 @@ app.get('/stores', function (req, res) {
 
 
 app.get('/reload-stores', function (req, res) {
-    const query1 = "SELECT * FROM Stores;";
+    const query1 = `
+                SELECT * 
+                FROM Stores
+                ORDER BY storeID ASC;
+    `;
 
     db.pool.query(query1, function (error, rows, fields) {
         if (error) {
@@ -659,7 +689,8 @@ app.get('/invoices', function (req, res) {
         JOIN Stores
             ON Invoices.storeID = Stores.storeID
         JOIN Customers
-            ON Invoices.customerID = Customers.customerID;
+            ON Invoices.customerID = Customers.customerID
+        ORDER BY invoiceID ASC;
     `;
 
     db.pool.query(query1, function (error, rows, fields) {
@@ -686,7 +717,8 @@ app.get('/reload-invoices', function (req, res) {
     JOIN Stores
         ON Invoices.storeID = Stores.storeID
     JOIN Customers
-        ON Invoices.customerID = Customers.customerID;
+        ON Invoices.customerID = Customers.customerID
+    ORDER BY invoiceID ASC;
 `;
 
     db.pool.query(query1, function (error, rows, fields) {
@@ -767,7 +799,15 @@ app.delete('/invoices/:invoiceID', (req, res) => {
 // ---------------------------------------------
 // Display authorsbooks table (currently it only displays the authorBooksID, book title, but the author name is not populating for some reason)
 app.get('/authorsbooks', function (req, res) {
-    const query1 = "SELECT  AuthorsBooks.authorBookID, Books.title, CONCAT(Authors.firstName,' ',Authors.lastName) AS authorsname FROM Authors JOIN AuthorsBooks ON Authors.authorID = AuthorsBooks.authorID JOIN Books ON AuthorsBooks.bookID = Books.bookID;";
+    const query1 = `SELECT  AuthorsBooks.authorBookID, 
+                            Books.title, 
+                            CONCAT(Authors.firstName,' ',Authors.lastName) AS authorsname 
+                    FROM Authors 
+                    JOIN AuthorsBooks 
+                        ON Authors.authorID = AuthorsBooks.authorID 
+                    JOIN Books 
+                        ON AuthorsBooks.bookID = Books.bookID
+                    ORDER BY AuthorsBooks.authorBookID ASC;`;
 
     db.pool.query(query1, function (error, rows, fields) {
         res.render('authorsbooks', { data: rows })
