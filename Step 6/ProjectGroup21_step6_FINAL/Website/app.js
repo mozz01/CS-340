@@ -66,9 +66,11 @@ app.post('/add-book', (req, res) => {
     const author2ID = data.author2ID;
     const yearOfPublication = data.YOP;
     const price = data.price;
+    
+    let isAuthor1NULL = (author1ID === 'NULL');
     let isAuthor2NULL = (author2ID === 'NULL');
 
-    console.log("data:", data, "isAuthor2NULL:", isAuthor2NULL)
+    console.log("data:", data, "isAuthor1NULL:", isAuthor1NULL, "isAuthor2NULL:", isAuthor2NULL)
 
     const addQuery1 = `
         INSERT INTO Books(title, yearOfPublication, price)
@@ -109,8 +111,9 @@ app.post('/add-book', (req, res) => {
     db.pool.query(checkQuery, [[title]], function(error, rows, fields){
         console.log(rows);
         if (!rows || rows.length === 0){
-            console.log(`Book does not exist in the table already`);
-        
+            console.log(`No duplicate titles exist. Book may be added.`);
+            
+            // ---------- Book is not a duplicate ----------
             db.pool.query(addQuery1, [[title], [yearOfPublication], [price]], function (error, rows, fields) {
                 if (error) {
                     console.log(`Failed to add to Books table: ${data}.`);
@@ -122,18 +125,20 @@ app.post('/add-book', (req, res) => {
                 }
             })
 
-            db.pool.query(addQuery2, [[title], [author1ID]], function (error, rows, fields) {
-                if (error) {
-                    console.log(`Failed to add to AuthorsBooks table: AuthorID1 = ${author1ID}, book = "${title}".`);
-                    console.log(error);
-                    res.sendStatus(400);
-                }
-                else {
-                    console.log(`Added AuthorsBooks table: AuthorID1 = ${author1ID}, book = "${title}".`);
-                }
-            })
+            if(!isAuthor1NULL){
+                db.pool.query(addQuery2, [[title], [author1ID]], function (error, rows, fields) {
+                    if (error) {
+                        console.log(`Failed to add to AuthorsBooks table: AuthorID1 = ${author1ID}, book = "${title}".`);
+                        console.log(error);
+                        res.sendStatus(400);
+                    }
+                    else {
+                        console.log(`Added AuthorsBooks table: AuthorID1 = ${author1ID}, book = "${title}".`);
+                    }
+                })    
+            }
 
-            if (!isAuthor2NULL) {
+            if (!(isAuthor1NULL && isAuthor2NULL)) {
                 db.pool.query(addQuery3, [[title], [author2ID]], function (error, rows, fields) {
                     if (error) {
                         console.log(`Failed to add to AuthorsBooks table: AuthorID2 = ${author2ID}, book = "${title}".`);
@@ -147,7 +152,9 @@ app.post('/add-book', (req, res) => {
             }
             res.sendStatus(200);
             
-        } else {
+        } 
+        else {
+            console.log('Book already exists in the database.');
             return res.status(409).send('Book already exists in the database.');
         }
     });

@@ -4,7 +4,7 @@ const BUTTON_HIGHLIGHT_COLOR = "#FF7D00";
 
 let addTitleInputError = true;
 let addPriceInputError = true;
-let addAuthor1InputError = true;
+let addAuthor1InputError = false;   // Author 1 isn't required
 let addYearOfPublicationInputError = true;
 
 let updateTitleInputError = true;
@@ -96,14 +96,14 @@ document.addEventListener('DOMContentLoaded', function () {
             `;
 
         if (author1MenuValue === "NULL") {
-            addAuthor1Error.textContent = "* Required";
+            // addAuthor1Error.textContent = "* Required";
             addAuthor2TableRow.innerHTML = "";
-            addAuthor1InputError = true;
+            // addAuthor1InputError = true;
         }
         else {
             addAuthor1Error.textContent = "";
             addAuthor2TableRow.innerHTML = addAuthor2Menu;
-            addAuthor1InputError = false;
+            // addAuthor1InputError = false;
 
             await $.ajax({
                 url: '/get-author2',
@@ -278,7 +278,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     checkDefault(addTitle, addTitleError, "", addTitleInputError);
-    checkDefault(addAuthor1, addAuthor1Error, "NULL", addAuthor1InputError);
+    // checkDefault(addAuthor1, addAuthor1Error, "NULL", addAuthor1InputError);
     checkDefault(addPrice, addPriceError, "0", addPriceInputError);
     checkDefault(addYearOfPublication, addYearOfPublicationError, "0", addYearOfPublicationInputError);
     checkDefault(updateTitle, updateTitleError, "", updateTitleInputError);
@@ -434,6 +434,7 @@ function deleteRow(bookID) {
     }
 }
 
+
 async function addBook() {
     const addBookEndpoint = '/add-book';
     const data = {
@@ -528,7 +529,7 @@ function reloadBooksTable() {
             $("#update-book-form")[0].reset();
 
             addTitleInputError = true;
-            addAuthor1InputError = true;
+            // addAuthor1InputError = true;
             addPriceInputError = true;
             addYearOfPublicationInputError = true;
 
@@ -538,7 +539,7 @@ function reloadBooksTable() {
             updateYearOfPublicationInputError = true;
 
             checkDefault(addTitle, addTitleError, "", addTitleInputError);
-            checkDefault(addAuthor1, addAuthor1Error, "NULL", addAuthor1InputError);
+            // checkDefault(addAuthor1, addAuthor1Error, "NULL", addAuthor1InputError);
             checkDefault(addPrice, addPriceError, "0", addPriceInputError);
             checkDefault(addYearOfPublication, addYearOfPublicationError, "0", addYearOfPublicationInputError);
             checkDefault(updateTitle, updateTitleError, "", updateTitleInputError);
