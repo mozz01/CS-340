@@ -372,6 +372,7 @@ app.get('/authors', function (req, res) {
     })
 });
 
+
 app.get('/get-author2', function (req, res) {
     const data = req.query;
     const query = `

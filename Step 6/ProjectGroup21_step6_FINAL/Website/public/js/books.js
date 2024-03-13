@@ -78,21 +78,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     addAuthor1.addEventListener("change", async function () {
-        const selectedValue = this.value;
+        const author1MenuValue = this.value;
         const data = {
-            author1ID: selectedValue
+            author1ID: author1MenuValue
         };
         let dataResults;
-
-        await $.ajax({
-            url: '/get-author2',
-            type: 'GET',
-            data: data,
-            contentType: "application/json; charset=utf-8",
-            success: function (result) {
-                dataResults = result;
-            }
-        });
 
         const addAuthor2Menu = `
             <td>
@@ -105,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
             </td>
             `;
 
-        if (selectedValue === "NULL") {
+        if (author1MenuValue === "NULL") {
             addAuthor1Error.textContent = "* Required";
             addAuthor2TableRow.innerHTML = "";
             addAuthor1InputError = true;
@@ -114,6 +104,16 @@ document.addEventListener('DOMContentLoaded', function () {
             addAuthor1Error.textContent = "";
             addAuthor2TableRow.innerHTML = addAuthor2Menu;
             addAuthor1InputError = false;
+
+            await $.ajax({
+                url: '/get-author2',
+                type: 'GET',
+                data: data,
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    dataResults = result;
+                }
+            });
 
             const addAuthor2 = document.getElementById("author2");
 
@@ -290,7 +290,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function changeButtonStyle(button, titleHasError, author1HasError, priceHasError, yearHasError) {
     // -------------------- Debug --------------------
-    console.log(titleHasError, author1HasError, priceHasError, yearHasError)
+    // console.log(titleHasError, author1HasError, priceHasError, yearHasError)
     // -----------------------------------------------
 
     function mouseEnter () {
@@ -381,11 +381,6 @@ async function populateUpdateBook(bookID) {
     const author1SelectedValue = updateAuthor1.value;
     const author1SelectedIndex = updateAuthor1.selectedIndex;
 
-    console.log("1st check:", updateTitleInputError,
-        updateAuthor1InputError,
-        updatePriceInputError,
-        updateYearOfPublicationInputError)
-
     if ((author1SelectedValue === "NULL" && updateAuthor2.value === "NULL") || (author1SelectedValue === "NULL" && updateAuthor2.value != "NULL")) {
         updateAuthor1Error.textContent = "* Required";
         updateAuthor1InputError = true;
@@ -408,11 +403,6 @@ async function populateUpdateBook(bookID) {
     checkDefault(updateAuthor1, updateAuthor1Error, "NULL", updateAuthor1InputError);
     checkDefault(updateYearOfPublication, updateYearOfPublicationError, "0", updateYearOfPublicationInputError);
     checkDefault(updatePrice, updatePriceError, "0", updatePriceInputError);
-
-    console.log("2nd check:", updateTitleInputError,
-        updateAuthor1InputError,
-        updatePriceInputError,
-        updateYearOfPublicationInputError)
 }
 
 
@@ -558,6 +548,8 @@ function reloadBooksTable() {
 
             changeButtonStyle(addButton, addTitleInputError, addAuthor1InputError, addPriceInputError, addYearOfPublicationInputError);
             changeButtonStyle(updateButton, updateTitleInputError, updateAuthor1InputError, updatePriceInputError, updateYearOfPublicationInputError);
+
+            addAuthor2TableRow.innerHTML = "";
         },
         error: function (xhr, status, error) {
             console.error('Error reloading Books table:', error);
