@@ -19,7 +19,7 @@ const addButton = document.querySelector(".addButton");
 
 document.addEventListener('DOMContentLoaded', function() {
     addName.addEventListener('input', function() {
-        const enteredText = this.value;
+        const enteredText = this.value.trim();
         const maxLength = this.getAttribute('maxlength');
 
         if ((enteredText.length <= 0) || (enteredText.length > maxLength)) {
@@ -60,10 +60,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if ((enteredText.length <= 0) || (enteredText.length > maxLength)) {
             addAddressInputError = true;
-            addAddressError.textContent = `Last Name length cannot be 0 or exceed ${maxLength} characters.`;
+            addAddressError.textContent = `Address length cannot be 0 or exceed ${maxLength} characters.`;
         }
         else if (enteredText.length == maxLength){
-            addAddressError.textContent = `Last Name length cannot be 0 or exceed ${maxLength} characters.`;
+            addAddressError.textContent = `Address length cannot be 0 or exceed ${maxLength} characters.`;
         }
         else {
             addAddressInputError = false;
