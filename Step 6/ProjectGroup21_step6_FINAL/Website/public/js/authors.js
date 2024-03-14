@@ -14,7 +14,7 @@ const addButton = document.querySelector(".addButton");
 
 document.addEventListener('DOMContentLoaded', function() {
     addFirstName.addEventListener('input', function() {
-        const enteredText = this.value;
+        const enteredText = this.value.trim();
         const maxLength = this.getAttribute('maxlength');
 
         if ((enteredText.length <= 0) || (enteredText.length > maxLength)) {
