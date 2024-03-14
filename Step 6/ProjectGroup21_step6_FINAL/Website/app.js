@@ -249,8 +249,9 @@ app.post('/update-book', (req, res) => {
     const newAuthor2ID = data.author2;
     const newYOP = data.yearOfPublication;
     const newPrice = data.price;
-    let isAuthor2NULL = (newAuthor2ID === 'NULL');
 
+    let isAuthor1NULL = (newAuthor1ID === 'NULL');
+    let isAuthor2NULL = (newAuthor2ID === 'NULL');
 
     const updateCheckQuery = `
     SELECT * FROM Books
@@ -280,21 +281,6 @@ app.post('/update-book', (req, res) => {
             );
     `;
     
-    let updateQuery4 = ";";
-
-    if (!isAuthor2NULL) {
-        updateQuery4 = `
-        Insert INTO AuthorsBooks(bookID, AuthorID)
-        VALUES (
-                    (
-                        SELECT bookID 
-                        FROM Books 
-                        WHERE title = ?
-                    ), 
-                    ?
-                );
-        `;
-    }
 
     db.pool.query(updateCheckQuery, [[newTitle], [bookID]], function(error, rows, fields){
         if (!rows || rows.length === 0){
@@ -321,19 +307,21 @@ app.post('/update-book', (req, res) => {
                     console.log(`Sucessfully deleted authors from AuthorsBooks table, bookID = ${bookID}.`);
                 }
             })
+            
+            if (!isAuthor1NULL) {
+                db.pool.query(updateQuery3, [[newTitle], [newAuthor1ID]], function (error, rows, fields) {
+                    if (error) {
+                        console.log(`Failed to add to AuthorsBooks table: AuthorID1 = ${newAuthor1ID}, book = "${newTitle}".`);
+                        console.log(error);
+                        res.sendStatus(400);
+                    }
+                    else {
+                        console.log(`Added AuthorsBooks table: AuthorID1 = ${newAuthor1ID}, book = "${newTitle}".`);
+                    }
+                })    
+            }
 
-            db.pool.query(updateQuery3, [[newTitle], [newAuthor1ID]], function (error, rows, fields) {
-                if (error) {
-                    console.log(`Failed to add to AuthorsBooks table: AuthorID1 = ${newAuthor1ID}, book = "${newTitle}".`);
-                    console.log(error);
-                    res.sendStatus(400);
-                }
-                else {
-                    console.log(`Added AuthorsBooks table: AuthorID1 = ${newAuthor1ID}, book = "${newTitle}".`);
-                }
-            })
-
-            if (!isAuthor2NULL) {
+            if (!(isAuthor1NULL && isAuthor2NULL)) {
                 db.pool.query(updateQuery3, [[newTitle], [newAuthor2ID]], function (error, rows, fields) {
                     if (error) {
                         console.log(`Failed to add to AuthorsBooks table: AuthorID2 = ${newAuthor2ID}, book = "${newTitle}".`);
