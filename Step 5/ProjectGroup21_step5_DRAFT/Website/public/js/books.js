@@ -58,7 +58,7 @@ const addSection = document.getElementById("add-section");
 // -------------------- Listeners --------------------
 document.addEventListener('DOMContentLoaded', function () {
     addTitle.addEventListener('input', function () {
-        const enteredText = this.value;
+        const enteredText = this.value.trim();
         const maxLength = this.getAttribute('maxlength');
 
         if ((enteredText.length <= 0) || (enteredText.length > maxLength)) {
