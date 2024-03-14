@@ -16,7 +16,8 @@ CREATE TABLE `Books` (
   `title` VARCHAR(255) NOT NULL,
   `yearOfPublication` YEAR NOT NULL,
   `price` DECIMAL(12,2) NOT NULL,
-  PRIMARY KEY (`bookID`))
+  PRIMARY KEY (`bookID`)
+)
 ENGINE = InnoDB;
 
 
@@ -79,7 +80,7 @@ CREATE TABLE `Invoices` (
   CONSTRAINT `bookID`
     FOREIGN KEY (`bookID`)
     REFERENCES `Books` (`bookID`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `storeID`
     FOREIGN KEY (`storeID`)
