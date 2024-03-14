@@ -4,11 +4,11 @@ const BUTTON_HIGHLIGHT_COLOR = "#FF7D00";
 
 let addTitleInputError = true;
 let addPriceInputError = true;
-let addAuthor1InputError = true;
+let addAuthor1InputError = false;       // Author 1 isn't required
 let addYearOfPublicationInputError = true;
 
 let updateTitleInputError = true;
-let updateAuthor1InputError = true;
+let updateAuthor1InputError = false;     // Author 1 isn't required
 let updatePriceInputError = true;
 let updateYearOfPublicationInputError = true;
 
@@ -78,21 +78,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     addAuthor1.addEventListener("change", async function () {
-        const selectedValue = this.value;
+        const author1MenuValue = this.value;
         const data = {
-            author1ID: selectedValue
+            author1ID: author1MenuValue
         };
         let dataResults;
-
-        await $.ajax({
-            url: '/get-author2',
-            type: 'GET',
-            data: data,
-            contentType: "application/json; charset=utf-8",
-            success: function (result) {
-                dataResults = result;
-            }
-        });
 
         const addAuthor2Menu = `
             <td>
@@ -105,15 +95,25 @@ document.addEventListener('DOMContentLoaded', function () {
             </td>
             `;
 
-        if (selectedValue === "NULL") {
-            addAuthor1Error.textContent = "* Required";
+        if (author1MenuValue === "NULL") {
+            // addAuthor1Error.textContent = "* Required";
             addAuthor2TableRow.innerHTML = "";
-            addAuthor1InputError = true;
+            // addAuthor1InputError = true;
         }
         else {
             addAuthor1Error.textContent = "";
             addAuthor2TableRow.innerHTML = addAuthor2Menu;
-            addAuthor1InputError = false;
+            // addAuthor1InputError = false;
+
+            await $.ajax({
+                url: '/get-author2',
+                type: 'GET',
+                data: data,
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    dataResults = result;
+                }
+            });
 
             const addAuthor2 = document.getElementById("author2");
 
@@ -212,11 +212,13 @@ document.addEventListener('DOMContentLoaded', function () {
             updateAuthor2.options[i].disabled = false;
         }
 
-        if ((selectedValue === "NULL" && updateAuthor2.value === "NULL") || (selectedValue === "NULL" && updateAuthor2.value != "NULL")) {
-            updateAuthor1Error.textContent = "* Required";
-            updateAuthor1InputError = true;
+        if (selectedValue === "NULL" && updateAuthor2.value != "NULL") {
+            // updateAuthor1Error.textContent = "* Required";
+            // updateAuthor1InputError = true;
+            this.value = updateAuthor2.value;
+            updateAuthor2.value = "NULL";
         }
-        else if (selectedValue === updateAuthor2.value) {
+        else if (selectedValue === updateAuthor2.value && selectedValue != "NULL") {
             updateAuthor2.value = "NULL";
             this.value = "NULL";
             updateAuthor1Error.textContent = "Author 1 cannot equal Author 2.";
@@ -230,6 +232,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
         changeButtonStyle(updateButton, updateTitleInputError, updateAuthor1InputError, updatePriceInputError, updateYearOfPublicationInputError);
 
+    });
+
+
+    updateAuthor2.addEventListener("change", function () {
+        const author2SelectedValue = this.value;
+
+        if (updateAuthor1.value === "NULL" && author2SelectedValue != "NULL") {
+            updateAuthor1.value = this.value;
+            this.value = "NULL";
+        }
     });
 
 
@@ -278,11 +290,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     checkDefault(addTitle, addTitleError, "", addTitleInputError);
-    checkDefault(addAuthor1, addAuthor1Error, "NULL", addAuthor1InputError);
+    // checkDefault(addAuthor1, addAuthor1Error, "NULL", addAuthor1InputError);
     checkDefault(addPrice, addPriceError, "0", addPriceInputError);
     checkDefault(addYearOfPublication, addYearOfPublicationError, "0", addYearOfPublicationInputError);
     checkDefault(updateTitle, updateTitleError, "", updateTitleInputError);
-    checkDefault(updateAuthor1, updateAuthor1Error, "NULL", updateAuthor1InputError);
+    // checkDefault(updateAuthor1, updateAuthor1Error, "NULL", updateAuthor1InputError);
     checkDefault(updatePrice, updatePriceError, "0", updatePriceInputError);
     checkDefault(updateYearOfPublication, updateYearOfPublicationError, "0", updateYearOfPublicationInputError);
 });
@@ -290,7 +302,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function changeButtonStyle(button, titleHasError, author1HasError, priceHasError, yearHasError) {
     // -------------------- Debug --------------------
-    console.log(titleHasError, author1HasError, priceHasError, yearHasError)
+    // console.log(titleHasError, author1HasError, priceHasError, yearHasError)
     // -----------------------------------------------
 
     function mouseEnter () {
@@ -374,23 +386,21 @@ async function populateUpdateBook(bookID) {
 
     // Clear user input checks for old book's information
     updateTitleInputError = false;
-    updateAuthor1InputError = false;
+    // updateAuthor1InputError = false;
     updatePriceInputError = false;
     updateYearOfPublicationInputError = false;
 
     const author1SelectedValue = updateAuthor1.value;
     const author1SelectedIndex = updateAuthor1.selectedIndex;
 
-    console.log("1st check:", updateTitleInputError,
-        updateAuthor1InputError,
-        updatePriceInputError,
-        updateYearOfPublicationInputError)
 
-    if ((author1SelectedValue === "NULL" && updateAuthor2.value === "NULL") || (author1SelectedValue === "NULL" && updateAuthor2.value != "NULL")) {
-        updateAuthor1Error.textContent = "* Required";
-        updateAuthor1InputError = true;
+    if (author1SelectedValue === "NULL" && updateAuthor2.value != "NULL") {
+        // updateAuthor1Error.textContent = "* Required";
+        // updateAuthor1InputError = true;
+        this.value = updateAuthor2.value;
+        updateAuthor2.value = "NULL";
     }
-    else if (author1SelectedValue === updateAuthor2.value) {
+    else if (author1SelectedValue === updateAuthor2.value && author1SelectedValue != "NULL") {
         updateAuthor2.value = "NULL";
         this.value = "NULL";
         updateAuthor1Error.textContent = "Author 1 cannot equal Author 2.";
@@ -405,14 +415,9 @@ async function populateUpdateBook(bookID) {
     changeButtonStyle(updateButton, updateTitleInputError, updateAuthor1InputError, updatePriceInputError, updateYearOfPublicationInputError);
 
     checkDefault(updateTitle, updateTitleError, "", updateTitleInputError);
-    checkDefault(updateAuthor1, updateAuthor1Error, "NULL", updateAuthor1InputError);
+    // checkDefault(updateAuthor1, updateAuthor1Error, "NULL", updateAuthor1InputError);
     checkDefault(updateYearOfPublication, updateYearOfPublicationError, "0", updateYearOfPublicationInputError);
     checkDefault(updatePrice, updatePriceError, "0", updatePriceInputError);
-
-    console.log("2nd check:", updateTitleInputError,
-        updateAuthor1InputError,
-        updatePriceInputError,
-        updateYearOfPublicationInputError)
 }
 
 
@@ -443,6 +448,7 @@ function deleteRow(bookID) {
         }
     }
 }
+
 
 async function addBook() {
     const addBookEndpoint = '/add-book';
@@ -538,26 +544,28 @@ function reloadBooksTable() {
             $("#update-book-form")[0].reset();
 
             addTitleInputError = true;
-            addAuthor1InputError = true;
+            // addAuthor1InputError = true;
             addPriceInputError = true;
             addYearOfPublicationInputError = true;
 
             updateTitleInputError = true;
-            updateAuthor1InputError = true;
+            // updateAuthor1InputError = true;
             updatePriceInputError = true;
             updateYearOfPublicationInputError = true;
 
             checkDefault(addTitle, addTitleError, "", addTitleInputError);
-            checkDefault(addAuthor1, addAuthor1Error, "NULL", addAuthor1InputError);
+            // checkDefault(addAuthor1, addAuthor1Error, "NULL", addAuthor1InputError);
             checkDefault(addPrice, addPriceError, "0", addPriceInputError);
             checkDefault(addYearOfPublication, addYearOfPublicationError, "0", addYearOfPublicationInputError);
             checkDefault(updateTitle, updateTitleError, "", updateTitleInputError);
-            checkDefault(updateAuthor1, updateAuthor1Error, "NULL", updateAuthor1InputError);
+            // checkDefault(updateAuthor1, updateAuthor1Error, "NULL", updateAuthor1InputError);
             checkDefault(updatePrice, updatePriceError, "0", updatePriceInputError);
             checkDefault(updateYearOfPublication, updateYearOfPublicationError, "0", updateYearOfPublicationInputError);
 
             changeButtonStyle(addButton, addTitleInputError, addAuthor1InputError, addPriceInputError, addYearOfPublicationInputError);
             changeButtonStyle(updateButton, updateTitleInputError, updateAuthor1InputError, updatePriceInputError, updateYearOfPublicationInputError);
+
+            addAuthor2TableRow.innerHTML = "";
         },
         error: function (xhr, status, error) {
             console.error('Error reloading Books table:', error);

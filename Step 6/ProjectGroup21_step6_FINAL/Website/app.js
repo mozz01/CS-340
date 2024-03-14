@@ -31,7 +31,11 @@ app.get('/', function (req, res) {
 // ---------------------------------------------
 // Display books table
 app.get('/books', function (req, res) {
-    const query1 = "SELECT * FROM Books;";
+    const query1 = `
+            SELECT * 
+            FROM Books
+            ORDER BY bookID ASC;
+            `;
     const query2 = "SELECT * FROM Authors;";
 
     db.pool.query(query1, function (error, rows, fields) {
@@ -62,9 +66,11 @@ app.post('/add-book', (req, res) => {
     const author2ID = data.author2ID;
     const yearOfPublication = data.YOP;
     const price = data.price;
+    
+    let isAuthor1NULL = (author1ID === 'NULL');
     let isAuthor2NULL = (author2ID === 'NULL');
 
-    console.log("data:", data, "isAuthor2NULL:", isAuthor2NULL)
+    console.log("data:", data, "isAuthor1NULL:", isAuthor1NULL, "isAuthor2NULL:", isAuthor2NULL)
 
     const addQuery1 = `
         INSERT INTO Books(title, yearOfPublication, price)
@@ -105,8 +111,9 @@ app.post('/add-book', (req, res) => {
     db.pool.query(checkQuery, [[title]], function(error, rows, fields){
         console.log(rows);
         if (!rows || rows.length === 0){
-            console.log(`Book does not exist in the table already`);
-        
+            console.log(`No duplicate titles exist. Book may be added.`);
+            
+            // ---------- Book is not a duplicate ----------
             db.pool.query(addQuery1, [[title], [yearOfPublication], [price]], function (error, rows, fields) {
                 if (error) {
                     console.log(`Failed to add to Books table: ${data}.`);
@@ -118,18 +125,20 @@ app.post('/add-book', (req, res) => {
                 }
             })
 
-            db.pool.query(addQuery2, [[title], [author1ID]], function (error, rows, fields) {
-                if (error) {
-                    console.log(`Failed to add to AuthorsBooks table: AuthorID1 = ${author1ID}, book = "${title}".`);
-                    console.log(error);
-                    res.sendStatus(400);
-                }
-                else {
-                    console.log(`Added AuthorsBooks table: AuthorID1 = ${author1ID}, book = "${title}".`);
-                }
-            })
+            if(!isAuthor1NULL){
+                db.pool.query(addQuery2, [[title], [author1ID]], function (error, rows, fields) {
+                    if (error) {
+                        console.log(`Failed to add to AuthorsBooks table: AuthorID1 = ${author1ID}, book = "${title}".`);
+                        console.log(error);
+                        res.sendStatus(400);
+                    }
+                    else {
+                        console.log(`Added AuthorsBooks table: AuthorID1 = ${author1ID}, book = "${title}".`);
+                    }
+                })    
+            }
 
-            if (!isAuthor2NULL) {
+            if (!isAuthor1NULL && !isAuthor2NULL) {
                 db.pool.query(addQuery3, [[title], [author2ID]], function (error, rows, fields) {
                     if (error) {
                         console.log(`Failed to add to AuthorsBooks table: AuthorID2 = ${author2ID}, book = "${title}".`);
@@ -143,7 +152,9 @@ app.post('/add-book', (req, res) => {
             }
             res.sendStatus(200);
             
-        } else {
+        } 
+        else {
+            console.log('Book already exists in the database.');
             return res.status(409).send('Book already exists in the database.');
         }
     });
@@ -238,8 +249,9 @@ app.post('/update-book', (req, res) => {
     const newAuthor2ID = data.author2;
     const newYOP = data.yearOfPublication;
     const newPrice = data.price;
-    let isAuthor2NULL = (newAuthor2ID === 'NULL');
 
+    let isAuthor1NULL = (newAuthor1ID === 'NULL');
+    let isAuthor2NULL = (newAuthor2ID === 'NULL');
 
     const updateCheckQuery = `
     SELECT * FROM Books
@@ -268,22 +280,7 @@ app.post('/update-book', (req, res) => {
                 ?
             );
     `;
-    
-    let updateQuery4 = ";";
 
-    if (!isAuthor2NULL) {
-        updateQuery4 = `
-        Insert INTO AuthorsBooks(bookID, AuthorID)
-        VALUES (
-                    (
-                        SELECT bookID 
-                        FROM Books 
-                        WHERE title = ?
-                    ), 
-                    ?
-                );
-        `;
-    }
 
     db.pool.query(updateCheckQuery, [[newTitle], [bookID]], function(error, rows, fields){
         if (!rows || rows.length === 0){
@@ -310,19 +307,21 @@ app.post('/update-book', (req, res) => {
                     console.log(`Sucessfully deleted authors from AuthorsBooks table, bookID = ${bookID}.`);
                 }
             })
+            
+            if (!isAuthor1NULL) {
+                db.pool.query(updateQuery3, [[newTitle], [newAuthor1ID]], function (error, rows, fields) {
+                    if (error) {
+                        console.log(`Failed to add to AuthorsBooks table: AuthorID1 = ${newAuthor1ID}, book = "${newTitle}".`);
+                        console.log(error);
+                        res.sendStatus(400);
+                    }
+                    else {
+                        console.log(`Added AuthorsBooks table: AuthorID1 = ${newAuthor1ID}, book = "${newTitle}".`);
+                    }
+                })    
+            }
 
-            db.pool.query(updateQuery3, [[newTitle], [newAuthor1ID]], function (error, rows, fields) {
-                if (error) {
-                    console.log(`Failed to add to AuthorsBooks table: AuthorID1 = ${newAuthor1ID}, book = "${newTitle}".`);
-                    console.log(error);
-                    res.sendStatus(400);
-                }
-                else {
-                    console.log(`Added AuthorsBooks table: AuthorID1 = ${newAuthor1ID}, book = "${newTitle}".`);
-                }
-            })
-
-            if (!isAuthor2NULL) {
+            if (!isAuthor1NULL && !isAuthor2NULL) {
                 db.pool.query(updateQuery3, [[newTitle], [newAuthor2ID]], function (error, rows, fields) {
                     if (error) {
                         console.log(`Failed to add to AuthorsBooks table: AuthorID2 = ${newAuthor2ID}, book = "${newTitle}".`);
@@ -344,7 +343,11 @@ app.post('/update-book', (req, res) => {
 
 // Used to retrieve books too
 app.get('/reload-books', (req, res) => {
-    const query1 = "SELECT * FROM Books;";
+    const query1 = `
+            SELECT * 
+            FROM Books
+            ORDER BY bookID ASC;
+            `;
 
     db.pool.query(query1, function (error, rows, fields) {
         if (error) {
@@ -365,12 +368,17 @@ app.get('/reload-books', (req, res) => {
 // ---------------------------------------------
 // Display authors table
 app.get('/authors', function (req, res) {
-    const query1 = "SELECT * FROM Authors;";
+    const query1 = `
+            SELECT * 
+            FROM Authors 
+            ORDER BY authorID ASC;
+    `;
 
     db.pool.query(query1, function (error, rows, fields) {
         res.render('authors', { data: rows });
     })
 });
+
 
 app.get('/get-author2', function (req, res) {
     const data = req.query;
@@ -396,7 +404,11 @@ app.get('/get-author2', function (req, res) {
 
 
 app.get('/reload-authors', function (req, res) {
-    const query1 = "SELECT * FROM Authors;";
+    const query1 = `
+            SELECT * 
+            FROM Authors 
+            ORDER BY authorID ASC;
+    `;
 
     db.pool.query(query1, function (error, rows, fields) {
         if (error) {
@@ -473,8 +485,11 @@ app.delete('/authors/:authorID', (req, res) => {
 // ---------------------------------------------
 // Display customers table
 app.get('/customers', function (req, res) {
-
-    const query1 = "SELECT * FROM Customers;";
+    const query1 = `
+            SELECT * 
+            FROM Customers 
+            ORDER BY customerID ASC;
+    `;
 
     db.pool.query(query1, function (error, rows, fields) {
         res.render('customers', { data: rows });
@@ -483,7 +498,11 @@ app.get('/customers', function (req, res) {
 
 
 app.get('/reload-customers', function (req, res) {
-    const query1 = "SELECT * FROM Customers;";
+    const query1 = `
+            SELECT * 
+            FROM Customers 
+            ORDER BY customerID ASC;
+    `;
 
     db.pool.query(query1, function (error, rows, fields) {
         if (error) {
@@ -560,8 +579,11 @@ app.delete('/customers/:customerID', (req, res) => {
 // Stores
 // ---------------------------------------------
 app.get('/stores', function (req, res) {
-
-    const query1 = "SELECT * FROM Stores;";
+    const query1 = `
+                SELECT * 
+                FROM Stores
+                ORDER BY storeID ASC;
+    `;
 
     db.pool.query(query1, function (error, rows, fields) {
         res.render('stores', { data: rows });
@@ -570,7 +592,11 @@ app.get('/stores', function (req, res) {
 
 
 app.get('/reload-stores', function (req, res) {
-    const query1 = "SELECT * FROM Stores;";
+    const query1 = `
+                SELECT * 
+                FROM Stores
+                ORDER BY storeID ASC;
+    `;
 
     db.pool.query(query1, function (error, rows, fields) {
         if (error) {
@@ -658,7 +684,8 @@ app.get('/invoices', function (req, res) {
         JOIN Stores
             ON Invoices.storeID = Stores.storeID
         JOIN Customers
-            ON Invoices.customerID = Customers.customerID;
+            ON Invoices.customerID = Customers.customerID
+        ORDER BY invoiceID ASC;
     `;
 
     db.pool.query(query1, function (error, rows, fields) {
@@ -685,7 +712,8 @@ app.get('/reload-invoices', function (req, res) {
     JOIN Stores
         ON Invoices.storeID = Stores.storeID
     JOIN Customers
-        ON Invoices.customerID = Customers.customerID;
+        ON Invoices.customerID = Customers.customerID
+    ORDER BY invoiceID ASC;
 `;
 
     db.pool.query(query1, function (error, rows, fields) {
@@ -766,7 +794,15 @@ app.delete('/invoices/:invoiceID', (req, res) => {
 // ---------------------------------------------
 // Display authorsbooks table (currently it only displays the authorBooksID, book title, but the author name is not populating for some reason)
 app.get('/authorsbooks', function (req, res) {
-    const query1 = "SELECT  AuthorsBooks.authorBookID, Books.title, CONCAT(Authors.firstName,' ',Authors.lastName) AS authorsname FROM Authors JOIN AuthorsBooks ON Authors.authorID = AuthorsBooks.authorID JOIN Books ON AuthorsBooks.bookID = Books.bookID;";
+    const query1 = `SELECT  AuthorsBooks.authorBookID, 
+                            Books.title, 
+                            CONCAT(Authors.firstName,' ',Authors.lastName) AS authorsname 
+                    FROM Authors 
+                    JOIN AuthorsBooks 
+                        ON Authors.authorID = AuthorsBooks.authorID 
+                    JOIN Books 
+                        ON AuthorsBooks.bookID = Books.bookID
+                    ORDER BY AuthorsBooks.authorBookID ASC;`;
 
     db.pool.query(query1, function (error, rows, fields) {
         res.render('authorsbooks', { data: rows })
