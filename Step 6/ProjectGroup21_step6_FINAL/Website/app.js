@@ -138,7 +138,7 @@ app.post('/add-book', (req, res) => {
                 })    
             }
 
-            if (!(isAuthor1NULL && isAuthor2NULL)) {
+            if (!isAuthor1NULL && !isAuthor2NULL) {
                 db.pool.query(addQuery3, [[title], [author2ID]], function (error, rows, fields) {
                     if (error) {
                         console.log(`Failed to add to AuthorsBooks table: AuthorID2 = ${author2ID}, book = "${title}".`);
@@ -280,7 +280,7 @@ app.post('/update-book', (req, res) => {
                 ?
             );
     `;
-    
+
 
     db.pool.query(updateCheckQuery, [[newTitle], [bookID]], function(error, rows, fields){
         if (!rows || rows.length === 0){
@@ -321,7 +321,7 @@ app.post('/update-book', (req, res) => {
                 })    
             }
 
-            if (!(isAuthor1NULL && isAuthor2NULL)) {
+            if (!isAuthor1NULL && !isAuthor2NULL) {
                 db.pool.query(updateQuery3, [[newTitle], [newAuthor2ID]], function (error, rows, fields) {
                     if (error) {
                         console.log(`Failed to add to AuthorsBooks table: AuthorID2 = ${newAuthor2ID}, book = "${newTitle}".`);
