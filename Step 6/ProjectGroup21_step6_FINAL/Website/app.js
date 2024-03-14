@@ -796,15 +796,20 @@ app.delete('/invoices/:invoiceID', (req, res) => {
 app.get('/authorsbooks', function (req, res) {
     const query1 = `SELECT  AuthorsBooks.authorBookID, 
                             Books.title, 
-                            CONCAT(Authors.firstName,' ',Authors.lastName) AS authorsname 
-                    FROM Authors 
-                    JOIN AuthorsBooks 
-                        ON Authors.authorID = AuthorsBooks.authorID 
+                            CONCAT(Authors.firstName,' ',Authors.lastName) AS authorsname
+                    FROM AuthorsBooks 
+                    LEFT JOIN Authors  
+                    ON AuthorsBooks.authorID = Authors.authorID
                     JOIN Books 
-                        ON AuthorsBooks.bookID = Books.bookID
+                    ON AuthorsBooks.bookID = Books.bookID
                     ORDER BY AuthorsBooks.authorBookID ASC;`;
 
     db.pool.query(query1, function (error, rows, fields) {
+        rows.forEach(function(row) {
+            if(row.authorsname == null){
+                row.authorsname = "NULL"
+            }
+        });
         res.render('authorsbooks', { data: rows })
     })
 });
