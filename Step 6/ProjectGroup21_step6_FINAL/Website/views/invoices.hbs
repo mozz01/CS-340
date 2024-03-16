@@ -1,100 +1,119 @@
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+{{! 
+Citation for the following HTML codes:
+Date: 03/15/2024
+Based on CS340 nodejs-starter-app on GitHub
+Displaying data for each invoice information section was based on the GitHub. Creating the table and the form was our own work.
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/blob/main/Step%205%20-%20Adding%20New%20Data/README.md
+}}
+
+<script
+  src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
+></script>
 <script defer src="/js/invoices.js"></script>
 
 <h2>Invoices Table</h2>
 <p>Record of transactions made by the customers.</p>
 <table class="displayTable">
-    <thead>
-        <tr>
-            <th>Invoice ID</th>
-            <th>Date</th>
-            <th>Book</th>
-            <th>Store</th>
-            <th>Customer</th>
-            <th>Delete</th>
-        </tr>
-    </thead>
+  <thead>
+    <tr>
+      <th>Invoice ID</th>
+      <th>Date</th>
+      <th>Book</th>
+      <th>Store</th>
+      <th>Customer</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
 
-    <tbody>
-        {{#each data}}
-        <tr>
-            <td>{{this.invoiceID}}</td>
-            <td>{{this.date}}</td>
-            <td>{{this.title}}</td>
-            <td>{{this.name}}</td>
-            <td>{{this.customerName}}</td>
-            <td>
-                <button onclick="deleteInvoice({{this.invoiceID}})">Delete</button>
-            </td>
-        </tr>
-        {{/each}}
-    </tbody>
+  <tbody>
+    <!-- Display data for each invoice -->
+    {{#each data}}
+      <tr>
+        <td>{{this.invoiceID}}</td>
+        <td>{{this.date}}</td>
+        <td>{{this.title}}</td>
+        <td>{{this.name}}</td>
+        <td>{{this.customerName}}</td>
+        <!-- Button to delete the invoice -->
+        <td>
+          <button onclick="deleteInvoice({{this.invoiceID}})">Delete</button>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
 </table>
 
-
 <h2>Add Invoice</h2>
+<!-- Form to add a new invoice -->
 <form id="add-invoice-form">
-    <table class="addTable">
-        <tbody>
-            <tr>
-                <td>
-                    <label for="date">Date:</label>
-                </td>
-                <td>
-                    <input autofocus type="date" id="addDate" name="date" required />
-                </td>
-                <td class="errorColumn">
-                    <div id="addDateError"></div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="book">Title:</label>
-                </td>
-                <td>
-                    <select id="addBook" name="booklist" required>
-                        <option value="NULL" selected>
-                            None
-                        </option>
-                    </select>
-                </td>
-                <td class="errorColumn">
-                    <div id="addBookError"></div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="store">Store:</label>
-                </td>
-                <td>
-                    <select id="addStore" name="store" required>
-                        <option value="NULL" selected>
-                            None
-                        </option>
-                    </select>
-                </td>
-                <td class="errorColumn">
-                    <div id="addStoreError"></div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="customer">Customer:</label>
-                </td>
-                <td>
-                    <select id="addCustomer" name="customer" required>
-                        <option value="NULL" selected>
-                            None
-                        </option>
-                    </select>
-                </td>
-                <td class="errorColumn">
-                    <div id="addCustomerError"></div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <button disabled style="background-color: gray; color: white; cursor: not-allowed;" class="addButton" type="button" onclick="addInvoice()">
-        Add Invoice
-    </button>
+  <table class="addTable">
+    <tbody>
+      <tr>
+        <td>
+          <label for="date">Date:</label>
+        </td>
+        <td>
+          <input autofocus type="date" id="addDate" name="date" required />
+        </td>
+        <td class="errorColumn">
+          <div id="addDateError"></div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="book">Title:</label>
+        </td>
+        <td>
+          <select id="addBook" name="booklist" required>
+            <option value="NULL" selected>
+              None
+            </option>
+          </select>
+        </td>
+        <td class="errorColumn">
+          <div id="addBookError"></div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="store">Store:</label>
+        </td>
+        <td>
+          <select id="addStore" name="store" required>
+            <option value="NULL" selected>
+              None
+            </option>
+          </select>
+        </td>
+        <td class="errorColumn">
+          <div id="addStoreError"></div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="customer">Customer:</label>
+        </td>
+        <td>
+          <select id="addCustomer" name="customer" required>
+            <option value="NULL" selected>
+              None
+            </option>
+          </select>
+        </td>
+        <td class="errorColumn">
+          <div id="addCustomerError"></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- Button to add a new invoice -->
+  <button
+    disabled
+    style="background-color: gray; color: white; cursor: not-allowed;"
+    class="addButton"
+    type="button"
+    onclick="addInvoice()"
+  >
+    Add Invoice
+  </button>
 </form>

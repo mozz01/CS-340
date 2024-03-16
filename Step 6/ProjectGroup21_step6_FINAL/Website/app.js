@@ -1,3 +1,15 @@
+
+// Citation for the following Setup and Route codes:
+// Date: 03/10/2024
+// Based on CS340 nodejs-starter-app on GitHub
+// Setup codes were taken from the starter app on GitHub. Similarly, the routes for dynamically displaying data, adding/updating/deleting data were
+// also based on various sections of the starter app file in Github. Codes to control the flow of execution of queries based on certain conditions
+// were our own work. Similarly, the SQL queries were our own work.
+// Source URL:  https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%205%20-%20Adding%20New%20Data
+//              https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data
+//              https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%208%20-%20Dynamically%20Updating%20Data
+               
+
 require("dotenv").config();
 const express = require('express');                 // We are using the express library for the web server
 const app = express();                              // We need to instantiate an express object to interact with the server in our code
@@ -29,7 +41,8 @@ app.get('/', function (req, res) {
 // ---------------------------------------------
 // Books
 // ---------------------------------------------
-// Display books table
+
+// Route to display books table
 app.get('/books', function (req, res) {
     const query1 = `
             SELECT * 
@@ -41,6 +54,7 @@ app.get('/books', function (req, res) {
     db.pool.query(query1, function (error, rows, fields) {
         const books = rows;
 
+        // Iterate through each row in the array and format the price as currency in US dollars with two decimal places.
         rows.forEach(function(book) {
             book.price = book.price.toLocaleString('en-US', {
                 style: 'currency',
@@ -58,7 +72,7 @@ app.get('/books', function (req, res) {
 });
 
 
-// Add book to the books table and add bookID + authorID to authorsbooks table
+// Route to add a book to the books table and add bookID + authorID to authorsbooks table
 app.post('/add-book', (req, res) => {
     const data = req.body;
     const title = data.title;
@@ -76,6 +90,7 @@ app.post('/add-book', (req, res) => {
         INSERT INTO Books(title, yearOfPublication, price)
         VALUES (?, ?, ?);
         `;
+    
     const addQuery2 = `
         INSERT INTO AuthorsBooks(bookID, AuthorID)
         VALUES (
@@ -108,12 +123,14 @@ app.post('/add-book', (req, res) => {
         `;
     }
 
+    // Run a query to check if the book with the same title already exists in the table.
     db.pool.query(checkQuery, [[title]], function(error, rows, fields){
         console.log(rows);
         if (!rows || rows.length === 0){
             console.log(`No duplicate titles exist. Book may be added.`);
             
             // ---------- Book is not a duplicate ----------
+            // Add the book to the Books table.
             db.pool.query(addQuery1, [[title], [yearOfPublication], [price]], function (error, rows, fields) {
                 if (error) {
                     console.log(`Failed to add to Books table: ${data}.`);
@@ -125,6 +142,7 @@ app.post('/add-book', (req, res) => {
                 }
             })
 
+            // Add the bookID and Author1ID to AuthorsBooks table.
             if(!isAuthor1NULL){
                 db.pool.query(addQuery2, [[title], [author1ID]], function (error, rows, fields) {
                     if (error) {
@@ -138,6 +156,7 @@ app.post('/add-book', (req, res) => {
                 })    
             }
 
+            // Add the bookID and Author2ID to AuthorsBooks table.
             if (!isAuthor1NULL && !isAuthor2NULL) {
                 db.pool.query(addQuery3, [[title], [author2ID]], function (error, rows, fields) {
                     if (error) {
@@ -160,7 +179,7 @@ app.post('/add-book', (req, res) => {
     });
 });
 
-
+// Delete book from the Books table.
 app.delete('/delete-book-ajax/', function (req, res, next) {
     const data = req.body;
     const bookID = parseInt(data.id);
@@ -182,9 +201,12 @@ app.delete('/delete-book-ajax/', function (req, res, next) {
 });
 
 
+// Route to populate book information based on book ID.
 app.get('/populate-update-book', (req, res) => {
     const data = req.query;
     const bookID = parseInt(data.id);
+    
+    // Query to select book information based on book ID.
     const selectQuery1 = `
         SELECT  bookID,
                 title,
@@ -193,6 +215,8 @@ app.get('/populate-update-book', (req, res) => {
         FROM Books
         WHERE bookID = ?;
         `;
+    
+    // Query to select author IDs associated with the book ID.
     const selectQuery2 = `
         SELECT  authorID
         FROM AuthorsBooks
@@ -200,7 +224,8 @@ app.get('/populate-update-book', (req, res) => {
         `;
 
 
-    db.pool.query(selectQuery1, [bookID], function (error, rows, fields) {
+        // Execute the first query (selectQuery1) to get book information.
+        db.pool.query(selectQuery1, [bookID], function (error, rows, fields) {
         if (error) {
             console.log(error);
             res.sendStatus(400);
@@ -210,6 +235,7 @@ app.get('/populate-update-book', (req, res) => {
                 const bookInfo = rows[0];
                 console.log("Book retrieved of ID =", bookInfo.bookID);
 
+                // Execute the second query to get author IDs associated with the book ID.
                 db.pool.query(selectQuery2, [bookID], (error, rows, fields) => {
                     if (error) {
                         console.log(error);
@@ -217,8 +243,9 @@ app.get('/populate-update-book', (req, res) => {
                     }
                     else {
                         const authors = rows;
-                        let authorIDs = authors.map(author => author.authorID);;
+                        let authorIDs = authors.map(author => author.authorID);
 
+                        // Convert author IDs to string if not NULL.
                         if (authorIDs[0] != null) {
                             authorIDs = authors.map(author => author.authorID.toString());
                         }
@@ -228,6 +255,8 @@ app.get('/populate-update-book', (req, res) => {
 
                         authorIDs.push("NULL");
                         console.log("Authors retrieved of ID =", authorIDs);
+                        
+                        // Send JSON response containing book information and author IDs.
                         res.json({ bookInfo, authorIDs });
                     }
                 });
@@ -240,7 +269,7 @@ app.get('/populate-update-book', (req, res) => {
     });
 });
 
-
+// Route to update book information.
 app.post('/update-book', (req, res) => {
     const data = req.body;
     const bookID = data.bookID;
@@ -253,10 +282,12 @@ app.post('/update-book', (req, res) => {
     let isAuthor1NULL = (newAuthor1ID === 'NULL');
     let isAuthor2NULL = (newAuthor2ID === 'NULL');
 
+    // Query to check if a book with the new title already exists in the Books table.
     const updateCheckQuery = `
     SELECT * FROM Books
     WHERE title = ? and bookID != ?;`
 
+    // Query to update book information in the Books table.
     const updateQuery1 = `
         UPDATE Books
         SET yearOfPublication = ?,
@@ -264,11 +295,14 @@ app.post('/update-book', (req, res) => {
             title = ?
         WHERE bookID = ?;
         `;
+    
+    // Query to delete Author IDs associated with the book ID.
     const updateQuery2 = `
         DELETE FROM AuthorsBooks
         WHERE bookID = ?; 
     `;
 
+    // Query to add book ID and AuthorID to AuthorsBooks table.
     let updateQuery3 = `
     INSERT INTO AuthorsBooks(bookID, AuthorID)
     VALUES (
@@ -281,6 +315,7 @@ app.post('/update-book', (req, res) => {
             );
     `;
 
+    // Modify updateQuery3 if author1 is NULL.
     if(isAuthor1NULL){
         updateQuery3 = `
                     INSERT INTO AuthorsBooks(bookID, AuthorID)
@@ -296,10 +331,12 @@ app.post('/update-book', (req, res) => {
     }
     
 
+    // Run a query to check if the updated book title already exists in the Books table.
     db.pool.query(updateCheckQuery, [[newTitle], [bookID]], function(error, rows, fields){
         if (!rows || rows.length === 0){
             console.log(`Book does not exist in the table already`);
 
+            // Execute query to update the book information.
             db.pool.query(updateQuery1, [[newYOP], [newPrice], [newTitle], [bookID]], function (error, rows, fields) {
                 if (error) {
                     console.log(`Failed to update Books table: bookID = ${bookID}.`);
@@ -311,6 +348,7 @@ app.post('/update-book', (req, res) => {
                 }
             })
 
+            // Delete existing row with BookID and AuthorID from the AuthorsBooks table.
             db.pool.query(updateQuery2, [bookID], function (error, rows, fields) {
                 if (error) {
                     console.log(`Failed to delete authors from AuthorsBooks table:bookID = ${bookID}.`);
@@ -318,10 +356,11 @@ app.post('/update-book', (req, res) => {
                     res.sendStatus(400);
                 }
                 else {
-                    console.log(`Sucessfully deleted authors from AuthorsBooks table, bookID = ${bookID}.`);
+                    console.log(`Successfully deleted authors from AuthorsBooks table, bookID = ${bookID}.`);
                 }
             })
             
+            // If newauthor1 is not NULL, insert author1ID and the bookID to AuthorsBooks table.
             if (!isAuthor1NULL) {
                 db.pool.query(updateQuery3, [[newTitle], [newAuthor1ID]], function (error, rows, fields) {
                     if (error) {
@@ -347,6 +386,7 @@ app.post('/update-book', (req, res) => {
                 }) 
             }
 
+            // Insert author2ID and the bookID to AuthorsBooks table if author2ID is not NULL.
             if (!isAuthor1NULL && !isAuthor2NULL) {
                 db.pool.query(updateQuery3, [[newTitle], [newAuthor2ID]], function (error, rows, fields) {
                     if (error) {
@@ -367,7 +407,7 @@ app.post('/update-book', (req, res) => {
 });
 
 
-// Used to retrieve books too
+// Route to reload the Books table after a book is deleted or added to the table.
 app.get('/reload-books', (req, res) => {
     const query1 = `
             SELECT * 
@@ -375,7 +415,8 @@ app.get('/reload-books', (req, res) => {
             ORDER BY bookID ASC;
             `;
 
-    db.pool.query(query1, function (error, rows, fields) {
+        // Execute query to select all the columns from the Books table.
+        db.pool.query(query1, function (error, rows, fields) {
         if (error) {
             console.log(`Failed to reload Books Table.`);
             console.log(error);
@@ -392,7 +433,8 @@ app.get('/reload-books', (req, res) => {
 // ---------------------------------------------
 // Authors
 // ---------------------------------------------
-// Display authors table
+
+// Route to display Authors table.
 app.get('/authors', function (req, res) {
     const query1 = `
             SELECT * 
@@ -400,6 +442,7 @@ app.get('/authors', function (req, res) {
             ORDER BY authorID ASC;
     `;
 
+    // Execute query to select all the columns from Authors table.
     db.pool.query(query1, function (error, rows, fields) {
         res.render('authors', { data: rows });
     })
@@ -428,7 +471,7 @@ app.get('/get-author2', function (req, res) {
     })
 });
 
-
+// Route to reload Authors table after an author is added or deleted from the table.
 app.get('/reload-authors', function (req, res) {
     const query1 = `
             SELECT * 
@@ -436,6 +479,7 @@ app.get('/reload-authors', function (req, res) {
             ORDER BY authorID ASC;
     `;
 
+    // Execute query to select all the columns from Authors table.
     db.pool.query(query1, function (error, rows, fields) {
         if (error) {
             console.log(`Failed to reload Authors Table.`);
@@ -449,11 +493,12 @@ app.get('/reload-authors', function (req, res) {
     })
 });
 
-
+// Route to add an author to Authors table.
 app.post('/add-author', (req, res) => {
     const data = req.body;
     const firstName = data.firstName;
     const lastName = data.lastName;
+    
     const addAuthorQuery = `
         INSERT INTO Authors(firstName, lastName)
         VALUES (?, ?);
@@ -464,6 +509,7 @@ app.post('/add-author', (req, res) => {
         WHERE firstName = ? AND lastName = ?;
     `;
     
+    // Execute query to check if an author with the same first name AND last name already exists in the Authors table.
     db.pool.query(checkAuthorQuery, [[firstName], [lastName]], (error, rows, fields)=>{
         if (!rows || rows.length === 0){
             db.pool.query(addAuthorQuery, [[firstName], [lastName]], (error, rows, fields)=>{
@@ -484,7 +530,7 @@ app.post('/add-author', (req, res) => {
 });
 
 
-
+// Route to delete an author from Authors table.
 app.delete('/authors/:authorID', (req, res) => {
     const authorID = req.params.authorID;
     const deleteAuthorQuery = `
@@ -492,6 +538,7 @@ app.delete('/authors/:authorID', (req, res) => {
         WHERE authorID = ?;
     `;
 
+    // Execute query to delete an author from Authors table.
     db.pool.query(deleteAuthorQuery, [authorID], (error, rows, fields) => {
         if (error) {
             console.log(`Failed to delete from Authors table: authorID = ${authorID}.`);
@@ -509,7 +556,8 @@ app.delete('/authors/:authorID', (req, res) => {
 // ---------------------------------------------
 // Customers
 // ---------------------------------------------
-// Display customers table
+
+// Route to display Customers table.
 app.get('/customers', function (req, res) {
     const query1 = `
             SELECT * 
@@ -517,12 +565,13 @@ app.get('/customers', function (req, res) {
             ORDER BY customerID ASC;
     `;
 
+    // Execute query to select all the columns from the Customers table.
     db.pool.query(query1, function (error, rows, fields) {
         res.render('customers', { data: rows });
     })
 });
 
-
+// Route to reload Customers table after a customer is added or deleted from the table.
 app.get('/reload-customers', function (req, res) {
     const query1 = `
             SELECT * 
@@ -543,13 +592,14 @@ app.get('/reload-customers', function (req, res) {
     })
 });
 
-
+// Route to add a customer to the Customer table.
 app.post('/add-customer', (req, res) => {
     const data = req.body;
     const firstName = data.firstName;
     const lastName = data.lastName;
     const email = data.email;
     const phone = data.phone;
+
     const addCustomerQuery = `
         INSERT INTO Customers(firstName, lastName, email, phone)
         VALUES (?, ?, ?, ?);
@@ -560,6 +610,7 @@ app.post('/add-customer', (req, res) => {
         WHERE email = ? OR phone = ?
     `;
 
+    // Execute query to check if a customer with same email OR phone already exists in the table.
     db.pool.query(checkCustomerQuery, [[email], [phone]], (error, rows, fields)=>{
         if (!rows || rows.length === 0){
             db.pool.query(addCustomerQuery, [[firstName], [lastName], [email], [phone]], (error, rows, fields) => {
@@ -579,6 +630,7 @@ app.post('/add-customer', (req, res) => {
     });
 });
 
+// Route to delete a customer from the Customers table.
 app.delete('/customers/:customerID', (req, res) => {
     const customerID = req.params.customerID;
     const deleteCustomerQuery = `
@@ -586,6 +638,7 @@ app.delete('/customers/:customerID', (req, res) => {
         WHERE customerID = ?;
     `;
 
+    // Execute query to delete customer from Customers table.
     db.pool.query(deleteCustomerQuery, [customerID], (error, rows, fields) => {
         if (error) {
             console.log(`Failed to delete from Customers table: customerID = ${customerID}.`);
@@ -604,6 +657,8 @@ app.delete('/customers/:customerID', (req, res) => {
 // ---------------------------------------------
 // Stores
 // ---------------------------------------------
+
+// Route to display Stores table.
 app.get('/stores', function (req, res) {
     const query1 = `
                 SELECT * 
@@ -611,12 +666,13 @@ app.get('/stores', function (req, res) {
                 ORDER BY storeID ASC;
     `;
 
+    // Execute query to select all the columns from Stores table.
     db.pool.query(query1, function (error, rows, fields) {
         res.render('stores', { data: rows });
     })
 });
 
-
+// Route to reload Stores table after a store is added or deleted from the table.
 app.get('/reload-stores', function (req, res) {
     const query1 = `
                 SELECT * 
@@ -637,12 +693,13 @@ app.get('/reload-stores', function (req, res) {
     })
 });
 
-
+// Route to add a store to the Stores table.
 app.post('/add-store', (req, res) => {
     const data = req.body;
     const name = data.name;
     const phone = data.phone;
     const address = data.address;
+
     const addStoreQuery = `
         INSERT INTO Stores(name, phone, address)
         VALUES (?, ?, ?);
@@ -653,6 +710,7 @@ app.post('/add-store', (req, res) => {
         WHERE name = ? OR phone = ? OR address = ?;
         `;
     
+    // Execute query to check if a store with the same name OR phone number OR address already exists in the table.
     db.pool.query(checkStoreQuery, [[name], [phone], [address]], (error, rows, fields)=> {
         if (!rows || rows.length === 0){
             db.pool.query(addStoreQuery, [[name], [phone], [address]], (error, rows, fields) => {
@@ -672,7 +730,7 @@ app.post('/add-store', (req, res) => {
     });
 });
 
-
+// Route to delete a store from the Stores table.
 app.delete('/stores/:storeID', (req, res) => {
     const storeID = req.params.storeID;
     const deleteStoreQuery = `
@@ -680,6 +738,7 @@ app.delete('/stores/:storeID', (req, res) => {
         WHERE storeID = ?;
     `;
 
+    // Execute query to delete a store from Stores table.
     db.pool.query(deleteStoreQuery, [storeID], (error, rows, fields) => {
         if (error) {
             console.log(`Failed to delete from Stores table: storeID = ${storeID}.`);
@@ -696,6 +755,8 @@ app.delete('/stores/:storeID', (req, res) => {
 // ---------------------------------------------
 // Invoices
 // ---------------------------------------------
+
+// Route to display Invoices table.
 app.get('/invoices', function (req, res) {
 
     const query1 = `
@@ -714,7 +775,9 @@ app.get('/invoices', function (req, res) {
         ORDER BY invoiceID ASC;
     `;
 
+    // Execute query to display data for Invoice table.
     db.pool.query(query1, function (error, rows, fields) {
+        // format date for display
         rows.forEach(row => {
             currDate = row.date;
             row.date = `${(currDate.getMonth() + 1).toString().padStart(2, '0')}-${currDate.getDate().toString().padStart(2, '0')}-${currDate.getFullYear()}`;
@@ -724,7 +787,7 @@ app.get('/invoices', function (req, res) {
     })
 });
 
-
+// Route to reload Invoices table after an inovice is added or deleted from the table.
 app.get('/reload-invoices', function (req, res) {
     const query1 = `
     SELECT  invoiceID,
@@ -762,7 +825,7 @@ app.get('/reload-invoices', function (req, res) {
     });
 
 
-
+// Add invoice to the Invoice table.
 app.post('/add-invoice', (req, res) => {
     const data = req.body;
     const date = data.date;
@@ -780,6 +843,7 @@ app.post('/add-invoice', (req, res) => {
             );
     `;
 
+    // Execute query to add invoice data to the Invoice table.
     db.pool.query(addInvoiceQuery, [[date], [bookID], [storeID], [customerID]], (error, rows, fields) => {
         if (error) {
             console.log(`Failed to insert into Invoices table: ${data}.`);
@@ -794,6 +858,7 @@ app.post('/add-invoice', (req, res) => {
 });
 
 
+// Route to delete invoice from the Invoice table.
 app.delete('/invoices/:invoiceID', (req, res) => {
     const invoiceID = req.params.invoiceID;
     const deleteInvoiceQuery = `
@@ -801,6 +866,7 @@ app.delete('/invoices/:invoiceID', (req, res) => {
         WHERE invoiceID = ?;
     `;
 
+    // Execute query to delete an invoice.
     db.pool.query(deleteInvoiceQuery, [invoiceID], (error, rows, fields) => {
         if (error) {
             console.log(`Failed to delete from Invoices table: invoiceID = ${invoiceID}.`);
@@ -818,7 +884,7 @@ app.delete('/invoices/:invoiceID', (req, res) => {
 // ---------------------------------------------
 // AuthorsBooks
 // ---------------------------------------------
-// Display authorsbooks table (currently it only displays the authorBooksID, book title, but the author name is not populating for some reason)
+// Route to display AuthorsBooks table
 app.get('/authorsbooks', function (req, res) {
     const query1 = `SELECT  AuthorsBooks.authorBookID, 
                             Books.title, 
@@ -830,6 +896,7 @@ app.get('/authorsbooks', function (req, res) {
                     ON AuthorsBooks.bookID = Books.bookID
                     ORDER BY AuthorsBooks.authorBookID ASC;`;
 
+    // Execute query to display Author names and book names.                
     db.pool.query(query1, function (error, rows, fields) {
         rows.forEach(function(row) {
             if(row.authorsname == null){

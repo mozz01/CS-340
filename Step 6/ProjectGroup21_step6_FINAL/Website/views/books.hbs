@@ -1,175 +1,258 @@
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+{{! 
+Citation for the following HTML codes:
+Date: 03/15/2024
+Based on CS340 nodejs-starter-app on GitHub
+Displaying each book's information section and dynamically populating author list was based on the GitHub. Creating the table and the form was our own work.
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/blob/main/Step%205%20-%20Adding%20New%20Data/README.md
+            https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%208%20-%20Dynamically%20Updating%20Data
+
+}}
+
+<script
+  src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
+></script>
 <script defer src="/js/books.js"></script>
 
 <h2>Books Table</h2>
 <p>Browse list of books in the stores.</p>
 <table class="displayTable" id="book-table">
 
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Publication year</th>
-            <th>Price</th>
-            <th>Update</th>
-            <th>Delete</th>
-        </tr>
-    </thead>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Publication year</th>
+      <th>Price</th>
+      <th>Update</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
 
-    <tbody>
-        {{#each data}}
-        <tr data-value={{this.bookID}}>
-            <td>{{this.bookID}}</td>
-            <td>{{this.title}}</td>
-            <td>{{this.yearOfPublication}}</td>
-            <td>{{this.price}}</td>
-            <td>
-                <button onclick="populateUpdateBook({{this.bookID}})">Update</button>
-            </td>
-            <td>
-                <button onclick="deleteBook({{this.bookID}})">Delete</button>
-            </td>
-        </tr>
-        {{/each}}
-    </tbody>
+  <tbody>
+    <!-- Display each book's information -->
+    {{#each data}}
+      <tr data-value={{this.bookID}}>
+        <td>{{this.bookID}}</td>
+        <td>{{this.title}}</td>
+        <td>{{this.yearOfPublication}}</td>
+        <td>{{this.price}}</td>
+        <td>
+          <!-- Button to populate the book information in update book form -->
+          <button onclick="populateUpdateBook({{this.bookID}})">Update</button>
+        </td>
+        <td>
+          <!-- Button to delete the book -->
+          <button onclick="deleteBook({{this.bookID}})">Delete</button>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
 </table>
 
-
 <div id="add-section" class="">
-    <h2>Add a Book</h2>
-    <form id="add-book-form" method="POST" action="/add-book-form">
-        <table class="addTable">
-            <tbody>
-                <tr>
-                    <td>
-                        <label for="title">Title:</label>
-                    </td>
-                    <td>
-                        <input autofocus type="text" id="addTitle" name="title" required maxlength="255" />
-                    </td>
-                    <td class="errorColumn">
-                        <div id="addTitleError"></div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="author1">Author 1:</label>
-                    </td>
-                    <td>
+  <!-- Form to add a new Book --> 
+  <h2>Add a Book</h2>
+  <form id="add-book-form" method="POST" action="/add-book-form">
+    <table class="addTable">
+      <tbody>
+        <tr>
+          <td>
+            <label for="title">Title:</label>
+          </td>
+          <td>
+            <input
+              autofocus
+              type="text"
+              id="addTitle"
+              name="title"
+              required
+              maxlength="255"
+            />
+          </td>
+          <td class="errorColumn">
+            <div id="addTitleError"></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="author1">Author 1:</label>
+          </td>
+          <td>
+            <!-- Dropdown for author1 -->
             <select name="author1test" id="addAuthor1">
-                <option value="NULL">None</option>
-                {{#each authors}}
-                <option value="{{this.authorID}}">{{this.firstName}} {{this.lastName}}</option>
-                {{/each}}
+              <option value="NULL">None</option>
+              {{#each authors}}
+                <option value="{{this.authorID}}">{{this.firstName}}
+                  {{this.lastName}}</option>
+              {{/each}}
             </select>
-                    </td>
-                    <td class="errorColumn">
-                        <div id="addAuthor1Error"></div>
-                    </td>
-                </tr>
-                <tr id="addAuthor2"></tr>
-                <tr>
-                    <td>
-                        <label for="yearOfPublication" required>Year of Publication:</label>
-                    </td>
-                    <td>
-                        <input type="number" value="0" min="1901" max="2155" id="addYearOfPublication" name="yearOfPublication" required />
-                    </td>
-                    <td class="errorColumn">
-                        <div id="addYearOfPublicationError"></div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="price">Price ($):</label>
-                    </td>
-                    <td>
-                        <input value="0" type="number" id="addPrice" name="price" required min="0" max="1000000000000" />
-                    </td>
-                    <td class="errorColumn">
-                        <div id="addPriceError"></div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <input disabled type="button" style="background-color: gray; color: white; cursor: not-allowed;" class="addButton" value="Add Book" onclick="addBook()">
-    </form>
+          </td>
+          <td class="errorColumn">
+            <div id="addAuthor1Error"></div>
+          </td>
+        </tr>
+        <tr id="addAuthor2"></tr>
+        <tr>
+          <td>
+            <label for="yearOfPublication" required>Year of Publication:</label>
+          </td>
+          <td>
+            <input
+              type="number"
+              value="0"
+              min="1901"
+              max="2155"
+              id="addYearOfPublication"
+              name="yearOfPublication"
+              required
+            />
+          </td>
+          <td class="errorColumn">
+            <div id="addYearOfPublicationError"></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="price">Price ($):</label>
+          </td>
+          <td>
+            <input
+              value="0"
+              type="number"
+              id="addPrice"
+              name="price"
+              required
+              min="0"
+              max="1000000000000"
+            />
+          </td>
+          <td class="errorColumn">
+            <div id="addPriceError"></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- Button to add a new book -->
+    <input
+      disabled
+      type="button"
+      style="background-color: gray; color: white; cursor: not-allowed;"
+      class="addButton"
+      value="Add Book"
+      onclick="addBook()"
+    />
+  </form>
 </div>
 
-
 <div id="update-section" class="hidden">
-    <h2>Update a book</h2>
-    <form id="update-book-form" method="PUT" action="/update-book">
-        <table class="updateTable">
-            <tbody>
-                <tr>
-                    <td>
-                        <label for="title">Title:</label>
-                    </td>
-                    <td>
-                        <input autofocus type="text" id="updateTitle" name="title" required maxlength="255" />
-                    </td>
-                    <td class="errorColumn">
-                        <div id="updateTitleError"></div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="author1">Author 1:</label>
-                    </td>
-                    <td>
-                        <select id="updateAuthor1" name="author1" required>
-                            <option value="NULL" selected="selected"> None </option>
-                            {{#each authors}}
-                            <option value="{{this.authorID}}">{{this.firstName}} {{this.lastName}}</option>
-                            {{/each}}
-                        </select>
-                    </td>
-                    <td class="errorColumn">
-                        <div id="updateAuthor1Error"></div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="author2">Author 2:</label>
-                    </td>
-                    <td>
-                        <select id="updateAuthor2" name="author2" required>
-                            <option selected="selected" value="NULL"> None </option>
-                            {{#each authors}}
-                            <option value="{{this.authorID}}">{{this.firstName}} {{this.lastName}}</option>
-                            {{/each}}
-                        </select>
-                    </td>
-                    <td class="errorColumn">
-                        <div id="updateAuthor2Error"></div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="yearOfPublication" min="1900" max="" required>Year of Publication:</label>
-                    </td>
-                    <td>
-                    <input type="number" value="0" min="1901" max="2155" id="updateYearOfPublication" name="yearOfPublication" required />
-                    </td>
-                    <td class="errorColumn">
-                        <div id="updateYearOfPublicationError"></div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="price">Price ($):</label>
-                    </td>
-                    <td>
-                        <input type="number" value="0" id="updatePrice" name="price" min="0" max="1000000000000" required/>
-                    </td>
-                    <td class="errorColumn">
-                        <div id="updatePriceError"></div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <button disabled style="background-color: gray; color: white; cursor: not-allowed;" class="updateButton" type="button" onclick="updateBook()">Update</button>
-        <button type="button" onclick="showAddBookSection()">Add a New Book</button>
-    </form>
+  <!-- Form to update a book -->
+  <h2>Update a book</h2>
+  <form id="update-book-form" method="PUT" action="/update-book">
+    <table class="updateTable">
+      <tbody>
+        <tr>
+          <td>
+            <label for="title">Title:</label>
+          </td>
+          <td>
+            <input
+              autofocus
+              type="text"
+              id="updateTitle"
+              name="title"
+              required
+              maxlength="255"
+            />
+          </td>
+          <td class="errorColumn">
+            <div id="updateTitleError"></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="author1">Author 1:</label>
+          </td>
+          <td>
+            <select id="updateAuthor1" name="author1" required>
+              <option value="NULL" selected="selected"> None </option>
+              <!-- Populate dropdown list of authors (author 1) for selection  -->
+              {{#each authors}}
+                <option value="{{this.authorID}}">{{this.firstName}}
+                  {{this.lastName}}</option>
+              {{/each}}
+            </select>
+          </td>
+          <td class="errorColumn">
+            <div id="updateAuthor1Error"></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="author2">Author 2:</label>
+          </td>
+          <td>
+            <select id="updateAuthor2" name="author2" required>
+              <option selected="selected" value="NULL"> None </option>
+              <!-- Populate dropdown list of authors (author 2) for selection  -->
+              {{#each authors}}
+                <option value="{{this.authorID}}">{{this.firstName}}
+                  {{this.lastName}}</option>
+              {{/each}}
+            </select>
+          </td>
+          <td class="errorColumn">
+            <div id="updateAuthor2Error"></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="yearOfPublication" min="1900" max="" required>Year of
+              Publication:</label>
+          </td>
+          <td>
+            <input
+              type="number"
+              value="0"
+              min="1901"
+              max="2155"
+              id="updateYearOfPublication"
+              name="yearOfPublication"
+              required
+            />
+          </td>
+          <td class="errorColumn">
+            <div id="updateYearOfPublicationError"></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="price">Price ($):</label>
+          </td>
+          <td>
+            <input
+              type="number"
+              value="0"
+              id="updatePrice"
+              name="price"
+              min="0"
+              max="1000000000000"
+              required
+            />
+          </td>
+          <td class="errorColumn">
+            <div id="updatePriceError"></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- Button to update book information -->
+    <button
+      disabled
+      style="background-color: gray; color: white; cursor: not-allowed;"
+      class="updateButton"
+      type="button"
+      onclick="updateBook()"
+    >Update</button>
+    <button type="button" onclick="showAddBookSection()">Add a New Book</button>
+  </form>
 </div>

@@ -1,88 +1,134 @@
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+{{! 
+Citation for the following HTML codes:
+Date: 03/15/2024
+Based on CS340 nodejs-starter-app on GitHub
+Displaying each customer's information section was based on the GitHub. Creating the table and the form was our own work.
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/blob/main/Step%205%20-%20Adding%20New%20Data/README.md
+}}
+
+<script
+  src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
+></script>
 <script defer src="/js/customers.js"></script>
 
 <h2>Customers Table</h2>
 <p>Browse customer information.</p>
 <table class="displayTable" id="customer-table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Delete</th>
-        </tr>
-    </thead>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
 
-    <tbody>
-        {{#each data}}
-        <tr data-value={{this.customerID}}>
-            <td>{{this.customerID}}</td>
-            <td>{{this.firstName}}</td>
-            <td>{{this.lastName}}</td>
-            <td>{{this.email}}</td>
-            <td>{{this.phone}}</td>
-            <td>
-                <button onclick="deleteCustomer({{this.customerID}})">Delete</button>
-            </td>
-        </tr>
-        {{/each}}
-    </tbody>
+  <tbody>
+    <!-- Display each customer's information -->
+    {{#each data}}
+      <tr data-value={{this.customerID}}>
+        <td>{{this.customerID}}</td>
+        <td>{{this.firstName}}</td>
+        <td>{{this.lastName}}</td>
+        <td>{{this.email}}</td>
+        <td>{{this.phone}}</td>
+        <td>
+          <!-- Button to delete the customer -->
+          <button onclick="deleteCustomer({{this.customerID}})">Delete</button>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
 </table>
 
-
+<!-- Form to add a new customer -->
 <h2>Add a customer</h2>
 <form id="add-customer-form" method="POST" action="/add-customer">
-    <table class="addTable">
-        <tbody>
-            <tr>
-                <td>
-                    <label for="firstName">First Name:</label>
-                </td>
-                <td>
-                    <input autofocus type="text" id="addFirstName" name="firstName" maxlength="255" placeholder="Mo" required />
-                </td>
-                <td class="errorColumn">
-                    <div id="addFirstNameError"></div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="lastName">Last Name:</label>
-                </td>
-                <td>
-                    <input type="text" id="addLastName" name="lastName" maxlength="255" placeholder="Hudeihed" required />
-                </td>
-                <td class="errorColumn">
-                    <div id="addLastNameError"></div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="email">Email:</label>
-                </td>
-                <td>
-                    <input type="text" id="addEmail" name="email" placeholder="mo123@gmail.com" required />
-                </td>
-                <td class="errorColumn">
-                    <div id="addEmailError"></div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="phone">Phone:</label>
-                </td>
-                <td>
-                    <input type="text" id="addPhone" name="phone" placeholder="000-000-0000" required />
-                </td>
-                <td class="errorColumn">
-                    <div id="addPhoneError"></div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <button disabled style="background-color: gray; color: white; cursor: not-allowed;" class="addButton" type="button" onclick="addCustomer()">
-        Add customer
-    </button>
+  <table class="addTable">
+    <tbody>
+      <tr>
+        <td>
+          <label for="firstName">First Name:</label>
+        </td>
+        <td>
+          <input
+            autofocus
+            type="text"
+            id="addFirstName"
+            name="firstName"
+            maxlength="255"
+            placeholder="Mo"
+            required
+          />
+        </td>
+        <td class="errorColumn">
+          <div id="addFirstNameError"></div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="lastName">Last Name:</label>
+        </td>
+        <td>
+          <input
+            type="text"
+            id="addLastName"
+            name="lastName"
+            maxlength="255"
+            placeholder="Hudeihed"
+            required
+          />
+        </td>
+        <td class="errorColumn">
+          <div id="addLastNameError"></div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="email">Email:</label>
+        </td>
+        <td>
+          <input
+            type="text"
+            id="addEmail"
+            name="email"
+            placeholder="mo123@gmail.com"
+            required
+          />
+        </td>
+        <td class="errorColumn">
+          <div id="addEmailError"></div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="phone">Phone:</label>
+        </td>
+        <td>
+          <input
+            type="text"
+            id="addPhone"
+            name="phone"
+            placeholder="000-000-0000"
+            required
+          />
+        </td>
+        <td class="errorColumn">
+          <div id="addPhoneError"></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- Button to add a new customer -->
+  <button
+    disabled
+    style="background-color: gray; color: white; cursor: not-allowed;"
+    class="addButton"
+    type="button"
+    onclick="addCustomer()"
+  >
+    Add customer
+  </button>
 </form>

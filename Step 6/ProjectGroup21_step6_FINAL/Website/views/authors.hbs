@@ -1,61 +1,96 @@
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+{{! 
+Citation for the following HTML codes:
+Date: 03/15/2024
+Based on CS340 nodejs-starter-app on GitHub
+Displaying each author's information section was based on the GitHub. Creating the table and the form was our own work.
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/blob/main/Step%205%20-%20Adding%20New%20Data/README.md
+}}
+
+<script
+  src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
+></script>
 <script defer src="/js/authors.js"></script>
 
 <h2>Authors Table</h2>
 <p>Browse authors</p>
 <table class="displayTable">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Delete</th>
-        </tr>
-    </thead>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
 
-    <tbody>
-        {{#each data}}
-        <tr>
-            <td>{{this.authorID}}</td>
-            <td>{{this.firstName}}</td>
-            <td>{{this.lastName}}</td>
-            <td>
-                <button onclick="deleteAuthor({{this.authorID}})">Delete</button>
-            </td>
-        </tr>
-        {{/each}}
-    </tbody>
+  <tbody>
+    <!-- Display each author's information -->
+    {{#each data}}
+      <tr>
+        <td>{{this.authorID}}</td>
+        <td>{{this.firstName}}</td>
+        <td>{{this.lastName}}</td>
+        <td>
+          <!-- Button to delete the author -->
+          <button onclick="deleteAuthor({{this.authorID}})">Delete</button>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
 </table>
 
+<!-- Form to add a new author -->
 <h2>Add an author</h2>
 <form id="add-author-form" method="POST" action="/add-author">
-    <table class="addTable">
-        <tbody>
-            <tr>
-                <td>
-                    <label for="firstName">First Name:</label>
-                </td>
-                <td>
-                    <input autofocus type="text" id="addFirstName" name="firstName" maxlength="255" placeholder="Saurav" required />
-                </td>
-                <td class="errorColumn">
-                    <div id="addFirstNameError"></div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="lastName">Last Name:</label>
-                </td>
-                <td>
-                    <input type="text" id="addLastName" name="lastName" maxlength="255" placeholder="Shrestha" required />
-                </td>
-                <td class="errorColumn">
-                    <div id="addLastNameError"></div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <button disabled style="background-color: gray; color: white; cursor: not-allowed;" class="addButton" type="button" onclick="addAuthor()">
-        Add author
-    </button>
+  <table class="addTable">
+    <tbody>
+      <tr>
+        <td>
+          <label for="firstName">First Name:</label>
+        </td>
+        <td>
+          <input
+            autofocus
+            type="text"
+            id="addFirstName"
+            name="firstName"
+            maxlength="255"
+            placeholder="Saurav"
+            required
+          />
+        </td>
+        <td class="errorColumn">
+          <div id="addFirstNameError"></div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="lastName">Last Name:</label>
+        </td>
+        <td>
+          <input
+            type="text"
+            id="addLastName"
+            name="lastName"
+            maxlength="255"
+            placeholder="Shrestha"
+            required
+          />
+        </td>
+        <td class="errorColumn">
+          <div id="addLastNameError"></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- Button to add a new author -->
+  <button
+    disabled
+    style="background-color: gray; color: white; cursor: not-allowed;"
+    class="addButton"
+    type="button"
+    onclick="addAuthor()"
+  >
+    Add author
+  </button>
 </form>
