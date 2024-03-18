@@ -56,6 +56,7 @@ app.get('/books', function (req, res) {
 
         // Iterate through each row in the array and format the price as currency in US dollars with two decimal places.
         rows.forEach(function(book) {
+            // Citation for formatting currency: https://stackoverflow.com/a/16233919
             book.price = book.price.toLocaleString('en-US', {
                 style: 'currency',
                 currency: 'USD',
