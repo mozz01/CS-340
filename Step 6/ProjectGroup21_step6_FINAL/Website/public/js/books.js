@@ -15,6 +15,7 @@ let updateYearOfPublicationInputError = true;
 const addButton = document.querySelector(".addButton");
 const updateButton = document.querySelector(".updateButton");
 
+// Citation for formatting currency: https://stackoverflow.com/a/16233919
 const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD'
@@ -518,6 +519,7 @@ function reloadBooksTable() {
             $('.displayTable tbody').empty();
 
             data.forEach(function (book) {
+                // Citation for formatting currency: https://stackoverflow.com/a/16233919
                 book.price = book.price.toLocaleString('en-US', {
                     style: 'currency',
                     currency: 'USD',
