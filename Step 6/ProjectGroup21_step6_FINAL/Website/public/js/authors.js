@@ -1,3 +1,14 @@
+// Citation for the following Setup and Route codes:
+// Date: 03/10/2024
+// Based on CS340 nodejs-starter-app on GitHub
+// Setup codes were taken from the starter app on GitHub. Similarly, the routes for dynamically displaying data, adding/updating/deleting data were
+// also based on various sections of the starter app file in Github. Codes to control the flow of execution of queries based on certain conditions
+// were our own work. Similarly, the SQL queries were our own work.
+// Source URL:  https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%205%20-%20Adding%20New%20Data
+//              https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data
+//              https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%208%20-%20Dynamically%20Updating%20Data
+               
+
 const BUTTON_BG_COLOR = "#001524";
 const BUTTON_COLOR = "#E4DFDA";
 const BUTTON_HIGHLIGHT_COLOR = "#FF7D00";

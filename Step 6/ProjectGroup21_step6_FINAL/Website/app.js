@@ -1,4 +1,3 @@
-
 // Citation for the following Setup and Route codes:
 // Date: 03/10/2024
 // Based on CS340 nodejs-starter-app on GitHub
