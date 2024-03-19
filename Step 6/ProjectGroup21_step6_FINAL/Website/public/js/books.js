@@ -553,6 +553,7 @@ function reloadBooksTable() {
                     </tr>
                 `);
             });
+            // Clear any input values the user may have entered.
             $("#add-book-form")[0].reset();
             $("#update-book-form")[0].reset();
 

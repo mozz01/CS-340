@@ -176,7 +176,7 @@ function reloadAuthorsTable() {
                     </tr>
                 `);
             });
-            $("#add-author-form")[0].reset();
+            $("#add-author-form")[0].reset(); // Clear any input values the user may have entered.
 
         },
         error: function(xhr, status, error) {

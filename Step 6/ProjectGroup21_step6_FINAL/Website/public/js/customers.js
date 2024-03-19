@@ -227,7 +227,7 @@ function reloadCustomersTable() {
                     </tr>
                 `);
             });
-            $("#add-customer-form")[0].reset();
+            $("#add-customer-form")[0].reset(); // Clear any input values the user may have entered.
         },
         error: function(xhr, status, error) {
             console.error('Error reloading Customers table:', error);

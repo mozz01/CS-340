@@ -218,7 +218,7 @@ function reloadInvoicesTable() {
                     </tr>
                 `);
             });
-            $("#add-invoice-form")[0].reset();
+            $("#add-invoice-form")[0].reset(); // Clear any input values the user may have entered.
         },
         error: function(xhr, status, error) {
             console.error('Error reloading Invoices table:', error);
