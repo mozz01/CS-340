@@ -1,12 +1,11 @@
 // Citation for the following Setup and Route codes:
 // Date: 03/10/2024
 // Based on CS340 nodejs-starter-app on GitHub
-// Setup codes were taken from the starter app on GitHub. Similarly, the routes for dynamically displaying data, adding/updating/deleting data were
-// also based on various sections of the starter app file in Github. Codes to control the flow of execution of queries based on certain conditions
-// were our own work. Similarly, the SQL queries were our own work.
-// Source URL:  https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%205%20-%20Adding%20New%20Data
-//              https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data
-//              https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%208%20-%20Dynamically%20Updating%20Data
+// Code for using JQuery to send requests for adding customer to table, deleting customer from the table and reloading customer table were based
+// on "Step 7 - Dynamically Deleting Data" section of nodejs-starter-app on Github. The callback functions for success responses were our own
+// work as they varied for each requests.  
+// Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data
+
                
 
 function deleteCustomer(ID){
@@ -160,7 +159,7 @@ function checkDefault(inputObj, inputObjError, defaultVal){
     }
 }
 
-
+// Add a customer in the table.
 async function addCustomer(){
     const data = {
         firstName: addFirstName.value,
@@ -184,7 +183,7 @@ async function addCustomer(){
     });
 }
 
-
+// Delete a customer from the table.
 function deleteCustomer(customerID){
     $.ajax({
         url: `/customers/${customerID}`,
@@ -201,7 +200,7 @@ function deleteCustomer(customerID){
     });
 }
 
-
+// Reload the Customers table after user performs an add or delete operation.
 function reloadCustomersTable() {
     $.ajax({
         url: '/reload-customers',
