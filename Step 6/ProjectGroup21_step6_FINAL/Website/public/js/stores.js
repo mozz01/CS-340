@@ -2,9 +2,12 @@
 // Date: 03/10/2024
 // Based on CS340 nodejs-starter-app on GitHub
 // Code for using JQuery to send requests for adding store to table, deleting store from the table and reloading stores table were based
-// on "Step 7 - Dynamically Deleting Data" section of nodejs-starter-app on Github. The callback functions for success responses were our own
-// work as they varied for each requests.  
+// on "Step 7 - Dynamically Deleting Data" section of nodejs-starter-app on Github. The executed functions for success responses were our own
+// work as they varied for each requests. Only for the deleteStore function the executed function was based on a code from stackoverflow. It
+// filters through the table to find the row that contains matching store ID and the remove that row.  
 // Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data
+//             https://stackoverflow.com/questions/31937653/how-to-remove-a-tr-which-have-a-td-that-contain-specific-text
+
                
 
 const BUTTON_BG_COLOR = "#001524";
@@ -163,6 +166,8 @@ function deleteStore(storeID){
         url: `/stores/${storeID}`,
         type: 'DELETE',
         success: function(response) {
+            // Filters through all the table rows (<tr>) to find the first cell (<td>) which contains the store ID. Once found it removes the row from the table.
+            // Citation (Based on): https://stackoverflow.com/questions/31937653/how-to-remove-a-tr-which-have-a-td-that-contain-specific-text
             $('tr').filter(function() {
                 return $(this).find('td:first').text() == storeID;
             }).remove();
@@ -174,7 +179,7 @@ function deleteStore(storeID){
     });
 }
 
-// Reload the storess table after user performs an add or delete operation.
+// Reload the stores table after user performs an add or delete operation.
 function reloadStoresTable() {
     $.ajax({
         url: '/reload-stores',

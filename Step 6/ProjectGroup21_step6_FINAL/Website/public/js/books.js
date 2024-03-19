@@ -2,7 +2,7 @@
 // Date: 03/10/2024
 // Based on CS340 nodejs-starter-app on GitHub
 // Code for using JQuery to send requests for adding book to table, deleting book from the table, updating book from the table and reloading books table were based
-// on "Step 7 - Dynamically Deleting Data" section of nodejs-starter-app on Github. The callback functions for success responses were our own
+// on "Step 7 - Dynamically Deleting Data" section of nodejs-starter-app on Github. The executed functions for success responses were our own
 // work as they varied for each requests. Code for formatting the currency was taken from stackoverflow. The JavaScript code for checking various conditions were our own work. 
 // Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data
 //             https://stackoverflow.com/a/16233919

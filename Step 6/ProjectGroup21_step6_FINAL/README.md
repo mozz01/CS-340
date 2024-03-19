@@ -50,11 +50,14 @@ Setup codes were taken from the starter app on GitHub. Similarly, the routes for
 
 The code for formatting currency in /books route in app.js was from stackoverflow (link below).
 
+The code for executing function after sucessful AJAX call which deleted a row by filtering through the table to find the row that contains matching IDs (invoice, author, store, or customer) and the remove that row was also based on the code from stackoverflow (link below). 
+
 #### Source URLs:
 - [https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%205%20-%20Adding%20New%20Data](https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data)
 - [https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data](https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%207%20-%20Dynamically%20Deleting%20Data)
 - [https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%208%20-%20Dynamically%20Updating%20Data](https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%208%20-%20Dynamically%20Updating%20Data)
 - [https://stackoverflow.com/a/16233919](https://stackoverflow.com/a/16233919)
+- [https://stackoverflow.com/questions/31937653/how-to-remove-a-tr-which-have-a-td-that-contain-specific-text] (https://stackoverflow.com/questions/31937653/how-to-remove-a-tr-which-have-a-td-that-contain-specific-text)  
 
 ## Authors
 **Mo Hudeihed** and **Saurav Shrestha**
