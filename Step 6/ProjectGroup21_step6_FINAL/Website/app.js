@@ -105,7 +105,8 @@ app.post('/add-book', (req, res) => {
 
     const checkQuery = `
         SELECT * FROM Books
-        WHERE title = ?;`
+        WHERE title = ?;
+        `;
 
     let addQuery3 = ";";
 
@@ -183,7 +184,10 @@ app.post('/add-book', (req, res) => {
 app.delete('/delete-book-ajax/', function (req, res, next) {
     const data = req.body;
     const bookID = parseInt(data.id);
-    const delete_book = `DELETE FROM Books WHERE bookID = ?`;
+    const delete_book = `
+        DELETE FROM Books 
+        WHERE bookID = ?;
+    `;
 
     db.pool.query(delete_book, [bookID], function (error, rows, fields) {
         if (error) {
@@ -284,8 +288,9 @@ app.post('/update-book', (req, res) => {
 
     // Query to check if a book with the new title already exists in the Books table.
     const updateCheckQuery = `
-    SELECT * FROM Books
-    WHERE title = ? and bookID != ?;`
+        SELECT * FROM Books
+        WHERE title = ? and bookID != ?;
+    `;
 
     // Query to update book information in the Books table.
     const updateQuery1 = `
@@ -449,6 +454,7 @@ app.get('/authors', function (req, res) {
 });
 
 
+// Fetch author2 menu
 app.get('/get-author2', function (req, res) {
     const data = req.query;
     const query = `
@@ -886,15 +892,17 @@ app.delete('/invoices/:invoiceID', (req, res) => {
 // ---------------------------------------------
 // Route to display AuthorsBooks table
 app.get('/authorsbooks', function (req, res) {
-    const query1 = `SELECT  AuthorsBooks.authorBookID, 
-                            Books.title, 
-                            CONCAT(Authors.firstName,' ',Authors.lastName) AS authorsname
-                    FROM AuthorsBooks 
-                    LEFT JOIN Authors  
-                    ON AuthorsBooks.authorID = Authors.authorID
-                    JOIN Books 
-                    ON AuthorsBooks.bookID = Books.bookID
-                    ORDER BY AuthorsBooks.authorBookID ASC;`;
+    const query1 = `
+            SELECT  AuthorsBooks.authorBookID, 
+                    Books.title, 
+                    CONCAT(Authors.firstName,' ',Authors.lastName) AS authorsname
+            FROM AuthorsBooks 
+            LEFT JOIN Authors  
+            ON AuthorsBooks.authorID = Authors.authorID
+            JOIN Books 
+            ON AuthorsBooks.bookID = Books.bookID
+            ORDER BY AuthorsBooks.authorBookID ASC;
+        `;
 
     // Execute query to display Author names and book names.                
     db.pool.query(query1, function (error, rows, fields) {
