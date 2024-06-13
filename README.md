@@ -1,136 +1,53 @@
-# CS-340
+# BooksRus Database
 
-# DB Output
-```
-+--------------------------+
-| Tables_in_cs340_hudeihem |
-+--------------------------+
-| Authors                  |
-| AuthorsBooks             |
-| Books                    |
-| Customers                |
-| Invoices                 |
-| Stores                   |
-+--------------------------+
-6 rows in set (0.001 sec)
+The BooksRus’ database frontend project is now complete. We’ve developed the architecture of BooksRus' database step-by-step and fine-tuned the design to adopt a more efficient and logical approach to storing essential data for the bookstore chain's operations.
 
-+-----------+--------------+------+-----+---------+----------------+
-| Field     | Type         | Null | Key | Default | Extra          |
-+-----------+--------------+------+-----+---------+----------------+
-| authorID  | int(11)      | NO   | PRI | NULL    | auto_increment |
-| firstName | varchar(255) | NO   |     | NULL    |                |
-| lastName  | varchar(255) | NO   |     | NULL    |                |
-+-----------+--------------+------+-----+---------+----------------+
-3 rows in set (0.001 sec)
+> [!NOTE]
+> Each directory called "Step X" showcaes the project at a different stage of the development process. Step 6 is the most recent and complete version.
 
-+--------------+---------+------+-----+---------+----------------+
-| Field        | Type    | Null | Key | Default | Extra          |
-+--------------+---------+------+-----+---------+----------------+
-| authorBookID | int(11) | NO   | PRI | NULL    | auto_increment |
-| bookID       | int(11) | NO   | MUL | NULL    |                |
-| authorID     | int(11) | YES  | MUL | NULL    |                |
-+--------------+---------+------+-----+---------+----------------+
-3 rows in set (0.001 sec)
+- [Project Screenshots](#project-screenshots)
+  - [Home Page](#home-page)
+  - [Books](#books)
+  - [Authors](#authors)
+  - [Customers](#customers)
+  - [Stores](#stores)
+  - [Invoices](#invoices)
+  - [AuthorsBooks](#authorsbooks)
+- [Entity Relationship Diagram (ERD)](#entity-relationship-diagram-erd)
+- [Database Schema](#database-schema)
 
-+-------------------+---------------+------+-----+---------+----------------+
-| Field             | Type          | Null | Key | Default | Extra          |
-+-------------------+---------------+------+-----+---------+----------------+
-| bookID            | int(11)       | NO   | PRI | NULL    | auto_increment |
-| title             | varchar(255)  | NO   |     | NULL    |                |
-| yearOfPublication | year(4)       | NO   |     | NULL    |                |
-| price             | decimal(12,2) | NO   |     | NULL    |                |
-+-------------------+---------------+------+-----+---------+----------------+
-4 rows in set (0.001 sec)
+## Project Screenshots
 
-+------------+--------------+------+-----+---------+----------------+
-| Field      | Type         | Null | Key | Default | Extra          |
-+------------+--------------+------+-----+---------+----------------+
-| customerID | int(11)      | NO   | PRI | NULL    | auto_increment |
-| firstName  | varchar(255) | NO   |     | NULL    |                |
-| lastName   | varchar(255) | NO   |     | NULL    |                |
-| email      | varchar(100) | NO   | UNI | NULL    |                |
-| phone      | varchar(30)  | NO   | UNI | NULL    |                |
-+------------+--------------+------+-----+---------+----------------+
-5 rows in set (0.001 sec)
+### Home Page
+![Home Page](Documents/home.png)
 
-+------------+---------+------+-----+---------+----------------+
-| Field      | Type    | Null | Key | Default | Extra          |
-+------------+---------+------+-----+---------+----------------+
-| invoiceID  | int(11) | NO   | PRI | NULL    | auto_increment |
-| date       | date    | NO   |     | NULL    |                |
-| bookID     | int(11) | NO   | MUL | NULL    |                |
-| storeID    | int(11) | NO   | MUL | NULL    |                |
-| customerID | int(11) | NO   | MUL | NULL    |                |
-+------------+---------+------+-----+---------+----------------+
-5 rows in set (0.001 sec)
 
-+---------+--------------+------+-----+---------+----------------+
-| Field   | Type         | Null | Key | Default | Extra          |
-+---------+--------------+------+-----+---------+----------------+
-| storeID | int(11)      | NO   | PRI | NULL    | auto_increment |
-| name    | varchar(255) | NO   |     | NULL    |                |
-| phone   | varchar(30)  | NO   | UNI | NULL    |                |
-| address | varchar(255) | NO   |     | NULL    |                |
-+---------+--------------+------+-----+---------+----------------+
-4 rows in set (0.001 sec)
+### Books
+![Books](Documents/books.png)
 
-+----------+-----------+------------+
-| authorID | firstName | lastName   |
-+----------+-----------+------------+
-|        1 | Edgar     | Patterson  |
-|        2 | William   | Fitzgerald |
-|        3 | George    | Wolf       |
-|        4 | Mike      | Lang       |
-+----------+-----------+------------+
-4 rows in set (0.000 sec)
 
-+--------------+--------+----------+
-| authorBookID | bookID | authorID |
-+--------------+--------+----------+
-|            1 |      1 |        1 |
-|            2 |      1 |        2 |
-|            3 |      2 |        2 |
-|            4 |      3 |        3 |
-|            5 |      4 |     NULL |
-+--------------+--------+----------+
-5 rows in set (0.000 sec)
+### Authors
+![Authors](Documents/authors.png)
 
-+--------+----------------------+-------------------+--------+
-| bookID | title                | yearOfPublication | price  |
-+--------+----------------------+-------------------+--------+
-|      1 | Linear Algebra       |              2005 |  80.00 |
-|      2 | Discrete Mathematics |              1992 |  90.99 |
-|      3 | Organic Chemistry    |              2020 | 120.00 |
-|      4 | Statistics           |              2021 | 115.00 |
-+--------+----------------------+-------------------+--------+
-4 rows in set (0.000 sec)
 
-+------------+-----------+-----------+----------------------+--------------+
-| customerID | firstName | lastName  | email                | phone        |
-+------------+-----------+-----------+----------------------+--------------+
-|          1 | Patricia  | Carlson   | pcarlson@gmail.com   | 667-222-4521 |
-|          2 | Selena    | Lozada    | slozada@gmail.com    | 701-548-1944 |
-|          3 | Michael   | Karlsson  | mkarlsson@gmail.com  | 402-666-1234 |
-|          4 | Sergio    | Hernandez | shernandez@gmail.com | 801-951-3574 |
-+------------+-----------+-----------+----------------------+--------------+
-4 rows in set (0.000 sec)
+### Customers
+![Customers](Documents/customers.png)
 
-+-----------+------------+--------+---------+------------+
-| invoiceID | date       | bookID | storeID | customerID |
-+-----------+------------+--------+---------+------------+
-|         1 | 2021-02-25 |      1 |       1 |          1 |
-|         2 | 2021-03-19 |      2 |       1 |          1 |
-|         3 | 2023-10-10 |      2 |       2 |          2 |
-|         4 | 2022-02-05 |      1 |       1 |          4 |
-+-----------+------------+--------+---------+------------+
-4 rows in set (0.000 sec)
 
-+---------+----------------------+--------------+---------------------------------------+
-| storeID | name                 | phone        | address                               |
-+---------+----------------------+--------------+---------------------------------------+
-|       1 | Metropolitan Stories | 402-547-6787 | 1 Broad Court, Irmo, SC 29063         |
-|       2 | Literary Books       | 542-888-2167 | 121 Main Lane, Pataskala, OH 43062    |
-|       3 | Bookshelf Boutique   | 901-325-4321 | 9906 W. Union Street, Burke, VA 22015 |
-+---------+----------------------+--------------+---------------------------------------+
-3 rows in set (0.000 sec)
-```
+### Stores
+![Stores](Documents/stores.png)
+
+
+### Invoices
+![Invoices](Documents/invoices.png)
+
+
+### AuthorsBooks
+![AuthorsBooks](Documents/authorsbooks.png)
+
+
+## Entity Relationship Diagram (ERD)
+![Entity Relationship Diagram (ERD)](Documents/CS340%20-%20ERD%20draft%20v4.0.drawio.png)
+
+## Database Schema
+![Database Schema](Documents/DB%20Schema.png)
